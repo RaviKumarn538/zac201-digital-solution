@@ -1,0 +1,112 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="container page-head narrow">
+  <span class="eyebrow">Admin listing manager</span>
+  <h1><%= title %></h1>
+  <p>Only admin can create and manage listings in this MVP. Owner contact remains internal.</p>
+</section>
+
+<section class="container narrow">
+  <form method="post" action="<%= action %>" class="app-form" novalidate>
+    <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+
+    <label for="title">Title</label>
+    <input id="title" name="room[title]" value="<%= room.title || '' %>" required>
+
+    <div class="form-row">
+      <div>
+        <label for="area">Area</label>
+        <input id="area" name="room[area]" value="<%= room.area || '' %>" required>
+      </div>
+      <div>
+        <label for="landmark">Landmark</label>
+        <input id="landmark" name="room[landmark]" value="<%= room.landmark || '' %>" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label for="rent">Rent</label>
+        <input id="rent" name="room[rent]" type="number" value="<%= room.rent || '' %>" required>
+      </div>
+      <div>
+        <label for="deposit">Deposit</label>
+        <input id="deposit" name="room[deposit]" type="number" value="<%= room.deposit || '' %>" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label for="roomType">Room type</label>
+        <select id="roomType" name="room[roomType]" required>
+          <% roomTypes.forEach((type) => { %>
+            <option value="<%= type %>" <%= room.roomType === type ? "selected" : "" %>><%= type %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div>
+        <label for="category">Boys/Girls category</label>
+        <select id="category" name="room[category]" required>
+          <option value="Boys" <%= room.category === "Boys" ? "selected" : "" %>>Boys</option>
+          <option value="Girls" <%= room.category === "Girls" ? "selected" : "" %>>Girls</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label for="food">Food available</label>
+        <select id="food" name="room[food]" required>
+          <% foodOptions.forEach((option) => { %>
+            <option value="<%= option %>" <%= room.food === option ? "selected" : "" %>><%= option %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div>
+        <label for="availability">Availability</label>
+        <select id="availability" name="room[availability]" required>
+          <% availabilityOptions.forEach((option) => { %>
+            <option value="<%= option %>" <%= room.availability === option ? "selected" : "" %>><%= option %></option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+
+    <label for="photos">Multiple HD photo URLs, one per line</label>
+    <textarea id="photos" name="room[photos]" rows="4"><%= room.photos ? room.photos.join("\n") : "" %></textarea>
+
+    <label for="videoUrl">Video tour/vlog link</label>
+    <input id="videoUrl" name="room[videoUrl]" value="<%= room.videoUrl || '' %>">
+
+    <label for="foodDetails">Food details</label>
+    <textarea id="foodDetails" name="room[foodDetails]" rows="3"><%= room.foodDetails || '' %></textarea>
+
+    <label for="facilities">Facilities, one per line</label>
+    <textarea id="facilities" name="room[facilities]" rows="4"><%= room.facilities ? room.facilities.join("\n") : "" %></textarea>
+
+    <label for="rules">Rules, one per line</label>
+    <textarea id="rules" name="room[rules]" rows="4"><%= room.rules ? room.rules.join("\n") : "" %></textarea>
+
+    <label for="utilities">Electricity/water/Wi-Fi details</label>
+    <textarea id="utilities" name="room[utilities]" rows="3"><%= room.utilities || '' %></textarea>
+
+    <label for="safetyNotes">Safety notes</label>
+    <textarea id="safetyNotes" name="room[safetyNotes]" rows="3"><%= room.safetyNotes || '' %></textarea>
+
+    <label for="distanceNotes">Distance from coaching/college</label>
+    <textarea id="distanceNotes" name="room[distanceNotes]" rows="3"><%= room.distanceNotes || '' %></textarea>
+
+    <label for="ownerContact">Internal owner contact number</label>
+    <input id="ownerContact" name="room[ownerContact]" value="<%= room.ownerContact || '' %>" required>
+
+    <label for="description">Short description</label>
+    <textarea id="description" name="room[description]" rows="4"><%= room.description || '' %></textarea>
+
+    <label class="switch-row">
+      <input type="checkbox" name="room[published]" <%= room.published !== false ? "checked" : "" %>>
+      Publish listing
+    </label>
+
+    <button class="btn btn-primary w-100" type="submit"><%= title %></button>
+  </form>
+</section>

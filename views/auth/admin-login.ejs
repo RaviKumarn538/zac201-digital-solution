@@ -1,0 +1,17 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="auth-wrap">
+  <form method="post" action="/zac-admin" class="app-form auth-card" novalidate>
+    <span class="eyebrow">Private access</span>
+    <h1>Zac.Living Admin</h1>
+    <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+
+    <label for="email">Admin email</label>
+    <input id="email" name="email" type="email" value="<%= form.email || '' %>" required>
+
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" required>
+
+    <button class="btn btn-primary w-100" type="submit">Open Admin Panel</button>
+  </form>
+</section>

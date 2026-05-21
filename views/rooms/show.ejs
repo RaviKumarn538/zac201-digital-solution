@@ -1,0 +1,58 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="container detail-layout">
+  <div>
+    <div class="gallery-main">
+      <img src="<%= room.photos[0] %>" alt="<%= room.title %>">
+    </div>
+    <div class="gallery-strip">
+      <% room.photos.slice(1).forEach((photo) => { %>
+        <img src="<%= photo %>" alt="<%= room.title %> photo">
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="detail-card">
+    <div class="room-card-top">
+      <span class="status-badge <%= room.availability.toLowerCase().replaceAll(' ', '-') %>"><%= room.availability %></span>
+      <% if (room.videoUrl) { %><a class="video-badge" href="<%= room.videoUrl %>" target="_blank">Video/vlog tour</a><% } %>
+    </div>
+    <h1><%= room.title %></h1>
+    <p class="detail-rent">Rs. <%= room.rent.toLocaleString("en-IN") %> / month | Deposit Rs. <%= room.deposit.toLocaleString("en-IN") %></p>
+    <p class="muted"><i class="fa-solid fa-location-dot"></i> <%= room.area %>, <%= room.landmark %></p>
+    <p><%= room.description %></p>
+
+    <div class="detail-grid">
+      <div><strong>Category</strong><span><%= room.category %></span></div>
+      <div><strong>Room type</strong><span><%= room.roomType %></span></div>
+      <div><strong>Food</strong><span><%= room.food %> | <%= room.foodDetails %></span></div>
+      <div><strong>Utilities</strong><span><%= room.utilities %></span></div>
+      <div><strong>Safety</strong><span><%= room.safetyNotes %></span></div>
+      <div><strong>Distance</strong><span><%= room.distanceNotes %></span></div>
+    </div>
+
+    <h2>Facilities</h2>
+    <div class="facility-list">
+      <% room.facilities.forEach((facility) => { %><span><%= facility %></span><% }) %>
+    </div>
+
+    <h2>Rules</h2>
+    <ul class="rule-list">
+      <% room.rules.forEach((rule) => { %><li><%= rule %></li><% }) %>
+    </ul>
+
+    <div class="detail-actions">
+      <form method="post" action="/rooms/<%= room.id %>/visit">
+        <button class="btn btn-primary" type="submit">Request Visit</button>
+      </form>
+      <form method="post" action="/rooms/<%= room.id %>/favorite">
+        <button class="btn btn-outline-primary" type="submit"><%= room.isFavorite ? "Saved" : "Save Room" %></button>
+      </form>
+      <% if (currentUser && currentUser.role === "student") { %>
+        <a href="/support/whatsapp" class="btn btn-outline-primary">WhatsApp Support</a>
+      <% } else { %>
+        <a href="/login" class="btn btn-outline-primary">Login for WhatsApp Support</a>
+      <% } %>
+    </div>
+  </div>
+</section>

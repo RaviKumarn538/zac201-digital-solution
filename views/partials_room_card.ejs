@@ -1,0 +1,33 @@
+<div class="room-card">
+  <a href="/rooms/<%= room.id %>" class="room-photo-link">
+    <img src="<%= room.photo %>" alt="<%= room.title %>" class="room-photo">
+    <div class="photo-badges">
+      <span class="status-badge <%= room.availability.toLowerCase().replaceAll(' ', '-') %>"><%= room.availability %></span>
+      <% if (room.videoUrl) { %><span class="video-badge">Video tour</span><% } %>
+    </div>
+  </a>
+
+  <div class="room-card-body">
+    <div class="airbnb-card-head">
+      <h3><a href="/rooms/<%= room.id %>"><%= room.title %></a></h3>
+      <% if (currentUser && currentUser.role === "student") { %>
+        <span class="match-badge <%= room.match.label.toLowerCase().replace(' ', '-') %>"><%= room.match.label %></span>
+      <% } %>
+    </div>
+
+    <p class="listing-location"><%= room.area %>, Bhopal</p>
+    <p class="listing-subtext">Near <%= room.landmark %></p>
+    <p class="listing-subtext"><%= room.category %> PG/room · Food: <%= room.food %> · <%= room.roomType %></p>
+    <p class="listing-price"><strong>Rs. <%= room.rent.toLocaleString("en-IN") %></strong> / month</p>
+
+    <div class="card-actions">
+      <a href="/rooms/<%= room.id %>" class="btn btn-primary btn-sm">View Details</a>
+      <form method="post" action="/rooms/<%= room.id %>/favorite" class="m-0">
+        <button class="btn btn-outline-primary btn-sm" type="submit"><%= room.isFavorite ? "Saved" : "Save" %></button>
+      </form>
+      <form method="post" action="/rooms/<%= room.id %>/visit" class="m-0">
+        <button class="btn btn-outline-primary btn-sm" type="submit">Request Visit</button>
+      </form>
+    </div>
+  </div>
+</div>

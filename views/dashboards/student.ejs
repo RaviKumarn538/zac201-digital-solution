@@ -1,0 +1,77 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="container dashboard-head">
+  <div>
+    <span class="eyebrow">Student dashboard</span>
+    <h1>Hi <%= user.name %>, your Bhopal room matches are ready.</h1>
+    <p>Track saved rooms, visit requests, and inquiry status from one place.</p>
+  </div>
+  <a href="/support/whatsapp" class="btn btn-primary">WhatsApp Support</a>
+</section>
+
+<section class="container dashboard-grid">
+  <div class="dash-panel">
+    <h2>My profile</h2>
+    <p><strong><%= user.name %></strong></p>
+    <p class="muted"><%= user.phone %> | <%= user.email %></p>
+    <p class="muted"><%= user.occupation %> at <%= user.institute %></p>
+    <a href="/profile" class="btn btn-outline-primary btn-sm">Edit profile</a>
+  </div>
+  <div class="dash-panel">
+    <h2>My room requirements</h2>
+    <p><strong><%= user.preferredArea %></strong> | <%= user.budgetRange %></p>
+    <p class="muted"><%= user.roomType %> | Food: <%= user.foodRequired %> | Safety: <%= user.safetyPriority %></p>
+    <p class="muted"><%= user.specialRequirements || "No special requirements added." %></p>
+  </div>
+  <div class="dash-panel">
+    <h2>Inquiry status</h2>
+    <% if (!requests.length) { %><p class="muted">No visit requests yet.</p><% } %>
+    <% requests.forEach((request) => { %>
+      <div class="mini-row">
+        <span><%= request.room ? request.room.title : "Room removed" %></span>
+        <strong><%= request.status %></strong>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<section class="container section-block">
+  <div class="section-heading">
+    <h2>Recommended rooms</h2>
+    <a href="/rooms" class="text-link">Browse all</a>
+  </div>
+  <div class="room-grid">
+    <% recommendedRooms.forEach((room) => { %>
+      <%- include("../partials_room_card", { room }) %>
+    <% }) %>
+  </div>
+</section>
+
+<section class="container section-block">
+  <div class="section-heading">
+    <h2>Saved rooms</h2>
+    <span class="muted"><%= savedRooms.length %> shortlisted</span>
+  </div>
+  <% if (!savedRooms.length) { %><div class="empty-state">Save rooms from the listing page to shortlist them here.</div><% } %>
+  <div class="room-grid">
+    <% savedRooms.forEach((room) => { %>
+      <%- include("../partials_room_card", { room }) %>
+    <% }) %>
+  </div>
+</section>
+
+<section class="container section-block">
+  <div class="section-heading">
+    <h2>Visit requests</h2>
+  </div>
+  <div class="interest-list">
+    <% requests.forEach((request) => { %>
+      <div class="interest-card">
+        <span class="eyebrow"><%= request.status %></span>
+        <h3><%= request.room ? request.room.title : "Room removed" %></h3>
+        <p class="muted">Requested on <%= request.createdAt %></p>
+        <p><%= request.message %></p>
+      </div>
+    <% }) %>
+  </div>
+</section>

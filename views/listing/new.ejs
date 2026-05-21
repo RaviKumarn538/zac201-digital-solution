@@ -1,0 +1,171 @@
+  
+<% layout('/layouts/boilerplate') -%>
+
+
+
+<!-- <style>
+
+    h2 {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin: 40px 0 20px;
+  color: #111;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+
+/* subtle underline accent */
+h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #111, #555);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+    /* Page background */
+body {
+  background: #f6f7fb;
+  font-family: "Inter", sans-serif;
+}
+
+/* Form container */
+form {
+  max-width: 640px;
+  margin: 60px auto;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+}
+
+/* Form group spacing */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Labels */
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+/* Inputs + textarea */
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 14px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #fafafa;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+/* Focus state */
+.form-group input:focus,
+.form-group textarea:focus {
+  background: #fff;
+  border-color: #111;
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+}
+
+/* Placeholder */
+::placeholder {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+/* Textarea resize */
+.form-group textarea {
+  resize: vertical;
+}
+
+/* Submit button */
+form button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #111, #333);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Button hover */
+form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Button active */
+form button:active {
+  transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  form {
+    margin: 30px 16px;
+    padding: 24px;
+  }
+}
+</style> -->
+
+</head>
+<body>      
+
+                 <h2>Create a new listing </h2>
+<form method="post" action="/listing" novalidate class="needs-validation">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="listing[title]" placeholder="Enter listing title" required>
+    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">Please enter title.</div>
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea id="description" name="listing[description]" rows="4" placeholder="Enter description" required></textarea>
+    <div class="invalid-feedback">Please enter description.</div>
+  </div>
+
+  <div class="form-group">
+    <label for="img">Image URL</label>
+    <input type="text" id="img" name="listing[img]" placeholder="Enter image URL">
+  </div>
+
+  <div class="form-group">
+    <label for="price">Price (per month)</label>
+    <input  id="price" name="listing[price]" placeholder="Enter monthly price" required>
+    <div class="invalid-feedback">Please enter price.</div>
+  </div>
+
+  <div class="form-group">
+    <label for="location">Location (Area)</label>
+    <input type="text" id="location" name="listing[location]" placeholder="Enter area/location" required>
+    <div class="invalid-feedback">Please enter location.</div>
+  </div>
+
+  <div class="form-group">
+    <label for="city">City</label>
+    <input type="text" id="city" name="listing[city]" value="Bhopal" required>
+    <div class="invalid-feedback">Please enter city.</div>
+  </div>
+
+  <button type="submit">Create Listing</button>
+</form>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

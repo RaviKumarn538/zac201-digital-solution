@@ -1,0 +1,18 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="auth-wrap">
+  <form method="post" action="/login" class="app-form auth-card" novalidate>
+    <span class="eyebrow">Student login</span>
+    <h1>Login to find your room</h1>
+    <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" value="<%= form.email || '' %>" required placeholder="student@zac.living">
+
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" required placeholder="student123">
+
+    <button class="btn btn-primary w-100" type="submit">Login</button>
+    <p class="form-note">New here? <a href="/signup">Create an account</a></p>
+  </form>
+</section>

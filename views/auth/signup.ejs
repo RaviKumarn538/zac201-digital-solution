@@ -1,0 +1,111 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="container page-head narrow">
+  <span class="eyebrow">Free student matching</span>
+  <h1>Tell us what kind of room you need.</h1>
+  <p>Your details help Zac.Living recommend suitable PGs, rooms, and flats in Bhopal.</p>
+</section>
+
+<section class="container narrow">
+  <form method="post" action="/signup" class="app-form" novalidate>
+    <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+
+    <div class="form-row">
+      <div>
+        <label for="name">Full name</label>
+        <input id="name" name="name" value="<%= form.name || '' %>" required>
+      </div>
+      <div>
+        <label for="phone">Mobile/WhatsApp number</label>
+        <input id="phone" name="phone" value="<%= form.phone || '' %>" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" value="<%= form.email || '' %>" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" minlength="6" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" required>
+          <option value="">Select</option>
+          <% genderOptions.forEach((option) => { %>
+            <option value="<%= option %>" <%= form.gender === option ? "selected" : "" %>><%= option %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div>
+        <label for="occupation">Student or working professional</label>
+        <select id="occupation" name="occupation" required>
+          <option value="">Select</option>
+          <option value="Student" <%= form.occupation === "Student" ? "selected" : "" %>>Student</option>
+          <option value="Working Professional" <%= form.occupation === "Working Professional" ? "selected" : "" %>>Working Professional</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="institute">College/coaching/company name</label>
+    <input id="institute" name="institute" value="<%= form.institute || '' %>" required>
+
+    <div class="form-row">
+      <div>
+        <label for="preferredArea">Preferred area in Bhopal</label>
+        <input id="preferredArea" name="preferredArea" value="<%= form.preferredArea || '' %>" required placeholder="MP Nagar, Saket Nagar">
+      </div>
+      <div>
+        <label for="budgetRange">Budget range</label>
+        <input id="budgetRange" name="budgetRange" value="<%= form.budgetRange || '' %>" required placeholder="6000-9000">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label for="foodRequired">Food required</label>
+        <select id="foodRequired" name="foodRequired" required>
+          <option value="">Select</option>
+          <% foodOptions.forEach((option) => { %>
+            <option value="<%= option %>" <%= form.foodRequired === option ? "selected" : "" %>><%= option %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div>
+        <label for="roomType">Room type</label>
+        <select id="roomType" name="roomType" required>
+          <option value="">Select</option>
+          <% roomTypes.forEach((type) => { %>
+            <option value="<%= type %>" <%= form.roomType === type ? "selected" : "" %>><%= type %></option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label for="moveInDate">Move-in date</label>
+        <input id="moveInDate" name="moveInDate" type="date" value="<%= form.moveInDate || '' %>" required>
+      </div>
+      <div>
+        <label for="safetyPriority">Safety priority</label>
+        <select id="safetyPriority" name="safetyPriority" required>
+          <option value="">Select</option>
+          <option value="Normal" <%= form.safetyPriority === "Normal" ? "selected" : "" %>>Normal</option>
+          <option value="High" <%= form.safetyPriority === "High" ? "selected" : "" %>>High</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="specialRequirements">Special requirements</label>
+    <textarea id="specialRequirements" name="specialRequirements" rows="4" placeholder="Food preference, study table, distance, quiet room, etc."><%= form.specialRequirements || '' %></textarea>
+
+    <button class="btn btn-primary w-100" type="submit">Create Student Account</button>
+    <p class="form-note">Already signed up? <a href="/login">Login</a></p>
+  </form>
+</section>

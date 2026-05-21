@@ -1,0 +1,130 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="container dashboard-head">
+  <div>
+    <span class="eyebrow">Private admin dashboard</span>
+    <h1>Manage Zac.Living listings and student inquiries.</h1>
+    <p>Add listings, update availability, publish or hide rooms, review signups, and manage visit requests.</p>
+  </div>
+  <a href="/admin/rooms/new" class="btn btn-primary">Add new listing</a>
+</section>
+
+<section class="container admin-stats">
+  <div class="dash-panel">
+    <span class="muted">Total listings</span>
+    <strong><%= stats.totalRooms %></strong>
+  </div>
+  <div class="dash-panel">
+    <span class="muted">Published</span>
+    <strong><%= stats.publishedRooms %></strong>
+  </div>
+  <div class="dash-panel">
+    <span class="muted">Students</span>
+    <strong><%= stats.studentCount %></strong>
+  </div>
+  <div class="dash-panel">
+    <span class="muted">Pending visits</span>
+    <strong><%= stats.pendingRequests %></strong>
+  </div>
+</section>
+
+<section class="container section-block">
+  <div class="section-heading">
+    <h2>Room listings</h2>
+    <span class="muted"><%= rooms.length %> total</span>
+  </div>
+
+  <% if (!rooms.length) { %>
+    <div class="empty-state">No listings yet. Add your first PG, room, or flat.</div>
+  <% } %>
+
+  <div class="owner-list">
+    <% rooms.forEach((room) => { %>
+      <div class="owner-row admin-room-row">
+        <img src="<%= room.photo %>" alt="<%= room.title %>">
+        <div>
+          <div class="room-card-top">
+            <h3><%= room.title %></h3>
+            <span class="status-badge <%= room.published ? '' : 'full' %>"><%= room.published ? "Published" : "Hidden" %></span>
+          </div>
+          <p class="muted">Rs. <%= room.rent.toLocaleString("en-IN") %>/mo | <%= room.area %> | <%= room.category %> | Food: <%= room.food %></p>
+          <p class="muted">Availability: <%= room.availability %> | Internal owner contact: <%= room.ownerContact %></p>
+          <form method="post" action="/admin/rooms/<%= room.id %>/quick" class="quick-admin-form">
+            <select name="availability" aria-label="Availability for <%= room.title %>">
+              <% availabilityOptions.forEach((option) => { %>
+                <option value="<%= option %>" <%= room.availability === option ? "selected" : "" %>><%= option %></option>
+              <% }) %>
+            </select>
+            <button class="btn btn-outline-primary btn-sm" type="submit">Update availability</button>
+          </form>
+        </div>
+        <div class="owner-actions">
+          <a href="/rooms/<%= room.id %>" class="btn btn-outline-primary btn-sm">View</a>
+          <a href="/admin/rooms/<%= room.id %>/edit" class="btn btn-outline-primary btn-sm">Edit</a>
+          <form method="post" action="/admin/rooms/<%= room.id %>/quick">
+            <input type="hidden" name="published" value="<%= room.published ? 'false' : 'true' %>">
+            <button class="btn btn-outline-primary btn-sm" type="submit"><%= room.published ? "Unpublish" : "Publish" %></button>
+          </form>
+          <form method="post" action="/admin/rooms/<%= room.id %>?_method=delete">
+            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<section class="container section-block">
+  <div class="section-heading">
+    <h2>Student signups and requirements</h2>
+    <span class="muted"><%= students.length %> students</span>
+  </div>
+
+  <% if (!students.length) { %>
+    <div class="empty-state">Student signups will appear here.</div>
+  <% } %>
+
+  <div class="interest-list">
+    <% students.forEach((student) => { %>
+      <div class="interest-card">
+        <span class="eyebrow"><%= student.gender || "Student" %> | <%= student.occupation || "Requirement" %></span>
+        <h3><%= student.name %></h3>
+        <p class="muted"><%= student.phone %> | <%= student.email %></p>
+        <p><strong>Requirement:</strong> <%= student.preferredArea || "Area not shared" %>, <%= student.budgetRange || "Budget not shared" %>, <%= student.roomType || "Any room" %>, Food: <%= student.foodRequired || "Any" %></p>
+        <p class="muted"><%= student.specialRequirements || "No special notes." %></p>
+        <p class="muted">Top match: <%= student.bestMatch ? student.bestMatch.title + " (" + student.bestMatch.match.label + ")" : "No published listings yet" %></p>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<section class="container section-block">
+  <div class="section-heading">
+    <h2>Visit requests</h2>
+    <span class="muted"><%= requests.length %> inquiries</span>
+  </div>
+
+  <% if (!requests.length) { %>
+    <div class="empty-state">Visit requests will appear here after students request a visit.</div>
+  <% } %>
+
+  <div class="interest-list">
+    <% requests.forEach((request) => { %>
+      <div class="interest-card">
+        <span class="eyebrow"><%= request.status %></span>
+        <h3><%= request.student ? request.student.name : "Student removed" %></h3>
+        <p class="muted"><%= request.room ? request.room.title : "Room removed" %></p>
+        <p><%= request.message %></p>
+        <form method="post" action="/admin/requests/<%= request.id %>/status">
+          <label for="status-<%= request.id %>">Update status</label>
+          <select id="status-<%= request.id %>" name="status">
+            <% inquiryStatuses.forEach((status) => { %>
+              <option value="<%= status %>" <%= request.status === status ? "selected" : "" %>><%= status %></option>
+            <% }) %>
+          </select>
+          <button class="btn btn-primary btn-sm mt-2" type="submit">Save status</button>
+        </form>
+      </div>
+    <% }) %>
+  </div>
+</section>
