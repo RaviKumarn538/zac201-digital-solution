@@ -70,19 +70,11 @@
       </div>
     </div>
 
-    <div class="form-row">
-      <div>
-        <label for="moveInDate">Move-in date</label>
-        <input id="moveInDate" name="moveInDate" type="date" value="<%= user.moveInDate %>">
-      </div>
-      <div>
-        <label for="safetyPriority">Safety priority</label>
-        <select id="safetyPriority" name="safetyPriority">
-          <option value="Normal" <%= user.safetyPriority === "Normal" ? "selected" : "" %>>Normal</option>
-          <option value="High" <%= user.safetyPriority === "High" ? "selected" : "" %>>High</option>
-        </select>
-      </div>
-    </div>
+    <label for="safetyPriority">Safety priority</label>
+    <select id="safetyPriority" name="safetyPriority">
+      <option value="Normal" <%= user.safetyPriority === "Normal" ? "selected" : "" %>>Normal</option>
+      <option value="High" <%= user.safetyPriority === "High" ? "selected" : "" %>>High</option>
+    </select>
 
     <label for="specialRequirements">Special requirements</label>
     <textarea id="specialRequirements" name="specialRequirements" rows="4"><%= user.specialRequirements || '' %></textarea>

@@ -6,11 +6,11 @@
     <h1>Login to find your room</h1>
     <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
 
-    <label for="email">Email</label>
-    <input id="email" name="email" type="email" value="<%= form.email || '' %>" required placeholder="student@zac.living">
+    <label for="phone">Mobile/WhatsApp number</label>
+    <input id="phone" name="phone" inputmode="tel" value="<%= form.phone || '' %>" required placeholder="9301942717">
 
     <label for="password">Password</label>
-    <input id="password" name="password" type="password" required placeholder="student123">
+    <input id="password" name="password" type="password" required placeholder="Your password">
 
     <button class="btn btn-primary w-100" type="submit">Login</button>
     <p class="form-note">New here? <a href="/signup">Create an account</a></p>

@@ -1,4 +1,4 @@
-<form method="get" action="/rooms" class="search-panel">
+<form method="get" action="/rooms" class="search-panel marketplace-search">
   <div>
     <label for="area">Area</label>
     <input id="area" name="area" value="<%= query.area || '' %>" placeholder="MP Nagar">
@@ -29,9 +29,11 @@
     <select id="roomType" name="roomType">
       <option value="">Any</option>
       <% roomTypes.forEach((type) => { %>
-        <option value="<%= type %>" <%= query.roomType === type ? "selected" : "" %>><%= type %></option>
+        <% if (type !== "Any") { %>
+          <option value="<%= type %>" <%= query.roomType === type ? "selected" : "" %>><%= type %></option>
+        <% } %>
       <% }) %>
     </select>
   </div>
-  <button class="btn btn-primary" type="submit">Search</button>
+  <button class="btn btn-primary" type="submit">Search rooms</button>
 </form>

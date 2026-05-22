@@ -54,6 +54,61 @@ const genderOptions = ["Boys", "Girls", "Other"];
 const foodOptions = ["Yes", "No"];
 const availabilityOptions = ["Available", "Few beds left", "Full"];
 const inquiryStatuses = ["Pending", "Contacted", "Visit Scheduled", "Closed"];
+const preferenceSteps = [
+  {
+    field: "occupation",
+    title: "Are you student or working?",
+    hint: "Isse hum suitable area aur room type better suggest karte hain.",
+    options: ["Student", "Working Professional"],
+  },
+  {
+    field: "institute",
+    title: "College, coaching, ya company ka naam?",
+    hint: "Nearest PG/room recommend karne me help milegi.",
+    inputType: "text",
+    placeholder: "Example: MANIT, AIIMS, Allen, DB Mall office",
+  },
+  {
+    field: "preferredArea",
+    title: "Preferred area in Bhopal?",
+    hint: "Common areas choose karo ya apna area type karo.",
+    options: ["MP Nagar", "Saket Nagar", "Kolar", "Arera Colony", "Indrapuri", "Bawadia Kalan"],
+    customLabel: "Other area",
+    placeholder: "Example: New Market",
+  },
+  {
+    field: "budgetRange",
+    title: "Monthly budget kya hai?",
+    hint: "Rent range ke hisab se matching hogi.",
+    options: ["Below 6000", "6000-8000", "8000-10000", "10000-15000", "15000+"],
+  },
+  {
+    field: "roomType",
+    title: "Room type preference?",
+    hint: "Single, double, triple ya any select kar sakte ho.",
+    options: roomTypes,
+  },
+  {
+    field: "foodRequired",
+    title: "Food required?",
+    hint: "PG food chahiye ya room/flat without food chalega?",
+    options: foodOptions,
+  },
+  {
+    field: "safetyPriority",
+    title: "Safety priority?",
+    hint: "Parents ke concern aur location filtering ke liye useful hai.",
+    options: ["Normal", "High"],
+  },
+  {
+    field: "specialRequirements",
+    title: "Any special requirement?",
+    hint: "Optional hai. Quiet room, study table, attached washroom, etc. likh sakte ho.",
+    inputType: "textarea",
+    placeholder: "Example: quiet room, near bus stop, attached washroom",
+    optional: true,
+  },
+];
 
 const demoRooms = [
   {
@@ -142,6 +197,10 @@ function isBcryptHash(value) {
   return typeof value === "string" && value.startsWith("$2");
 }
 
+function cleanPhone(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
 async function getCurrentUser(req) {
   if (!req.session.userId) return null;
   return User.findById(req.session.userId).populate("favorites");
@@ -225,9 +284,7 @@ async function seedDatabase() {
     { upsert: true }
   );
 
-  if (ADMIN_EMAIL !== "admin@zac.living") {
-    await User.deleteOne({ email: "admin@zac.living", role: "admin" });
-  }
+  await User.deleteMany({ role: "admin", email: { $ne: ADMIN_EMAIL } });
 
   await User.updateOne(
     { email: "student@zac.living" },
@@ -245,9 +302,9 @@ async function seedDatabase() {
         budgetRange: "6000-9000",
         foodRequired: "Yes",
         roomType: "Single",
-        moveInDate: "2026-06-01",
         safetyPriority: "High",
         specialRequirements: "Quiet room with Wi-Fi and study table.",
+        preferencesComplete: true,
       },
     },
     { upsert: true }
@@ -282,8 +339,14 @@ app.use(
 app.get(
   "/",
   asyncHandler(async (req, res) => {
-    const rooms = await Room.find({ published: true }).limit(3);
-    res.render("home", { featuredRooms: decorateRooms(rooms, req.currentUser) });
+    const rawRooms = await Room.find({ published: true }).sort({ createdAt: -1 });
+    const rooms = decorateRooms(rawRooms, req.currentUser);
+
+    res.render("home", {
+      query: {},
+      featuredRooms: rooms.slice(0, 6),
+      isPersonalized: Boolean(req.currentUser && req.currentUser.role === "student"),
+    });
   })
 );
 
@@ -295,11 +358,17 @@ app.get("/health", (req, res) => {
   });
 });
 
+app.get("/about", (req, res) => {
+  res.render("about");
+});
+
 app.get(
   "/rooms",
   asyncHandler(async (req, res) => {
     const rooms = await Room.find({ published: true }).sort({ createdAt: -1 });
-    res.render("rooms/index", { rooms: decorateRooms(rooms, req.currentUser, req.query), query: req.query });
+    let decoratedRooms = decorateRooms(rooms, req.currentUser, req.query);
+    if (req.query.video) decoratedRooms = decoratedRooms.filter((room) => room.videoUrl);
+    res.render("rooms/index", { rooms: decoratedRooms, query: req.query });
   })
 );
 
@@ -319,22 +388,80 @@ app.get("/signup", (req, res) => res.render("auth/signup", { error: null, form: 
 app.post(
   "/signup",
   asyncHandler(async (req, res) => {
-    const form = req.body;
-    const required = ["name", "phone", "email", "password", "gender", "occupation", "institute", "preferredArea", "budgetRange", "foodRequired", "roomType", "moveInDate", "safetyPriority"];
-    if (required.some((field) => !form[field])) {
-      return res.status(400).render("auth/signup", { error: "Please complete all required matching fields.", form });
+    const form = {
+      name: String(req.body.name || "").trim(),
+      phone: cleanPhone(req.body.phone),
+      password: req.body.password || "",
+    };
+
+    if (!form.name || !form.phone || !form.password) {
+      return res.status(400).render("auth/signup", { error: "Name, WhatsApp number, and password are required.", form });
+    }
+    if (form.phone.length < 10) {
+      return res.status(400).render("auth/signup", { error: "Please enter a valid WhatsApp number.", form });
     }
     if (form.password.length < 6) {
       return res.status(400).render("auth/signup", { error: "Password must be at least 6 characters.", form });
     }
-    if (await User.exists({ email: form.email })) {
-      return res.status(400).render("auth/signup", { error: "An account with this email already exists.", form });
+    if (await User.exists({ phone: form.phone, role: "student" })) {
+      return res.status(400).render("auth/signup", { error: "An account with this WhatsApp number already exists. Please login.", form });
     }
 
     const password = await bcrypt.hash(form.password, 12);
-    const user = await User.create({ ...form, role: "student", password, favorites: [] });
+    const user = await User.create({
+      role: "student",
+      name: form.name,
+      phone: form.phone,
+      password,
+      favorites: [],
+      preferencesComplete: false,
+    });
     req.session.userId = user._id;
-    res.redirect("/student/dashboard");
+    res.redirect("/preferences?step=1");
+  })
+);
+
+app.get(
+  "/preferences",
+  requireRole("student"),
+  asyncHandler(async (req, res) => {
+    const stepNumber = Math.min(Math.max(Number(req.query.step) || 1, 1), preferenceSteps.length);
+    const step = preferenceSteps[stepNumber - 1];
+    res.render("preferences/step", {
+      step,
+      stepNumber,
+      totalSteps: preferenceSteps.length,
+      currentValue: req.currentUser[step.field] || "",
+      error: null,
+    });
+  })
+);
+
+app.post(
+  "/preferences",
+  requireRole("student"),
+  asyncHandler(async (req, res) => {
+    const stepNumber = Math.min(Math.max(Number(req.body.step) || 1, 1), preferenceSteps.length);
+    const step = preferenceSteps[stepNumber - 1];
+    const rawValue = step.field === "preferredArea" ? req.body.customValue || req.body.value : req.body.value;
+    const value = String(rawValue || "").trim();
+
+    if (!value && !step.optional) {
+      return res.status(400).render("preferences/step", {
+        step,
+        stepNumber,
+        totalSteps: preferenceSteps.length,
+        currentValue: "",
+        error: "Please answer this question to continue.",
+      });
+    }
+
+    req.currentUser[step.field] = value;
+    if (stepNumber === preferenceSteps.length) req.currentUser.preferencesComplete = true;
+    await req.currentUser.save();
+
+    if (stepNumber >= preferenceSteps.length) return res.redirect("/student/dashboard");
+    res.redirect(`/preferences?step=${stepNumber + 1}`);
   })
 );
 
@@ -343,7 +470,8 @@ app.get("/login", (req, res) => res.render("auth/login", { error: null, form: {}
 app.post(
   "/login",
   asyncHandler(async (req, res) => {
-    const user = await User.findOne({ email: req.body.email, role: "student" });
+    const phone = cleanPhone(req.body.phone);
+    const user = await User.findOne({ phone, role: "student" });
     let isPasswordValid = false;
 
     if (user && isBcryptHash(user.password)) {
@@ -356,8 +484,8 @@ app.post(
 
     if (!user || !isPasswordValid) {
       return res.status(401).render("auth/login", {
-        error: "Invalid student email or password.",
-        form: { email: req.body.email },
+        error: "Invalid WhatsApp number or password.",
+        form: { phone },
       });
     }
     req.session.userId = user._id;
@@ -468,7 +596,8 @@ app.post(
 );
 
 app.get("/support/whatsapp", requireRole("student"), (req, res) => {
-  const text = encodeURIComponent(`Hi Zac.Living, I am ${req.currentUser.name}. I need help finding a room in ${req.currentUser.preferredArea}.`);
+  const area = req.currentUser.preferredArea || "Bhopal";
+  const text = encodeURIComponent(`Hi Zac.Living, I am ${req.currentUser.name}. I need help finding a room in ${area}.`);
   res.redirect(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${text}`);
 });
 
@@ -488,7 +617,7 @@ app.post(
   asyncHandler(async (req, res) => {
     Object.assign(req.currentUser, {
       name: req.body.name,
-      phone: req.body.phone,
+      phone: cleanPhone(req.body.phone),
       gender: req.body.gender,
       occupation: req.body.occupation,
       institute: req.body.institute,
@@ -496,9 +625,9 @@ app.post(
       budgetRange: req.body.budgetRange,
       foodRequired: req.body.foodRequired,
       roomType: req.body.roomType,
-      moveInDate: req.body.moveInDate,
       safetyPriority: req.body.safetyPriority,
       specialRequirements: req.body.specialRequirements || "",
+      preferencesComplete: true,
     });
     await req.currentUser.save();
     res.redirect("/student/dashboard");
@@ -653,6 +782,7 @@ app.use((err, req, res, next) => {
 
 async function startServer() {
   await mongoose.connect(MONGO_URL);
+  await User.syncIndexes();
   await seedDatabase();
   app.listen(PORT, () => {
     console.log(`Zac.Living is running on http://localhost:${PORT}`);

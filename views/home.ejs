@@ -1,24 +1,22 @@
 <% layout('/layouts/boilerplate') -%>
 
-<section class="hero-section">
-  <div class="container hero-grid">
-    <div class="hero-copy">
+<section class="discovery-hero">
+  <div class="container">
+    <div class="discovery-copy">
       <span class="eyebrow">Bhopal student housing</span>
       <h1>Find student PGs, rooms, and flats in Bhopal with real photos and video tours.</h1>
-      <p>Zac.Living helps students compare room options by budget, area, food, facilities, rules, and availability. Sign up to get matched with suitable rooms for free.</p>
-      <div class="hero-actions">
-        <a href="/rooms" class="btn btn-primary">Browse Rooms</a>
-        <% if (!currentUser) { %>
-          <a href="/signup" class="btn btn-outline-primary">Sign up to Find My Room</a>
-        <% } else if (currentUser.role === "student") { %>
-          <a href="/student/dashboard" class="btn btn-outline-primary">Go to My Dashboard</a>
-        <% } else if (currentUser.role === "admin") { %>
-          <a href="/admin" class="btn btn-outline-primary">Open Admin Panel</a>
-        <% } %>
-      </div>
+      <p>Zac.Living helps students compare room options by budget, area, food, facilities, rules, and availability. Explore first, sign up only when you want to save, request a visit, or get matched.</p>
     </div>
-    <div class="hero-panel">
-      <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1200&q=80" alt="Student PG room">
+
+    <%- include("rooms/search_form", { query }) %>
+
+    <div class="category-scroll" aria-label="Popular room categories">
+      <a href="/rooms?area=MP+Nagar" class="category-chip">MP Nagar</a>
+      <a href="/rooms?budget=8000" class="category-chip">Under Rs. 8k</a>
+      <a href="/rooms?category=Girls" class="category-chip">Girls PG</a>
+      <a href="/rooms?category=Boys" class="category-chip">Boys PG</a>
+      <a href="/rooms?food=Yes" class="category-chip">With food</a>
+      <a href="/rooms?video=Yes" class="category-chip">Video tour</a>
     </div>
   </div>
 </section>
@@ -26,8 +24,8 @@
 <section class="container section-block">
   <div class="section-heading">
     <div>
-      <span class="eyebrow">Verified-style listings</span>
-      <h2>Popular room options in Bhopal</h2>
+      <span class="eyebrow"><%= isPersonalized ? "Based on your requirement" : "Start exploring" %></span>
+      <h2><%= isPersonalized ? "Recommended rooms for you" : "Popular homes for students" %></h2>
     </div>
     <a href="/rooms" class="text-link">See all rooms</a>
   </div>
@@ -38,53 +36,18 @@
   </div>
 </section>
 
-<section class="about-section">
-  <div class="container about-grid">
-    <div class="about-copy">
-      <span class="eyebrow">About Zac.Living</span>
-      <h2>Built to make student room searching in Bhopal simpler and more transparent.</h2>
-      <p>Zac.Living is a Bhopal-based student room matching startup built to help students find suitable PGs, rooms, and flats without confusion. Many students come to Bhopal for college, coaching, internships, and work, but finding a safe, affordable, and comfortable place to stay is not always easy.</p>
-      <p>Zac.Living solves this by showing room options with real details such as rent, area, food, facilities, rules, photos, video tours, and availability.</p>
-      <p>Our goal is to make room searching easier, faster, and more transparent for students and parents. Students can compare options, save rooms, request visits, and get matched with places that fit their budget and lifestyle.</p>
-    </div>
-
-    <div class="why-grid">
-      <div class="why-card">
-        <span>01</span>
-        <h3>Real room details</h3>
-        <p>Clear information about rent, facilities, food, room type, rules, and availability.</p>
-      </div>
-      <div class="why-card">
-        <span>02</span>
-        <h3>Student-focused matching</h3>
-        <p>Find rooms based on area, budget, college/coaching location, food needs, and safety preference.</p>
-      </div>
-      <div class="why-card">
-        <span>03</span>
-        <h3>Photo and video support</h3>
-        <p>Listings include photos and video tours so students can understand the room before visiting.</p>
-      </div>
-      <div class="why-card mission-card">
-        <span>Mission</span>
-        <h3>More trust, less stress</h3>
-        <p>Zac.Living is starting with one simple mission: helping Bhopal students find the right room with confidence.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="container section-block">
+<section class="container section-block" id="how-it-works">
   <div class="section-heading">
     <div>
       <span class="eyebrow">How it works</span>
-      <h2>Simple room matching for students</h2>
+      <h2>Search first, sign up only when needed</h2>
     </div>
   </div>
   <div class="steps-grid">
-    <div><strong>1</strong><span>Sign up and add your room requirement</span></div>
-    <div><strong>2</strong><span>Browse real photos, rent, facilities, and video tours</span></div>
-    <div><strong>3</strong><span>Save rooms or request a visit</span></div>
-    <div><strong>4</strong><span>Get suitable room matches from Zac.Living</span></div>
-    <div><strong>5</strong><span>Choose the best option</span></div>
+    <div><strong>1</strong><span>Search by area, budget, room type, food, or category</span></div>
+    <div><strong>2</strong><span>Browse photos, rent, facilities, rules, and video tours</span></div>
+    <div><strong>3</strong><span>Open room details and compare options freely</span></div>
+    <div><strong>4</strong><span>Sign up only when you save, request a visit, or need matching</span></div>
+    <div><strong>5</strong><span>Choose the best room with Zac.Living support</span></div>
   </div>
 </section>

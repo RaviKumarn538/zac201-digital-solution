@@ -89,7 +89,7 @@
       <div class="interest-card">
         <span class="eyebrow"><%= student.gender || "Student" %> | <%= student.occupation || "Requirement" %></span>
         <h3><%= student.name %></h3>
-        <p class="muted"><%= student.phone %> | <%= student.email %></p>
+        <p class="muted"><%= student.phone || "No phone" %><% if (student.email) { %> | <%= student.email %><% } %></p>
         <p><strong>Requirement:</strong> <%= student.preferredArea || "Area not shared" %>, <%= student.budgetRange || "Budget not shared" %>, <%= student.roomType || "Any room" %>, Food: <%= student.foodRequired || "Any" %></p>
         <p class="muted"><%= student.specialRequirements || "No special notes." %></p>
         <p class="muted">Top match: <%= student.bestMatch ? student.bestMatch.title + " (" + student.bestMatch.match.label + ")" : "No published listings yet" %></p>

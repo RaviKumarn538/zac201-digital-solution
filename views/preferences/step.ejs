@@ -1,0 +1,64 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="preference-page">
+  <div class="container narrow">
+    <div class="preference-card">
+      <div class="preference-top">
+        <span class="eyebrow">Room preference</span>
+        <span class="progress-text">Step <%= stepNumber %> of <%= totalSteps %></span>
+      </div>
+      <div class="preference-progress">
+        <span style="width: <%= Math.round((stepNumber / totalSteps) * 100) %>%"></span>
+      </div>
+
+      <h1><%= step.title %></h1>
+      <p><%= step.hint %></p>
+
+      <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+
+      <form method="post" action="/preferences" class="preference-form">
+        <input type="hidden" name="step" value="<%= stepNumber %>">
+
+        <% if (step.options && step.options.length) { %>
+          <div class="option-grid">
+            <% step.options.forEach((option) => { %>
+              <button class="option-button <%= currentValue === option ? 'selected' : '' %>" type="submit" name="value" value="<%= option %>">
+                <%= option %>
+              </button>
+            <% }) %>
+          </div>
+        <% } %>
+
+        <% if (step.customLabel) { %>
+          <div class="custom-answer">
+            <label for="customValue"><%= step.customLabel %></label>
+            <div class="inline-submit">
+              <input id="customValue" name="customValue" value="<%= step.options && step.options.includes(currentValue) ? '' : currentValue %>" placeholder="<%= step.placeholder || '' %>">
+              <button class="btn btn-primary" type="submit">Continue</button>
+            </div>
+          </div>
+        <% } else if (step.inputType === "textarea") { %>
+          <label for="value" class="visually-hidden"><%= step.title %></label>
+          <textarea id="value" name="value" rows="4" placeholder="<%= step.placeholder || '' %>"><%= currentValue %></textarea>
+          <button class="btn btn-primary w-100 mt-3" type="submit"><%= stepNumber === totalSteps ? "Show My Matches" : "Continue" %></button>
+          <% if (step.optional) { %>
+            <button class="btn btn-outline-primary w-100 mt-2" type="submit" name="value" value="">Skip for now</button>
+          <% } %>
+        <% } else if (step.inputType) { %>
+          <label for="value" class="visually-hidden"><%= step.title %></label>
+          <input id="value" name="value" type="<%= step.inputType %>" value="<%= currentValue %>" placeholder="<%= step.placeholder || '' %>">
+          <button class="btn btn-primary w-100 mt-3" type="submit">Continue</button>
+        <% } %>
+      </form>
+
+      <div class="preference-foot">
+        <% if (stepNumber > 1) { %>
+          <a href="/preferences?step=<%= stepNumber - 1 %>">Back</a>
+        <% } else { %>
+          <span></span>
+        <% } %>
+        <a href="/student/dashboard">Add later</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -4,7 +4,22 @@
   <div>
     <div class="gallery-main">
       <img src="<%= room.photos[0] %>" alt="<%= room.title %>">
+      <% if (room.videoUrl) { %>
+        <a href="<%= room.videoUrl %>" target="_blank" rel="noopener" class="gallery-video-overlay">
+          <i class="fa-solid fa-circle-play"></i>
+          <span>Watch Video Tour</span>
+        </a>
+      <% } %>
     </div>
+    <% if (room.videoUrl) { %>
+      <a href="<%= room.videoUrl %>" target="_blank" rel="noopener" class="video-tour-panel">
+        <i class="fa-solid fa-play"></i>
+        <div>
+          <strong>Video/vlog tour available</strong>
+          <span>Watch this room before requesting a visit.</span>
+        </div>
+      </a>
+    <% } %>
     <div class="gallery-strip">
       <% room.photos.slice(1).forEach((photo) => { %>
         <img src="<%= photo %>" alt="<%= room.title %> photo">
@@ -15,7 +30,7 @@
   <div class="detail-card">
     <div class="room-card-top">
       <span class="status-badge <%= room.availability.toLowerCase().replaceAll(' ', '-') %>"><%= room.availability %></span>
-      <% if (room.videoUrl) { %><a class="video-badge" href="<%= room.videoUrl %>" target="_blank">Video/vlog tour</a><% } %>
+      <% if (room.videoUrl) { %><a class="video-badge" href="<%= room.videoUrl %>" target="_blank" rel="noopener"><i class="fa-solid fa-play"></i> Video/vlog tour</a><% } %>
     </div>
     <h1><%= room.title %></h1>
     <p class="detail-rent">Rs. <%= room.rent.toLocaleString("en-IN") %> / month | Deposit Rs. <%= room.deposit.toLocaleString("en-IN") %></p>
@@ -42,6 +57,11 @@
     </ul>
 
     <div class="detail-actions">
+      <% if (room.videoUrl) { %>
+        <a href="<%= room.videoUrl %>" target="_blank" rel="noopener" class="btn btn-primary video-action-btn">
+          <i class="fa-solid fa-play"></i> Watch Video Tour
+        </a>
+      <% } %>
       <form method="post" action="/rooms/<%= room.id %>/visit">
         <button class="btn btn-primary" type="submit">Request Visit</button>
       </form>

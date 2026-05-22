@@ -4,7 +4,7 @@
   <div>
     <span class="eyebrow">Student dashboard</span>
     <h1>Hi <%= user.name %>, your Bhopal room matches are ready.</h1>
-    <p>Track saved rooms, visit requests, and inquiry status from one place.</p>
+    <p>Recommended rooms are below. We will contact you on WhatsApp for suitable options and visit support.</p>
   </div>
   <a href="/support/whatsapp" class="btn btn-primary">WhatsApp Support</a>
 </section>
@@ -13,14 +13,17 @@
   <div class="dash-panel">
     <h2>My profile</h2>
     <p><strong><%= user.name %></strong></p>
-    <p class="muted"><%= user.phone %> | <%= user.email %></p>
-    <p class="muted"><%= user.occupation %> at <%= user.institute %></p>
+    <p class="muted"><%= user.phone %><% if (user.email) { %> | <%= user.email %><% } %></p>
+    <p class="muted"><%= user.occupation || "Student/working not added" %><% if (user.institute) { %> at <%= user.institute %><% } %></p>
     <a href="/profile" class="btn btn-outline-primary btn-sm">Edit profile</a>
+    <% if (!user.preferencesComplete) { %>
+      <a href="/preferences?step=1" class="btn btn-primary btn-sm mt-2">Complete room preferences</a>
+    <% } %>
   </div>
   <div class="dash-panel">
     <h2>My room requirements</h2>
-    <p><strong><%= user.preferredArea %></strong> | <%= user.budgetRange %></p>
-    <p class="muted"><%= user.roomType %> | Food: <%= user.foodRequired %> | Safety: <%= user.safetyPriority %></p>
+    <p><strong><%= user.preferredArea || "Area not added" %></strong> | <%= user.budgetRange || "Budget not added" %></p>
+    <p class="muted"><%= user.roomType || "Any room" %> | Food: <%= user.foodRequired || "Any" %> | Safety: <%= user.safetyPriority || "Normal" %></p>
     <p class="muted"><%= user.specialRequirements || "No special requirements added." %></p>
   </div>
   <div class="dash-panel">

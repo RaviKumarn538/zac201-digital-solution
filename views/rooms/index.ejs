@@ -1,20 +1,36 @@
 <% layout('/layouts/boilerplate') -%>
 
-<section class="container page-head">
-  <span class="eyebrow">Browse before signup</span>
-  <h1>Compare PGs, rooms, and flats in Bhopal</h1>
-  <p>Check rent, area, food, room type, availability, and video tours. Login is needed only when you save, request a visit, or get matched.</p>
-</section>
-
-<section class="container">
-  <%- include("search_form", { query }) %>
+<section class="browse-top">
+  <div class="container">
+    <span class="eyebrow">Browse before signup</span>
+    <h1>Explore student rooms in Bhopal</h1>
+    <p>Search first, compare visually, then sign up only when you want to save a room, request a visit, or get matched.</p>
+    <%- include("search_form", { query }) %>
+    <div class="category-scroll" aria-label="Quick filters">
+      <a href="/rooms" class="category-chip <%= !Object.keys(query || {}).length ? 'active' : '' %>">All</a>
+      <a href="/rooms?area=MP+Nagar" class="category-chip">MP Nagar</a>
+      <a href="/rooms?budget=8000" class="category-chip">Under Rs. 8k</a>
+      <a href="/rooms?category=Girls" class="category-chip">Girls PG</a>
+      <a href="/rooms?category=Boys" class="category-chip">Boys PG</a>
+      <a href="/rooms?food=Yes" class="category-chip">With food</a>
+      <a href="/rooms?video=Yes" class="category-chip">Video tour</a>
+    </div>
+  </div>
 </section>
 
 <section class="container section-block">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow"><%= rooms.length %> listings</span>
+      <h2>Available PGs, rooms, and flats</h2>
+    </div>
+  </div>
+
   <% if (!rooms.length) { %>
     <div class="empty-state">No rooms matched your filters. Try a wider budget or another area.</div>
   <% } %>
-  <div class="room-grid">
+
+  <div class="room-grid marketplace-grid">
     <% rooms.forEach((room) => { %>
       <%- include("../partials_room_card", { room }) %>
     <% }) %>
