@@ -1,19 +1,19 @@
 <% layout('/layouts/boilerplate') -%>
 
-<section class="container page-head narrow">
+<section class="container page-head narrow max-w-4xl px-4 sm:px-6 lg:px-8">
   <span class="eyebrow">Admin listing manager</span>
   <h1><%= title %></h1>
   <p>Only admin can create and manage listings in this MVP. Owner contact remains internal.</p>
 </section>
 
-<section class="container narrow">
+<section class="container narrow max-w-4xl px-4 sm:px-6 lg:px-8">
   <form method="post" action="<%= action %>" class="app-form" novalidate>
     <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
 
     <label for="title">Title</label>
     <input id="title" name="room[title]" value="<%= room.title || '' %>" required>
 
-    <div class="form-row">
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div>
         <label for="area">Area</label>
         <input id="area" name="room[area]" value="<%= room.area || '' %>" required>
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="form-row">
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div>
         <label for="rent">Rent</label>
         <input id="rent" name="room[rent]" type="number" value="<%= room.rent || '' %>" required>
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="form-row">
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div>
         <label for="roomType">Room type</label>
         <select id="roomType" name="room[roomType]" required>
@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <div class="form-row">
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div>
         <label for="food">Food available</label>
         <select id="food" name="room[food]" required>

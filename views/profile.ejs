@@ -1,14 +1,14 @@
 <% layout('/layouts/boilerplate') -%>
 
-<section class="container page-head narrow">
+<section class="container page-head narrow max-w-4xl px-4 sm:px-6 lg:px-8">
   <span class="eyebrow">My profile</span>
   <h1>Update your room requirement.</h1>
   <p>These fields power Zac.Living recommendations and help support understand what you need.</p>
 </section>
 
-<section class="container profile-grid">
+<section class="container profile-grid max-w-7xl px-4 sm:px-6 lg:grid lg:grid-cols-[1fr_360px] lg:gap-7 lg:px-8">
   <form method="post" action="/profile" class="app-form">
-    <div class="form-row">
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div>
         <label for="name">Full name</label>
         <input id="name" name="name" value="<%= user.name %>" required>
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class="form-row">
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div>
         <label for="gender">Gender</label>
         <select id="gender" name="gender">
@@ -40,7 +40,7 @@
     <label for="institute">College/coaching/company name</label>
     <input id="institute" name="institute" value="<%= user.institute %>" required>
 
-    <div class="form-row">
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div>
         <label for="preferredArea">Preferred area</label>
         <input id="preferredArea" name="preferredArea" value="<%= user.preferredArea %>" required>
@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="form-row">
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div>
         <label for="foodRequired">Food required</label>
         <select id="foodRequired" name="foodRequired">
@@ -82,7 +82,7 @@
     <button class="btn btn-primary w-100" type="submit">Save requirements</button>
   </form>
 
-  <aside class="saved-panel">
+  <aside class="saved-panel mt-4 lg:mt-0">
     <h2>Saved rooms</h2>
     <% if (!savedRooms.length) { %>
       <p class="muted">You have not shortlisted any rooms yet.</p>

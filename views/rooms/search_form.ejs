@@ -1,4 +1,4 @@
-<form method="get" action="/rooms" class="search-panel marketplace-search">
+<form method="get" action="/rooms" class="search-panel marketplace-search grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[repeat(5,minmax(0,1fr))_auto]">
   <div>
     <label for="area">Area</label>
     <input id="area" name="area" value="<%= query.area || '' %>" placeholder="MP Nagar">
@@ -35,5 +35,5 @@
       <% }) %>
     </select>
   </div>
-  <button class="btn btn-primary" type="submit">Search rooms</button>
+  <button class="btn btn-primary w-full sm:col-span-2 lg:col-span-1 lg:w-auto" type="submit">Search rooms</button>
 </form>

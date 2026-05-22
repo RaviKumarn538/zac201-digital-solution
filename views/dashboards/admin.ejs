@@ -1,15 +1,15 @@
 <% layout('/layouts/boilerplate') -%>
 
-<section class="container dashboard-head">
-  <div>
+<section class="container dashboard-head max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+  <div class="min-w-0">
     <span class="eyebrow">Private admin dashboard</span>
     <h1>Manage Zac.Living listings and student inquiries.</h1>
     <p>Add listings, update availability, publish or hide rooms, review signups, and manage visit requests.</p>
   </div>
-  <a href="/admin/rooms/new" class="btn btn-primary">Add new listing</a>
+  <a href="/admin/rooms/new" class="btn btn-primary w-full sm:w-auto">Add new listing</a>
 </section>
 
-<section class="container admin-stats">
+<section class="container admin-stats max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
   <div class="dash-panel">
     <span class="muted">Total listings</span>
     <strong><%= stats.totalRooms %></strong>
@@ -28,8 +28,8 @@
   </div>
 </section>
 
-<section class="container section-block">
-  <div class="section-heading">
+<section class="container section-block max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <h2>Room listings</h2>
     <span class="muted"><%= rooms.length %> total</span>
   </div>
@@ -40,16 +40,16 @@
 
   <div class="owner-list">
     <% rooms.forEach((room) => { %>
-      <div class="owner-row admin-room-row">
+      <div class="owner-row admin-room-row grid grid-cols-1 gap-3 sm:grid-cols-[112px_1fr] xl:grid-cols-[112px_1fr_auto]">
         <img src="<%= room.photo %>" alt="<%= room.title %>">
-        <div>
-          <div class="room-card-top">
+        <div class="min-w-0">
+          <div class="room-card-top flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
             <h3><%= room.title %></h3>
             <span class="status-badge <%= room.published ? '' : 'full' %>"><%= room.published ? "Published" : "Hidden" %></span>
           </div>
           <p class="muted">Rs. <%= room.rent.toLocaleString("en-IN") %>/mo | <%= room.area %> | <%= room.category %> | Food: <%= room.food %></p>
           <p class="muted">Availability: <%= room.availability %> | Internal owner contact: <%= room.ownerContact %></p>
-          <form method="post" action="/admin/rooms/<%= room.id %>/quick" class="quick-admin-form">
+          <form method="post" action="/admin/rooms/<%= room.id %>/quick" class="quick-admin-form grid grid-cols-1 gap-2 sm:grid-cols-[minmax(0,220px)_auto]">
             <select name="availability" aria-label="Availability for <%= room.title %>">
               <% availabilityOptions.forEach((option) => { %>
                 <option value="<%= option %>" <%= room.availability === option ? "selected" : "" %>><%= option %></option>
@@ -58,15 +58,15 @@
             <button class="btn btn-outline-primary btn-sm" type="submit">Update availability</button>
           </form>
         </div>
-        <div class="owner-actions">
-          <a href="/rooms/<%= room.id %>" class="btn btn-outline-primary btn-sm">View</a>
-          <a href="/admin/rooms/<%= room.id %>/edit" class="btn btn-outline-primary btn-sm">Edit</a>
-          <form method="post" action="/admin/rooms/<%= room.id %>/quick">
+        <div class="owner-actions grid grid-cols-2 gap-2 sm:col-span-2 xl:col-span-1 xl:grid-cols-1">
+          <a href="/rooms/<%= room.id %>" class="btn btn-outline-primary btn-sm w-full">View</a>
+          <a href="/admin/rooms/<%= room.id %>/edit" class="btn btn-outline-primary btn-sm w-full">Edit</a>
+          <form method="post" action="/admin/rooms/<%= room.id %>/quick" class="w-full">
             <input type="hidden" name="published" value="<%= room.published ? 'false' : 'true' %>">
-            <button class="btn btn-outline-primary btn-sm" type="submit"><%= room.published ? "Unpublish" : "Publish" %></button>
+            <button class="btn btn-outline-primary btn-sm w-full" type="submit"><%= room.published ? "Unpublish" : "Publish" %></button>
           </form>
-          <form method="post" action="/admin/rooms/<%= room.id %>?_method=delete">
-            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+          <form method="post" action="/admin/rooms/<%= room.id %>?_method=delete" class="w-full">
+            <button class="btn btn-danger btn-sm w-full" type="submit">Delete</button>
           </form>
         </div>
       </div>
@@ -74,8 +74,8 @@
   </div>
 </section>
 
-<section class="container section-block">
-  <div class="section-heading">
+<section class="container section-block max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <h2>Student signups and requirements</h2>
     <span class="muted"><%= students.length %> students</span>
   </div>
@@ -84,7 +84,7 @@
     <div class="empty-state">Student signups will appear here.</div>
   <% } %>
 
-  <div class="interest-list">
+  <div class="interest-list grid grid-cols-1 gap-4 md:grid-cols-3">
     <% students.forEach((student) => { %>
       <div class="interest-card">
         <span class="eyebrow"><%= student.gender || "Student" %> | <%= student.occupation || "Requirement" %></span>
@@ -98,8 +98,8 @@
   </div>
 </section>
 
-<section class="container section-block">
-  <div class="section-heading">
+<section class="container section-block max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <h2>Visit requests</h2>
     <span class="muted"><%= requests.length %> inquiries</span>
   </div>
@@ -108,7 +108,7 @@
     <div class="empty-state">Visit requests will appear here after students request a visit.</div>
   <% } %>
 
-  <div class="interest-list">
+  <div class="interest-list grid grid-cols-1 gap-4 md:grid-cols-3">
     <% requests.forEach((request) => { %>
       <div class="interest-card">
         <span class="eyebrow"><%= request.status %></span>

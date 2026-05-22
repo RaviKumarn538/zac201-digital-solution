@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg app-navbar sticky-top">
-  <div class="container nav-shell">
-    <a class="navbar-brand brand" href="/">Zac.Living</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+  <div class="container nav-shell max-w-7xl px-3 sm:px-4 lg:px-6">
+    <a class="navbar-brand brand text-lg sm:text-xl" href="/">Zac.Living</a>
+    <button class="navbar-toggler shrink-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="mainNav">
-      <ul class="navbar-nav mx-auto align-items-lg-center">
+      <ul class="navbar-nav mx-auto align-items-lg-center w-full lg:w-auto gap-1 py-2 lg:py-0">
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="/rooms">Browse Rooms</a></li>
         <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
@@ -20,15 +20,15 @@
         <% } %>
       </ul>
 
-      <div class="nav-actions">
+      <div class="nav-actions grid grid-cols-2 gap-2 pt-2 lg:flex lg:w-auto lg:pt-0">
         <% if (currentUser) { %>
-          <span class="user-pill"><%= currentUser.role === "admin" ? "Admin" : "Student" %></span>
-          <form method="post" action="/logout" class="m-0">
-            <button class="btn btn-outline-primary btn-sm" type="submit">Logout</button>
+          <span class="user-pill col-span-2 lg:col-span-1"><%= currentUser.role === "admin" ? "Admin" : "Student" %></span>
+          <form method="post" action="/logout" class="m-0 w-full lg:w-auto">
+            <button class="btn btn-outline-primary btn-sm w-full lg:w-auto" type="submit">Logout</button>
           </form>
         <% } else { %>
-          <a href="/login" class="btn btn-outline-primary btn-sm">Login</a>
-          <a href="/signup" class="btn btn-primary btn-sm">Sign up</a>
+          <a href="/login" class="btn btn-outline-primary btn-sm w-full lg:w-auto">Login</a>
+          <a href="/signup" class="btn btn-primary btn-sm w-full lg:w-auto">Sign up</a>
         <% } %>
       </div>
     </div>

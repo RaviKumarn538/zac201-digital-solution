@@ -1,15 +1,15 @@
 <% layout('/layouts/boilerplate') -%>
 
-<section class="container dashboard-head">
-  <div>
+<section class="container dashboard-head max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+  <div class="min-w-0">
     <span class="eyebrow">Student dashboard</span>
     <h1>Hi <%= user.name %>, your Bhopal room matches are ready.</h1>
     <p>Recommended rooms are below. We will contact you on WhatsApp for suitable options and visit support.</p>
   </div>
-  <a href="/support/whatsapp" class="btn btn-primary">WhatsApp Support</a>
+  <a href="/support/whatsapp" class="btn btn-primary w-full sm:w-auto">WhatsApp Support</a>
 </section>
 
-<section class="container dashboard-grid">
+<section class="container dashboard-grid max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 gap-4 md:grid-cols-3">
   <div class="dash-panel">
     <h2>My profile</h2>
     <p><strong><%= user.name %></strong></p>
@@ -38,36 +38,36 @@
   </div>
 </section>
 
-<section class="container section-block">
-  <div class="section-heading">
+<section class="container section-block max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <h2>Recommended rooms</h2>
     <a href="/rooms" class="text-link">Browse all</a>
   </div>
-  <div class="room-grid">
+  <div class="room-grid grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
     <% recommendedRooms.forEach((room) => { %>
       <%- include("../partials_room_card", { room }) %>
     <% }) %>
   </div>
 </section>
 
-<section class="container section-block">
-  <div class="section-heading">
+<section class="container section-block max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <h2>Saved rooms</h2>
     <span class="muted"><%= savedRooms.length %> shortlisted</span>
   </div>
   <% if (!savedRooms.length) { %><div class="empty-state">Save rooms from the listing page to shortlist them here.</div><% } %>
-  <div class="room-grid">
+  <div class="room-grid grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
     <% savedRooms.forEach((room) => { %>
       <%- include("../partials_room_card", { room }) %>
     <% }) %>
   </div>
 </section>
 
-<section class="container section-block">
-  <div class="section-heading">
+<section class="container section-block max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <h2>Visit requests</h2>
   </div>
-  <div class="interest-list">
+  <div class="interest-list grid grid-cols-1 gap-4 md:grid-cols-3">
     <% requests.forEach((request) => { %>
       <div class="interest-card">
         <span class="eyebrow"><%= request.status %></span>

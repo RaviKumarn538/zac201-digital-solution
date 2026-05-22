@@ -1,8 +1,8 @@
 <% layout('/layouts/boilerplate') -%>
 
 <section class="discovery-hero">
-  <div class="container">
-    <div class="discovery-copy">
+  <div class="container max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="discovery-copy max-w-4xl">
       <span class="eyebrow">Bhopal student housing</span>
       <h1>Find student PGs, rooms, and flats in Bhopal with real photos and video tours.</h1>
       <p>Zac.Living helps students compare room options by budget, area, food, facilities, rules, and availability. Explore first, sign up only when you want to save, request a visit, or get matched.</p>
@@ -21,29 +21,29 @@
   </div>
 </section>
 
-<section class="container section-block">
-  <div class="section-heading">
+<section class="container section-block max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <div>
       <span class="eyebrow"><%= isPersonalized ? "Based on your requirement" : "Start exploring" %></span>
       <h2><%= isPersonalized ? "Recommended rooms for you" : "Popular homes for students" %></h2>
     </div>
     <a href="/rooms" class="text-link">See all rooms</a>
   </div>
-  <div class="room-grid">
+  <div class="room-grid grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
     <% featuredRooms.forEach((room) => { %>
       <%- include("partials_room_card", { room }) %>
     <% }) %>
   </div>
 </section>
 
-<section class="container section-block" id="how-it-works">
-  <div class="section-heading">
+<section class="container section-block max-w-7xl px-4 sm:px-6 lg:px-8" id="how-it-works">
+  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <div>
       <span class="eyebrow">How it works</span>
       <h2>Search first, sign up only when needed</h2>
     </div>
   </div>
-  <div class="steps-grid">
+  <div class="steps-grid grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
     <div><strong>1</strong><span>Search by area, budget, room type, food, or category</span></div>
     <div><strong>2</strong><span>Browse photos, rent, facilities, rules, and video tours</span></div>
     <div><strong>3</strong><span>Open room details and compare options freely</span></div>

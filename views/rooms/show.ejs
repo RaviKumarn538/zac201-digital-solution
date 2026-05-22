@@ -1,7 +1,7 @@
 <% layout('/layouts/boilerplate') -%>
 
-<section class="container detail-layout">
-  <div>
+<section class="container detail-layout max-w-7xl px-4 py-5 sm:px-6 lg:grid lg:grid-cols-[1.05fr_0.95fr] lg:gap-7 lg:px-8">
+  <div class="min-w-0">
     <div class="gallery-main">
       <img src="<%= room.photos[0] %>" alt="<%= room.title %>">
       <% if (room.videoUrl) { %>
@@ -20,24 +20,24 @@
         </div>
       </a>
     <% } %>
-    <div class="gallery-strip">
+    <div class="gallery-strip grid grid-cols-2 gap-2 sm:grid-cols-3">
       <% room.photos.slice(1).forEach((photo) => { %>
         <img src="<%= photo %>" alt="<%= room.title %> photo">
       <% }) %>
     </div>
   </div>
 
-  <div class="detail-card">
-    <div class="room-card-top">
+  <div class="detail-card min-w-0">
+    <div class="room-card-top flex flex-wrap items-center justify-between gap-2">
       <span class="status-badge <%= room.availability.toLowerCase().replaceAll(' ', '-') %>"><%= room.availability %></span>
       <% if (room.videoUrl) { %><a class="video-badge" href="<%= room.videoUrl %>" target="_blank" rel="noopener"><i class="fa-solid fa-play"></i> Video/vlog tour</a><% } %>
     </div>
-    <h1><%= room.title %></h1>
+    <h1 class="break-words"><%= room.title %></h1>
     <p class="detail-rent">Rs. <%= room.rent.toLocaleString("en-IN") %> / month | Deposit Rs. <%= room.deposit.toLocaleString("en-IN") %></p>
     <p class="muted"><i class="fa-solid fa-location-dot"></i> <%= room.area %>, <%= room.landmark %></p>
     <p><%= room.description %></p>
 
-    <div class="detail-grid">
+    <div class="detail-grid grid grid-cols-1 gap-3 sm:grid-cols-2">
       <div><strong>Category</strong><span><%= room.category %></span></div>
       <div><strong>Room type</strong><span><%= room.roomType %></span></div>
       <div><strong>Food</strong><span><%= room.food %> | <%= room.foodDetails %></span></div>
@@ -47,7 +47,7 @@
     </div>
 
     <h2>Facilities</h2>
-    <div class="facility-list">
+    <div class="facility-list flex flex-wrap gap-2">
       <% room.facilities.forEach((facility) => { %><span><%= facility %></span><% }) %>
     </div>
 
@@ -56,22 +56,22 @@
       <% room.rules.forEach((rule) => { %><li><%= rule %></li><% }) %>
     </ul>
 
-    <div class="detail-actions">
+    <div class="detail-actions grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-4">
       <% if (room.videoUrl) { %>
-        <a href="<%= room.videoUrl %>" target="_blank" rel="noopener" class="btn btn-primary video-action-btn">
+        <a href="<%= room.videoUrl %>" target="_blank" rel="noopener" class="btn btn-primary video-action-btn w-full">
           <i class="fa-solid fa-play"></i> Watch Video Tour
         </a>
       <% } %>
-      <form method="post" action="/rooms/<%= room.id %>/visit">
-        <button class="btn btn-primary" type="submit">Request Visit</button>
+      <form method="post" action="/rooms/<%= room.id %>/visit" class="w-full">
+        <button class="btn btn-primary w-full" type="submit">Request Visit</button>
       </form>
-      <form method="post" action="/rooms/<%= room.id %>/favorite">
-        <button class="btn btn-outline-primary" type="submit"><%= room.isFavorite ? "Saved" : "Save Room" %></button>
+      <form method="post" action="/rooms/<%= room.id %>/favorite" class="w-full">
+        <button class="btn btn-outline-primary w-full" type="submit"><%= room.isFavorite ? "Saved" : "Save Room" %></button>
       </form>
       <% if (currentUser && currentUser.role === "student") { %>
-        <a href="/support/whatsapp" class="btn btn-outline-primary">WhatsApp Support</a>
+        <a href="/support/whatsapp" class="btn btn-outline-primary w-full">WhatsApp Support</a>
       <% } else { %>
-        <a href="/login" class="btn btn-outline-primary">Login for WhatsApp Support</a>
+        <a href="/login" class="btn btn-outline-primary w-full">Login for WhatsApp Support</a>
       <% } %>
     </div>
   </div>

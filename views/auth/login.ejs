@@ -1,7 +1,7 @@
 <% layout('/layouts/boilerplate') -%>
 
-<section class="auth-wrap">
-  <form method="post" action="/login" class="app-form auth-card" novalidate>
+<section class="auth-wrap px-4 py-6 sm:px-6">
+  <form method="post" action="/login" class="app-form auth-card w-full max-w-md" novalidate>
     <span class="eyebrow">Student login</span>
     <h1>Login to find your room</h1>
     <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>

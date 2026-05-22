@@ -1,7 +1,7 @@
 <% layout('/layouts/boilerplate') -%>
 
 <section class="browse-top">
-  <div class="container">
+  <div class="container max-w-7xl px-4 sm:px-6 lg:px-8">
     <span class="eyebrow">Browse before signup</span>
     <h1>Explore student rooms in Bhopal</h1>
     <p>Search first, compare visually, then sign up only when you want to save a room, request a visit, or get matched.</p>
@@ -18,8 +18,8 @@
   </div>
 </section>
 
-<section class="container section-block">
-  <div class="section-heading">
+<section class="container section-block max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <div>
       <span class="eyebrow"><%= rooms.length %> listings</span>
       <h2>Available PGs, rooms, and flats</h2>
@@ -30,7 +30,7 @@
     <div class="empty-state">No rooms matched your filters. Try a wider budget or another area.</div>
   <% } %>
 
-  <div class="room-grid marketplace-grid">
+  <div class="room-grid marketplace-grid grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
     <% rooms.forEach((room) => { %>
       <%- include("../partials_room_card", { room }) %>
     <% }) %>
