@@ -20,6 +20,23 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Zac@Admin2026";
 const SESSION_SECRET = process.env.SESSION_SECRET || "zac-living-dev-session-secret";
 const WHATSAPP_NUMBER = (process.env.WHATSAPP_NUMBER || "919301942717").replace(/\D/g, "");
 const isProduction = process.env.NODE_ENV === "production";
+const mongoOptions = {
+  serverSelectionTimeoutMS: Number(process.env.MONGO_SERVER_SELECTION_TIMEOUT_MS || 15000),
+};
+const sessionStore = new MongoStore({
+  mongoUrl: MONGO_URL,
+  collectionName: "sessions",
+  ttl: 60 * 60 * 24 * 7,
+  mongoOptions,
+});
+
+process.on("unhandledRejection", (error) => {
+  console.error("Unhandled promise rejection:", error);
+});
+
+sessionStore.on("error", (error) => {
+  console.error("Session store error:", error.message);
+});
 
 app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "views"));
@@ -35,11 +52,7 @@ app.use(
     secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({
-      mongoUrl: MONGO_URL,
-      collectionName: "sessions",
-      ttl: 60 * 60 * 24 * 7,
-    }),
+    store: sessionStore,
     cookie: {
       httpOnly: true,
       sameSite: "lax",
@@ -792,15 +805,21 @@ app.use((err, req, res, next) => {
   res.status(500).render("error", { err: { statusCode: 500, message: "Something went wrong" } });
 });
 
-async function startServer() {
-  await mongoose.connect(MONGO_URL);
+async function connectDatabase() {
+  await mongoose.connect(MONGO_URL, mongoOptions);
   await User.syncIndexes();
   await seedDatabase();
+  console.log("MongoDB connected and Zac.Living seed data is ready.");
+}
+
+function startServer() {
   app.listen(PORT, () => {
     console.log(`Zac.Living is running on http://localhost:${PORT}`);
   });
+
+  connectDatabase().catch((error) => {
+    console.error("Failed to connect Zac.Living database:", error);
+  });
 }
 
-startServer().catch((error) => {
-  console.error("Failed to start Zac.Living:", error);
-});
+startServer();
