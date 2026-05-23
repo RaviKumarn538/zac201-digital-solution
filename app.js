@@ -373,6 +373,18 @@ app.get(
 );
 
 app.get(
+  "/rooms/all",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const filter = req.currentUser.role === "admin" ? {} : { published: true };
+    const rawRooms = await Room.find(filter).sort({ createdAt: -1 });
+    let rooms = decorateRooms(rawRooms, req.currentUser, req.query);
+    if (req.query.video) rooms = rooms.filter((room) => room.videoUrl);
+    res.render("rooms/all", { rooms, query: req.query });
+  })
+);
+
+app.get(
   "/rooms/:id",
   asyncHandler(async (req, res, next) => {
     const filter = { _id: req.params.id };

@@ -1,15 +1,26 @@
-<form method="get" action="/rooms" class="search-panel marketplace-search grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[repeat(5,minmax(0,1fr))_auto]">
+<div class="mobile-filter-bar">
+  <button class="mobile-filter-button" type="button" data-filter-open aria-controls="mobileFilterSheet" aria-expanded="false">
+    <i class="fa-solid fa-sliders"></i>
+    <span>Filter</span>
+    <% const activeFilterCount = ["area", "budget", "category", "food", "roomType", "video"].filter((key) => query[key]).length; %>
+    <% if (activeFilterCount) { %>
+      <strong><%= activeFilterCount %></strong>
+    <% } %>
+  </button>
+</div>
+
+<form method="get" action="/rooms" class="search-panel marketplace-search desktop-filter-form w-full max-w-md mx-auto sm:max-w-none grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[repeat(5,minmax(0,1fr))_auto]">
   <div>
     <label for="area">Area</label>
-    <input id="area" name="area" value="<%= query.area || '' %>" placeholder="MP Nagar">
+    <input id="area" name="area" class="w-full h-12 px-4 rounded-xl text-sm" value="<%= query.area || '' %>" placeholder="MP Nagar">
   </div>
   <div>
     <label for="budget">Max rent</label>
-    <input id="budget" name="budget" type="number" value="<%= query.budget || '' %>" placeholder="9000">
+    <input id="budget" name="budget" class="w-full h-12 px-4 rounded-xl text-sm" type="number" value="<%= query.budget || '' %>" placeholder="9000">
   </div>
   <div>
     <label for="category">For</label>
-    <select id="category" name="category">
+    <select id="category" name="category" class="w-full h-12 px-4 rounded-xl text-sm">
       <option value="">Any</option>
       <option value="Boys" <%= query.category === "Boys" ? "selected" : "" %>>Boys</option>
       <option value="Girls" <%= query.category === "Girls" ? "selected" : "" %>>Girls</option>
@@ -17,7 +28,7 @@
   </div>
   <div>
     <label for="food">Food</label>
-    <select id="food" name="food">
+    <select id="food" name="food" class="w-full h-12 px-4 rounded-xl text-sm">
       <option value="">Any</option>
       <% foodOptions.forEach((option) => { %>
         <option value="<%= option %>" <%= query.food === option ? "selected" : "" %>><%= option %></option>
@@ -26,7 +37,7 @@
   </div>
   <div>
     <label for="roomType">Room type</label>
-    <select id="roomType" name="roomType">
+    <select id="roomType" name="roomType" class="w-full h-12 px-4 rounded-xl text-sm">
       <option value="">Any</option>
       <% roomTypes.forEach((type) => { %>
         <% if (type !== "Any") { %>
@@ -35,5 +46,56 @@
       <% }) %>
     </select>
   </div>
-  <button class="btn btn-primary w-full sm:col-span-2 lg:col-span-1 lg:w-auto" type="submit">Search rooms</button>
+  <button class="btn btn-primary w-full py-3 rounded-full sm:col-span-2 lg:col-span-1 lg:w-auto" type="submit">Search rooms</button>
 </form>
+
+<div class="filter-sheet" id="mobileFilterSheet" aria-hidden="true">
+  <div class="filter-sheet-backdrop" data-filter-close></div>
+  <section class="filter-sheet-panel" role="dialog" aria-modal="true" aria-labelledby="filterSheetTitle">
+    <div class="filter-sheet-handle" aria-hidden="true"></div>
+    <div class="filter-sheet-head">
+      <div>
+        <span class="eyebrow">Mobile filters</span>
+        <h2 id="filterSheetTitle">Find your room</h2>
+      </div>
+      <button class="filter-sheet-close" type="button" data-filter-close aria-label="Close filters">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <form method="get" action="/rooms" class="filter-sheet-form">
+      <label for="mobile-area">Area</label>
+      <input id="mobile-area" name="area" value="<%= query.area || '' %>" placeholder="MP Nagar">
+
+      <label for="mobile-budget">Max Rent</label>
+      <input id="mobile-budget" name="budget" type="number" value="<%= query.budget || '' %>" placeholder="9000">
+
+      <label for="mobile-category">For</label>
+      <select id="mobile-category" name="category">
+        <option value="">Any</option>
+        <option value="Boys" <%= query.category === "Boys" ? "selected" : "" %>>Boys</option>
+        <option value="Girls" <%= query.category === "Girls" ? "selected" : "" %>>Girls</option>
+      </select>
+
+      <label for="mobile-food">Food</label>
+      <select id="mobile-food" name="food">
+        <option value="">Any</option>
+        <% foodOptions.forEach((option) => { %>
+          <option value="<%= option %>" <%= query.food === option ? "selected" : "" %>><%= option %></option>
+        <% }) %>
+      </select>
+
+      <label for="mobile-roomType">Room Type</label>
+      <select id="mobile-roomType" name="roomType">
+        <option value="">Any</option>
+        <% roomTypes.forEach((type) => { %>
+          <% if (type !== "Any") { %>
+            <option value="<%= type %>" <%= query.roomType === type ? "selected" : "" %>><%= type %></option>
+          <% } %>
+        <% }) %>
+      </select>
+
+      <button class="filter-apply-button" type="submit">Apply Filters</button>
+    </form>
+  </section>
+</div>

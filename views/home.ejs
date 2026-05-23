@@ -33,21 +33,7 @@
     <% featuredRooms.forEach((room) => { %>
       <%- include("partials_room_card", { room }) %>
     <% }) %>
+    <%- include("partials_see_all_card") %>
   </div>
 </section>
 
-<section class="container section-block max-w-7xl px-4 sm:px-6 lg:px-8" id="how-it-works">
-  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-    <div>
-      <span class="eyebrow">How it works</span>
-      <h2>Search first, sign up only when needed</h2>
-    </div>
-  </div>
-  <div class="steps-grid grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-    <div><strong>1</strong><span>Search by area, budget, room type, food, or category</span></div>
-    <div><strong>2</strong><span>Browse photos, rent, facilities, rules, and video tours</span></div>
-    <div><strong>3</strong><span>Open room details and compare options freely</span></div>
-    <div><strong>4</strong><span>Sign up only when you save, request a visit, or need matching</span></div>
-    <div><strong>5</strong><span>Choose the best room with Zac.Living support</span></div>
-  </div>
-</section>

@@ -1,0 +1,14 @@
+<% if (currentUser) { %>
+  <%
+    const seeAllParams = typeof query !== "undefined" && query ? new URLSearchParams(query).toString() : "";
+    const seeAllHref = seeAllParams ? `/rooms/all?${seeAllParams}` : "/rooms/all";
+  %>
+  <a href="<%= seeAllHref %>" class="room-card see-all-card" aria-label="See all rooms line by line">
+    <span class="see-all-icon"><i class="fa-solid fa-list"></i></span>
+    <span class="see-all-copy">
+      <strong>See all rooms</strong>
+      <small>Open full list line by line</small>
+    </span>
+    <span class="see-all-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+  </a>
+<% } %>

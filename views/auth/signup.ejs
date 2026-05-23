@@ -9,10 +9,10 @@
     <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
 
     <label for="name">Full name</label>
-    <input id="name" name="name" value="<%= form.name || '' %>" required placeholder="Your name">
+    <input id="name" name="name" value="<%= form.name || '' %>" required placeholder="Example: Ravi Kumar">
 
     <label for="phone">Mobile/WhatsApp number</label>
-    <input id="phone" name="phone" inputmode="tel" value="<%= form.phone || '' %>" required placeholder="9301942717">
+    <input id="phone" name="phone" inputmode="tel" value="<%= form.phone || '' %>" required placeholder="Example: 9301942717">
 
     <label for="password">Create password</label>
     <input id="password" name="password" type="password" minlength="6" required placeholder="Minimum 6 characters">

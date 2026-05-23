@@ -1,0 +1,64 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="container page-head all-rooms-head max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div>
+    <span class="eyebrow">Full room list</span>
+    <h1>All rooms, line by line.</h1>
+    <p>Review every available room in a clean vertical list. Open details, save, or request a visit from one place.</p>
+  </div>
+  <a href="/rooms" class="btn btn-outline-primary">Back to filters</a>
+</section>
+
+<section class="container all-rooms-list-wrap max-w-7xl px-4 sm:px-6 lg:px-8">
+  <% if (!rooms.length) { %>
+    <div class="empty-state">No rooms are available right now.</div>
+  <% } %>
+
+  <div class="all-rooms-list">
+    <% rooms.forEach((room) => { %>
+      <article class="room-list-item">
+        <a href="/rooms/<%= room.id %>" class="room-list-photo">
+          <img src="<%= room.photo %>" alt="<%= room.title %>">
+          <span class="status-badge <%= room.availability.toLowerCase().replaceAll(' ', '-') %>"><%= room.availability %></span>
+        </a>
+
+        <div class="room-list-body">
+          <div class="room-list-top">
+            <div>
+              <span class="eyebrow"><%= room.category %> | <%= room.roomType %></span>
+              <h2><a href="/rooms/<%= room.id %>"><%= room.title %></a></h2>
+            </div>
+            <% if (currentUser && currentUser.role === "student") { %>
+              <span class="match-badge <%= room.match.label.toLowerCase().replace(' ', '-') %>"><%= room.match.label %></span>
+            <% } %>
+          </div>
+
+          <p class="listing-location"><i class="fa-solid fa-location-dot"></i> <%= room.area %>, near <%= room.landmark %></p>
+          <p class="listing-subtext">Food: <%= room.food %> | <%= room.foodDetails %></p>
+          <p class="listing-price"><strong>Rs. <%= room.rent.toLocaleString("en-IN") %></strong> / month | Deposit Rs. <%= room.deposit.toLocaleString("en-IN") %></p>
+
+          <div class="facility-list room-list-facilities">
+            <% room.facilities.slice(0, 4).forEach((facility) => { %>
+              <span><%= facility %></span>
+            <% }) %>
+          </div>
+
+          <div class="room-list-actions">
+            <a href="/rooms/<%= room.id %>" class="btn btn-primary btn-sm">View Details</a>
+            <% if (currentUser && currentUser.role === "student") { %>
+              <form method="post" action="/rooms/<%= room.id %>/favorite">
+                <button class="btn btn-outline-primary btn-sm" type="submit"><%= room.isFavorite ? "Saved" : "Save" %></button>
+              </form>
+              <form method="post" action="/rooms/<%= room.id %>/visit">
+                <button class="btn btn-outline-primary btn-sm" type="submit">Request Visit</button>
+              </form>
+            <% } %>
+            <% if (currentUser && currentUser.role === "admin") { %>
+              <a href="/admin/rooms/<%= room.id %>/edit" class="btn btn-outline-primary btn-sm">Edit Listing</a>
+            <% } %>
+          </div>
+        </div>
+      </article>
+    <% }) %>
+  </div>
+</section>

@@ -7,12 +7,13 @@
     <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
 
     <label for="phone">Mobile/WhatsApp number</label>
-    <input id="phone" name="phone" inputmode="tel" value="<%= form.phone || '' %>" required placeholder="9301942717">
+    <input id="phone" name="phone" inputmode="tel" value="<%= form.phone || '' %>" required placeholder="Example: 9876543210">
 
     <label for="password">Password</label>
-    <input id="password" name="password" type="password" required placeholder="Your password">
+    <input id="password" name="password" type="password" required placeholder="Enter your account password">
 
     <button class="btn btn-primary w-100" type="submit">Login</button>
+    <p class="form-note">Use the WhatsApp number and password you added during signup.</p>
     <p class="form-note">New here? <a href="/signup">Create an account</a></p>
   </form>
 </section>
