@@ -2710,3 +2710,69 @@ body::before {
     width: 100% !important;
   }
 }
+
+/* User-selected plain premium beige background. */
+:root {
+  --bg: #f1eee5;
+  --surface: #fffdf8;
+  --line: #ddd7cb;
+  --soft-primary: #f8f5ee;
+}
+
+html,
+body {
+  background: #f1eee5 !important;
+}
+
+body {
+  background: #f1eee5 !important;
+}
+
+body::before {
+  display: none;
+}
+
+.discovery-hero,
+.browse-top,
+.about-hero,
+.about-section {
+  background: #f1eee5 !important;
+}
+
+.app-navbar {
+  background: rgba(241, 238, 229, 0.94) !important;
+}
+
+.nav-shell,
+.room-card,
+.detail-card,
+.app-form,
+.saved-panel,
+.owner-row,
+.interest-card,
+.empty-state,
+.search-panel,
+.dash-panel,
+.why-card,
+.about-stat-card,
+.premium-footer,
+.filter-sheet-panel {
+  background: rgba(255, 253, 248, 0.94) !important;
+  border-color: rgba(112, 98, 78, 0.14) !important;
+}
+
+.category-chip,
+.nav-link,
+.btn-outline-primary {
+  background: rgba(255, 253, 248, 0.9) !important;
+}
+
+@media (max-width: 576px) {
+  .app-navbar {
+    background: rgba(241, 238, 229, 0.96) !important;
+  }
+
+  .nav-shell {
+    background: rgba(255, 253, 248, 0.86) !important;
+  }
+}
