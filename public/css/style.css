@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap");
+
 :root {
   --bg: #f6f8fb;
   --surface: #ffffff;
@@ -2777,20 +2779,20 @@ body::before {
   }
 }
 
-/* Prao-inspired premium minimalist visual refresh. Structure and behavior stay unchanged. */
+/* Prao audit visual system refresh. Structure, routes, forms, and backend behavior stay unchanged. */
 :root {
-  --bg: #f1eee5;
-  --surface: #fffdf8;
+  --bg: #f0eee4;
+  --surface: #ffffff;
   --surface-strong: #ffffff;
-  --text: #242424;
-  --muted: #68625a;
-  --line: #ded7c9;
+  --text: #000000;
+  --muted: #5f5f5f;
+  --line: #ebebeb;
   --primary: #222222;
   --primary-dark: #000000;
-  --soft-primary: #f7f3eb;
-  --accent: #7c3cff;
-  --shadow: 0 18px 42px rgba(42, 35, 25, 0.08);
-  --shadow-hover: 0 28px 70px rgba(42, 35, 25, 0.14);
+  --soft-primary: #f3f3f3;
+  --accent: #111111;
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 16px 42px rgba(0, 0, 0, 0.1);
 }
 
 html,
@@ -2801,7 +2803,10 @@ body {
 body {
   background: var(--bg) !important;
   color: var(--text);
-  font-family: "Plus Jakarta Sans", Arial, sans-serif !important;
+  font-family: "Jost", Arial, sans-serif !important;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
 }
 
 body::before {
@@ -2809,55 +2814,75 @@ body::before {
 }
 
 .app-navbar {
-  background: rgba(241, 238, 229, 0.94) !important;
-  border-bottom: 1px solid rgba(93, 80, 61, 0.1);
-  padding: 14px 0;
+  background: #ffffff !important;
+  border-bottom: 1px solid #ebebeb;
+  box-shadow: none;
+  padding: 0;
 }
 
 .nav-shell {
-  background: rgba(255, 253, 248, 0.96) !important;
-  border: 1px solid rgba(93, 80, 61, 0.12) !important;
-  border-radius: 22px;
-  box-shadow: 0 18px 50px rgba(42, 35, 25, 0.08);
-  padding: 14px 18px;
+  background: #ffffff !important;
+  border: 0 !important;
+  border-radius: 0;
+  box-shadow: none;
+  max-width: 1200px;
+  padding: 18px 22px 14px;
 }
 
 .brand,
 .app-navbar .brand {
-  color: #171717 !important;
-  font-size: 1.32rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  color: #000000 !important;
+  font-family: "Jost", Arial, sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3.5rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1;
 }
 
 .brand::after {
-  background: #f5a623;
-  box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.15);
+  background: #000000;
+  box-shadow: none;
+  height: 6px;
+  width: 6px;
+}
+
+.nav-content {
+  gap: 18px;
+}
+
+.main-nav-links {
+  gap: 10px;
 }
 
 .nav-link {
   background: transparent !important;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  color: #2f2d2a !important;
-  font-size: 0.98rem;
-  font-weight: 500;
-  padding: 9px 14px !important;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  border: 0;
+  border-radius: 0;
+  color: #222222 !important;
+  font-family: "Jost", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.45;
+  padding: 8px 10px !important;
+  transition: color 0.22s ease, opacity 0.22s ease, transform 0.22s ease;
 }
 
 .nav-link:hover {
-  background: #ffffff !important;
-  border-color: rgba(93, 80, 61, 0.12);
-  color: #111111 !important;
-  transform: translateY(-1px);
+  background: transparent !important;
+  color: #000000 !important;
+  opacity: 0.7;
+  transform: none;
 }
 
 .nav-actions .btn,
 .btn {
-  border-radius: 999px !important;
-  font-weight: 700 !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  border-radius: 5px !important;
+  font-family: "Jost", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 500 !important;
+  letter-spacing: 0;
+  padding: 10px 20px;
+  transition: transform 0.24s ease, box-shadow 0.24s ease, background 0.24s ease, border-color 0.24s ease, color 0.24s ease;
 }
 
 .btn:hover {
@@ -2865,22 +2890,22 @@ body::before {
 }
 
 .btn-primary {
-  background: #242424 !important;
-  border-color: #242424 !important;
+  background: #222222 !important;
+  border-color: #222222 !important;
   color: #ffffff !important;
-  box-shadow: 0 14px 30px rgba(36, 36, 36, 0.12) !important;
+  box-shadow: none !important;
 }
 
 .btn-primary:hover {
   background: #000000 !important;
   border-color: #000000 !important;
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.16) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12) !important;
 }
 
 .btn-outline-primary {
   background: #ffffff !important;
-  border-color: rgba(93, 80, 61, 0.18) !important;
-  color: #242424 !important;
+  border-color: #dedede !important;
+  color: #222222 !important;
 }
 
 .btn-outline-primary:hover {
@@ -2894,12 +2919,12 @@ body::before {
 .about-hero,
 .about-section {
   background: var(--bg) !important;
-  border-bottom: 1px solid rgba(93, 80, 61, 0.12);
+  border-bottom: 1px solid #ebebeb;
 }
 
 .discovery-hero,
 .browse-top {
-  padding: 42px 0 32px;
+  padding: 46px 0 34px;
 }
 
 .discovery-copy,
@@ -2915,19 +2940,19 @@ body::before {
 .page-head h1,
 .dashboard-head h1,
 .about-copy h1 {
-  color: #242424;
-  font-family: "Plus Jakarta Sans", Arial, sans-serif;
-  font-weight: 500;
-  letter-spacing: -0.018em;
+  color: #000000;
+  font-family: "Jost", Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
   text-transform: none;
 }
 
 .discovery-copy h1,
 .browse-top h1 {
-  font-size: clamp(2.35rem, 4.4vw, 4.05rem);
-  line-height: 1.14;
-  margin: 14px 0 16px;
-  max-width: 980px;
+  font-size: clamp(2rem, 3vw, 2.25rem);
+  line-height: 1.32;
+  margin: 18px 0 16px;
+  max-width: 920px;
 }
 
 .discovery-copy h1::after,
@@ -2944,31 +2969,33 @@ body::before {
 .about-stat-card p {
   color: var(--muted);
   font-size: 1rem;
-  line-height: 1.62;
+  font-weight: 400;
+  line-height: 1.55;
 }
 
 .eyebrow {
-  color: var(--accent);
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
+  color: #222222;
+  font-family: "Jost", Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .search-panel {
-  background: rgba(255, 253, 248, 0.98) !important;
-  border: 1px solid rgba(93, 80, 61, 0.12) !important;
-  border-radius: 20px;
-  box-shadow: 0 22px 56px rgba(42, 35, 25, 0.08);
-  padding: 18px;
+  background: #ffffff !important;
+  border: 1px solid #ebebeb !important;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 20px;
 }
 
 .search-panel label,
 .app-form label,
 .filter-sheet-form label {
-  color: #3a3834;
-  font-size: 0.82rem;
-  font-weight: 700;
+  color: #222222;
+  font-size: 0.88rem;
+  font-weight: 500;
 }
 
 .search-panel input,
@@ -2979,11 +3006,12 @@ body::before {
 .filter-sheet-form input,
 .filter-sheet-form select {
   background: #ffffff !important;
-  border: 1px solid rgba(93, 80, 61, 0.14) !important;
-  border-radius: 14px;
-  color: #2b2926;
-  font-size: 0.94rem;
-  min-height: 48px;
+  border: 1px solid #dedede !important;
+  border-radius: 5px;
+  color: #222222;
+  font-family: "Jost", Arial, sans-serif;
+  font-size: 1rem;
+  min-height: 46px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
@@ -2994,55 +3022,55 @@ body::before {
 .app-form textarea:focus,
 .filter-sheet-form input:focus,
 .filter-sheet-form select:focus {
-  border-color: rgba(124, 60, 255, 0.42) !important;
-  box-shadow: 0 0 0 5px rgba(124, 60, 255, 0.08) !important;
+  border-color: #222222 !important;
+  box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.08) !important;
   transform: translateY(-1px);
 }
 
 .category-chip {
   background: #ffffff !important;
-  border: 1px solid rgba(93, 80, 61, 0.13) !important;
+  border: 1px solid #ebebeb !important;
   border-radius: 999px;
-  box-shadow: 0 10px 24px rgba(42, 35, 25, 0.04);
-  color: #2f2d2a !important;
+  box-shadow: none;
+  color: #000000 !important;
   font-size: 0.93rem;
-  font-weight: 700;
-  padding: 11px 16px;
+  font-weight: 500;
+  padding: 10px 18px;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .category-chip:hover,
 .category-chip.active {
-  background: #fffdf8 !important;
-  border-color: rgba(124, 60, 255, 0.3) !important;
-  box-shadow: 0 16px 34px rgba(42, 35, 25, 0.08);
-  color: #171717 !important;
-  transform: translateY(-2px);
+  background: #f0eee4 !important;
+  border-color: #dedede !important;
+  box-shadow: none;
+  color: #000000 !important;
+  transform: none;
 }
 
 .room-card {
-  background: #fffdf8 !important;
-  border: 1px solid rgba(93, 80, 61, 0.12) !important;
-  border-radius: 24px !important;
-  box-shadow: 0 18px 44px rgba(42, 35, 25, 0.08);
+  background: #ffffff !important;
+  border: 1px solid #ebebeb !important;
+  border-radius: 0 !important;
+  box-shadow: none;
   overflow: hidden;
-  transition: transform 0.26s ease, box-shadow 0.26s ease, border-color 0.26s ease;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
 }
 
 .room-card:hover {
-  border-color: rgba(93, 80, 61, 0.18) !important;
-  box-shadow: 0 30px 74px rgba(42, 35, 25, 0.15);
-  transform: translateY(-5px);
+  border-color: #dedede !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
 }
 
 .room-photo-link {
-  background: #f6f1e8;
+  background: #f3f3f3;
   display: block;
   overflow: hidden;
 }
 
 .room-photo {
-  aspect-ratio: 1.32 / 1;
+  aspect-ratio: 0.86 / 1;
   object-fit: cover;
   transform: scale(1.001);
   transition: transform 0.36s ease, filter 0.36s ease;
@@ -3054,47 +3082,66 @@ body::before {
 }
 
 .room-card-body {
-  padding: 18px;
+  padding: 14px 12px 16px;
 }
 
 .room-card h3,
 .airbnb-card-head h3 {
-  color: #222222;
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  color: #000000;
+  font-size: 0.96rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.36;
 }
 
 .listing-location {
-  color: #2b2926;
-  font-size: 0.95rem;
-  font-weight: 700;
+  color: #222222;
+  font-size: 0.92rem;
+  font-weight: 400;
 }
 
 .listing-subtext {
-  color: #6d675f;
+  color: #5f5f5f;
   font-size: 0.88rem;
 }
 
 .listing-price {
-  color: #2b2926;
-  font-size: 0.94rem;
+  color: #000000;
+  font-size: 1rem;
 }
 
 .listing-price strong {
-  color: #151515;
-  font-weight: 800;
+  color: #000000;
+  font-weight: 700;
+}
+
+.room-card .btn-primary,
+.room-card .card-actions .btn-primary {
+  background: #f0eee4 !important;
+  border-color: #f0eee4 !important;
+  border-radius: 100px !important;
+  color: #000000 !important;
+  font-size: 1rem;
+  font-weight: 500 !important;
+  padding: 10px 20px;
+}
+
+.room-card .btn-primary:hover,
+.room-card .card-actions .btn-primary:hover {
+  background: #222222 !important;
+  border-color: #222222 !important;
+  color: #ffffff !important;
 }
 
 .match-badge,
 .status-badge,
 .video-badge,
 .facility-list span {
-  border: 1px solid rgba(93, 80, 61, 0.1);
+  border: 1px solid #ebebeb;
   border-radius: 999px;
-  box-shadow: 0 10px 24px rgba(42, 35, 25, 0.08);
-  font-size: 0.75rem;
-  font-weight: 800;
+  box-shadow: none;
+  font-size: 0.72rem;
+  font-weight: 500;
 }
 
 .status-badge,
@@ -3110,16 +3157,16 @@ body::before {
 
 .video-badge {
   background: #ffffff !important;
-  color: var(--accent) !important;
+  color: #000000 !important;
 }
 
 .facility-list span {
-  background: #f8f5ee !important;
-  color: #4f493f;
+  background: #f3f3f3 !important;
+  color: #222222;
 }
 
 .see-all-card {
-  background: linear-gradient(135deg, #26231f, #5b4a36) !important;
+  background: #111111 !important;
 }
 
 .filter-sheet-panel,
@@ -3133,23 +3180,26 @@ body::before {
 .why-card,
 .about-stat-card,
 .all-rooms-list .room-list-item {
-  background: #fffdf8 !important;
-  border: 1px solid rgba(93, 80, 61, 0.12) !important;
-  border-radius: 24px;
-  box-shadow: 0 18px 44px rgba(42, 35, 25, 0.08);
+  background: #ffffff !important;
+  border: 1px solid #ebebeb !important;
+  border-radius: 15px;
+  box-shadow: none;
 }
 
 .premium-footer {
-  background: #fffdf8 !important;
-  border-top: 1px solid rgba(93, 80, 61, 0.12);
-  box-shadow: 0 -18px 44px rgba(42, 35, 25, 0.06);
+  background: #ffffff !important;
+  border-top: 1px solid #ebebeb;
+  box-shadow: none;
 }
 
 .footer-logo,
 .footer-column h3,
 .footer-contact h3,
 .footer-tagline {
-  color: #242424 !important;
+  color: #000000 !important;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 .footer-column a,
@@ -3157,13 +3207,14 @@ body::before {
 .footer-contact span,
 .footer-brand p,
 .footer-bottom {
-  color: #6d675f;
+  color: #5f5f5f;
+  font-size: 1rem;
 }
 
 .social-links a {
-  background: #f8f5ee;
-  border-color: rgba(93, 80, 61, 0.12);
-  color: #242424;
+  background: #f0eee4;
+  border-color: #ebebeb;
+  color: #000000;
 }
 
 @media (max-width: 576px) {
@@ -3173,42 +3224,65 @@ body::before {
 
   .nav-shell {
     border-radius: 0;
-    box-shadow: 0 10px 28px rgba(42, 35, 25, 0.06);
+    box-shadow: none;
+    padding: 14px 14px 12px;
+  }
+
+  .brand,
+  .app-navbar .brand {
+    font-size: 2rem;
+  }
+
+  .main-nav-links {
+    gap: 18px;
   }
 
   .nav-link {
-    background: #ffffff !important;
-    font-size: 0.82rem;
-    padding: 8px 12px !important;
+    background: transparent !important;
+    font-size: 1rem;
+    padding: 8px 0 !important;
   }
 
   .discovery-hero,
   .browse-top {
-    padding: 24px 0 22px;
+    padding: 24px 0 20px;
+  }
+
+  .discovery-copy,
+  .browse-top {
+    max-width: 100% !important;
+    min-width: 0;
+    overflow: visible;
+    width: 100%;
   }
 
   .discovery-copy h1,
   .browse-top h1 {
-    font-size: 1.42rem;
-    line-height: 1.2;
+    font-size: 1.62rem;
+    line-height: 1.28;
     max-width: 20.5rem !important;
   }
 
   .discovery-copy p,
   .browse-top p {
     font-size: 0.95rem;
+    max-width: min(100%, 19.25rem) !important;
+    overflow-wrap: break-word;
+    white-space: normal !important;
+    word-break: normal;
+    width: 100%;
   }
 
   .search-panel,
   .mobile-filter-button {
-    border-radius: 22px;
+    border-radius: 5px;
   }
 
   .room-card {
-    border-radius: 22px !important;
+    border-radius: 0 !important;
   }
 
   .room-photo {
-    aspect-ratio: 1.42 / 1;
+    aspect-ratio: 0.92 / 1;
   }
 }
