@@ -46,28 +46,6 @@ video {
 
 main { min-height: 72vh; }
 
-.premium-quality-strip {
-  align-items: center;
-  background: #efede4;
-  border-bottom: 1px solid #d9d4c8;
-  color: #111111;
-  display: flex;
-  font-size: 1.05rem;
-  font-weight: 500;
-  gap: 6px;
-  justify-content: center;
-  letter-spacing: 0.01em;
-  min-height: 42px;
-  padding: 8px 16px;
-  text-align: center;
-}
-
-.premium-sparkle {
-  color: #f59e0b;
-  font-size: 1.05em;
-  line-height: 1;
-}
-
 .app-navbar {
   padding: 12px 0;
   background: rgba(255, 255, 255, 0.82);
@@ -2552,12 +2530,6 @@ body::before {
 }
 
 @media (max-width: 576px) {
-  .premium-quality-strip {
-    font-size: 0.92rem;
-    min-height: 36px;
-    padding: 7px 12px;
-  }
-
   .app-navbar {
     background: rgba(255, 255, 255, 0.88);
     border-bottom: 1px solid rgba(124, 60, 255, 0.1);
@@ -2639,14 +2611,6 @@ body::before {
   background: none;
 }
 
-.premium-quality-strip {
-  background: #efede4;
-  border-bottom: 1px solid #d8d2c5;
-  color: #111111;
-  font-size: 1.04rem;
-  font-weight: 500;
-}
-
 .app-navbar {
   background: rgba(243, 240, 232, 0.88);
 }
@@ -2720,11 +2684,6 @@ body::before {
 }
 
 @media (max-width: 576px) {
-  .premium-quality-strip {
-    font-size: 0.9rem;
-    min-height: 34px;
-  }
-
   .app-navbar {
     background: rgba(243, 240, 232, 0.92);
     border-bottom-color: rgba(112, 98, 78, 0.14);
