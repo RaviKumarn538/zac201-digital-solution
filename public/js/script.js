@@ -94,7 +94,7 @@
     const setupHomeHeroRotator = () => {
         const hero = document.querySelector('[data-hero-rotator]')
         const dataNode = document.querySelector('#homeHeroSlides')
-        if (!hero || !dataNode || prefersReducedMotion) return
+        if (!hero || !dataNode) return
 
         let slides = []
         try {
@@ -104,7 +104,7 @@
         }
 
         const frames = Array.from(hero.querySelectorAll('.home-hero-frame'))
-        if (slides.length <= frames.length || !frames.length) return
+        if (slides.length <= 1 || !frames.length) return
 
         let index = 0
         const rotateHero = () => {
@@ -114,13 +114,9 @@
                 const image = frame.querySelector('img')
                 if (!slide || !image || image.src === slide.photo) return
 
-                frame.classList.add('is-changing')
-                window.setTimeout(() => {
-                    image.src = slide.photo
-                    image.alt = slide.title || 'Featured room'
-                    if (frame.tagName === 'A') frame.href = slide.href || '/rooms'
-                    frame.classList.remove('is-changing')
-                }, 180)
+                image.src = slide.photo
+                image.alt = slide.title || 'Featured room'
+                if (frame.tagName === 'A') frame.href = slide.href || '/rooms'
             })
         }
 

@@ -3590,11 +3590,6 @@ body::before {
   width: 100%;
 }
 
-.home-hero-frame.is-changing img {
-  opacity: 0;
-  transition: opacity 0.18s ease;
-}
-
 .home-hero-frame:hover img {
   filter: saturate(1.04) contrast(1.02);
   transform: scale(1.035);
