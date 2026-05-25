@@ -1,0 +1,154 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="container page-head narrow max-w-4xl px-4 sm:px-6 lg:px-8">
+  <span class="eyebrow">Property partners</span>
+  <h1>List your PG, room, or flat on Zac.Living</h1>
+  <p>Share the key details and our team will help prepare a clear student-friendly listing.</p>
+</section>
+
+<section class="container narrow max-w-4xl px-4 sm:px-6 lg:px-8">
+  <form method="post" action="/list-your-property" class="owner-submit-card" enctype="multipart/form-data" data-owner-form novalidate>
+    <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+    <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+
+    <div class="owner-submit-note">
+      <strong>Curated student housing</strong>
+      <span>Real details, clear photos, and better discovery for Bhopal students.</span>
+    </div>
+
+    <div class="owner-section">
+      <div class="owner-section-head">
+        <span>1</span>
+        <h2>Owner</h2>
+      </div>
+      <div class="owner-field-grid">
+        <div>
+          <label for="ownerName">Owner name</label>
+          <input id="ownerName" name="room[ownerName]" value="<%= form.ownerName || '' %>" required placeholder="Owner name">
+        </div>
+        <div>
+          <label for="ownerContact">Mobile number</label>
+          <input id="ownerContact" name="room[ownerContact]" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" value="<%= form.ownerContact || '' %>" required placeholder="10 digit number">
+        </div>
+      </div>
+      <label for="ownerAddress">Full address <span>optional</span></label>
+      <textarea id="ownerAddress" name="room[ownerAddress]" rows="2" placeholder="Full property address"><%= form.ownerAddress || '' %></textarea>
+    </div>
+
+    <div class="owner-section">
+      <div class="owner-section-head">
+        <span>2</span>
+        <h2>Property</h2>
+      </div>
+      <div class="owner-field-grid">
+        <div>
+          <label for="area">Area</label>
+          <input id="area" name="room[area]" value="<%= form.area || '' %>" required placeholder="MP Nagar">
+        </div>
+        <div>
+          <label for="landmark">Landmark</label>
+          <input id="landmark" name="room[landmark]" value="<%= form.landmark || '' %>" required placeholder="Near DB Mall">
+        </div>
+        <div>
+          <label for="rent">Rent</label>
+          <input id="rent" name="room[rent]" type="number" value="<%= form.rent || '' %>" required placeholder="7500">
+        </div>
+        <div>
+          <label for="deposit">Deposit <span>optional</span></label>
+          <input id="deposit" name="room[deposit]" type="number" value="<%= form.deposit || '' %>" placeholder="5000">
+        </div>
+      </div>
+      <div class="owner-field-grid compact">
+        <div>
+          <label for="category">Category</label>
+          <select id="category" name="room[category]" required>
+            <option value="Boys" <%= form.category === "Boys" ? "selected" : "" %>>Boys</option>
+            <option value="Girls" <%= form.category === "Girls" ? "selected" : "" %>>Girls</option>
+          </select>
+        </div>
+        <div>
+          <label for="roomType">Room type</label>
+          <select id="roomType" name="room[roomType]" required>
+            <% roomTypes.forEach((type) => { %>
+              <option value="<%= type %>" <%= form.roomType === type ? "selected" : "" %>><%= type %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div>
+          <label for="food">Food</label>
+          <select id="food" name="room[food]" required>
+            <% foodOptions.forEach((option) => { %>
+              <option value="<%= option %>" <%= form.food === option ? "selected" : "" %>><%= option %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div>
+          <label for="availability">Availability</label>
+          <select id="availability" name="room[availability]">
+            <% availabilityOptions.forEach((option) => { %>
+              <option value="<%= option %>" <%= form.availability === option ? "selected" : "" %>><%= option %></option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="owner-section">
+      <div class="owner-section-head">
+        <span>3</span>
+        <h2>Photos</h2>
+      </div>
+      <label for="propertyPhotos">Upload photos <span>optional</span></label>
+      <input id="propertyPhotos" name="propertyPhotos" type="file" accept="image/*" multiple>
+      <label for="photos">Photo links <span>optional</span></label>
+      <textarea id="photos" name="room[photos]" rows="2" placeholder="Paste image links"><%= form.photos || '' %></textarea>
+    </div>
+
+    <div class="owner-section">
+      <div class="owner-section-head">
+        <span>AI</span>
+        <h2>Listing helper</h2>
+      </div>
+      <div class="ai-helper-panel">
+        <div>
+          <strong>Improve listing details</strong>
+          <span>Area, rent, landmark, room type aur food ke basis par title aur description ready karega.</span>
+        </div>
+        <button class="btn btn-outline-primary btn-sm" type="button" data-ai-listing-helper>
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Improve details
+        </button>
+      </div>
+      <p class="ai-helper-status" data-ai-listing-status aria-live="polite"></p>
+    </div>
+
+    <details class="owner-section owner-optional-section">
+      <summary>Facilities and nearby details</summary>
+      <div class="owner-chip-grid">
+        <% ["Wi-Fi", "Food", "Laundry", "Security", "CCTV", "Power Backup", "Water Purifier", "Study Table", "Parking", "Kitchen"].forEach((facility) => { %>
+          <label><input type="checkbox" name="room[facilitiesPreset]" value="<%= facility %>"> <%= facility %></label>
+        <% }) %>
+      </div>
+      <textarea name="room[facilities]" rows="2" placeholder="Other facilities"><%= form.facilities || '' %></textarea>
+      <div class="owner-chip-grid">
+        <% ["Market nearby", "Bus stop nearby", "Grocery nearby", "Medical nearby", "Coaching nearby", "College nearby", "Tiffin nearby", "Food stalls nearby"].forEach((place) => { %>
+          <label><input type="checkbox" name="room[nearbyPreset]" value="<%= place %>"> <%= place %></label>
+        <% }) %>
+      </div>
+      <textarea name="room[nearbyPlaces]" rows="2" placeholder="Nearby distance notes"><%= form.nearbyPlaces || '' %></textarea>
+    </details>
+
+    <details class="owner-section owner-optional-section">
+      <summary>More listing details</summary>
+      <label for="title">Listing title <span>optional</span></label>
+      <input id="title" name="room[title]" value="<%= form.title || '' %>" placeholder="Auto generated if blank">
+      <textarea name="room[foodDetails]" rows="2" placeholder="Food details"><%= form.foodDetails || '' %></textarea>
+      <textarea name="room[rules]" rows="2" placeholder="Rules"><%= form.rules || '' %></textarea>
+      <textarea name="room[utilities]" rows="2" placeholder="Utilities"><%= form.utilities || '' %></textarea>
+      <textarea name="room[safetyNotes]" rows="2" placeholder="Safety notes"><%= form.safetyNotes || '' %></textarea>
+      <textarea name="room[distanceNotes]" rows="2" placeholder="Distance notes"><%= form.distanceNotes || '' %></textarea>
+      <textarea name="room[description]" rows="3" placeholder="Short description"><%= form.description || '' %></textarea>
+    </details>
+
+    <button class="btn btn-primary owner-submit-btn" type="submit">Submit property</button>
+  </form>
+</section>

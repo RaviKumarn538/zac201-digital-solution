@@ -111,6 +111,15 @@
     <label for="description">Short description</label>
     <textarea id="description" name="room[description]" rows="4"><%= room.description || '' %></textarea>
 
+    <label for="auditStatus">Zac audit status</label>
+    <select id="auditStatus" name="room[auditStatus]">
+      <% auditStatuses.forEach((status) => { %>
+        <option value="<%= status %>" <%= (room.auditStatus || "Admin Added") === status ? "selected" : "" %>><%= status %></option>
+      <% }) %>
+    </select>
+
+    <input type="hidden" name="room[submissionSource]" value="<%= room.submissionSource || 'Admin' %>">
+
     <label class="switch-row">
       <input type="checkbox" name="room[published]" <%= room.published !== false ? "checked" : "" %>>
       Publish listing

@@ -18,6 +18,22 @@ GOOGLE_SHEET_ID=<spreadsheet-id>
 GOOGLE_SHEET_TAB=Listings
 GOOGLE_SERVICE_ACCOUNT_EMAIL=<service-account-email>
 GOOGLE_PRIVATE_KEY=<service-account-private-key>
+
+# Optional Cloudinary image uploads for List your property
+CLOUDINARY_CLOUD_NAME=<cloud-name>
+CLOUDINARY_API_KEY=<api-key>
+CLOUDINARY_API_SECRET=<api-secret>
+CLOUDINARY_FOLDER=zac-living/listings
+
+# Optional AI helper, global bot, and smart room search
+AI_PROVIDER=gemini
+GEMINI_API_KEY=<google-ai-studio-api-key>
+GEMINI_MODEL=gemini-2.0-flash
+
+# OpenAI-compatible fallback options
+AI_API_KEY=<openai-compatible-api-key>
+AI_BASE_URL=https://api.openai.com/v1
+AI_MODEL=gpt-4o-mini
 ```
 
 Do not commit `.env` to GitHub.
@@ -72,3 +88,7 @@ Recommended Sheet header row:
 ```txt
 Created At | Listing ID | Title | Owner Name | Owner Contact | Owner Address | Area | Landmark | Rent | Deposit | Room Type | Category | Food | Availability | Published | Video URL | Description
 ```
+
+## AI Helper
+
+The app can run without an AI key. When `AI_PROVIDER=gemini` and `GEMINI_API_KEY` are set, owner listing drafts, the global helper bot, and smart room search use Google Gemini. Without a key, the app uses a deterministic fallback so forms and search still work.

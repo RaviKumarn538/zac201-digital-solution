@@ -6,6 +6,17 @@
     <h1>Explore student rooms in Bhopal</h1>
     <p>Search first, compare visually, then sign up only when you want to save a room, request a visit, or get matched.</p>
     <%- include("search_form", { query }) %>
+    <section class="ai-room-search" aria-label="AI room search">
+      <div>
+        <span class="eyebrow">Smart search</span>
+        <h2>Tell Zac what you need</h2>
+      </div>
+      <form data-ai-room-search class="ai-room-search-form">
+        <input name="query" placeholder="Example: Girls PG near AIIMS under 8000 with food" autocomplete="off">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-wand-magic-sparkles"></i> Find</button>
+      </form>
+      <div class="ai-room-results" data-ai-room-results aria-live="polite"></div>
+    </section>
     <div class="category-scroll" aria-label="Quick filters">
       <a href="/rooms" class="category-chip <%= !Object.keys(query || {}).length ? 'active' : '' %>">All</a>
       <a href="/rooms?area=MP+Nagar" class="category-chip">MP Nagar</a>

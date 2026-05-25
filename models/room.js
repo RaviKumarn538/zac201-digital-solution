@@ -23,6 +23,16 @@ const roomSchema = new mongoose.Schema(
     ownerName: { type: String, default: "" },
     ownerContact: { type: String, required: true },
     ownerAddress: { type: String, default: "" },
+    auditStatus: {
+      type: String,
+      enum: ["Admin Added", "Pending Zac Audit", "Zac Verified", "Needs Owner Follow-up", "Rejected"],
+      default: "Admin Added",
+    },
+    submissionSource: {
+      type: String,
+      enum: ["Admin", "Partner Submission"],
+      default: "Admin",
+    },
     published: { type: Boolean, default: true },
     videoUrl: String,
     photos: [String],

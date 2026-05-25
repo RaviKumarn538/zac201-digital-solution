@@ -13,9 +13,10 @@
 
 <section class="home-announcement-strip" aria-label="Zac Living highlights">
   <div class="home-announcement-track">
-    <span>Verified student rooms</span>
+    <span>Curated student rooms</span>
+    <span>Curated student housing marketplace</span>
     <span>Real photos and video tours</span>
-    <span>Visit request support</span>
+    <span>Clear room details</span>
     <span>Bhopal housing made simple</span>
   </div>
 </section>
@@ -39,8 +40,19 @@
 <section class="home-marketing-intro">
   <div class="container max-w-7xl px-4 sm:px-6 lg:px-8">
     <span class="eyebrow">Zac.Living rooms</span>
-    <h1>Zac.Living Early Access — Free Bhopal student room matching MVP.</h1>
+    <h1>Find student rooms, PGs, and flats in Bhopal with Zac.Living.</h1>
     <p>Compare photos, rent, food, room type, area, availability, and video tours in a clean student-first experience.</p>
+    <section class="ai-room-search home-ai-search" aria-label="AI room search">
+      <div>
+        <span class="eyebrow">AI room search</span>
+        <h2>Tell Zac what you need</h2>
+      </div>
+      <form data-ai-room-search class="ai-room-search-form">
+        <input name="query" placeholder="Example: Girls PG near AIIMS under 8000 with food" autocomplete="off">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-wand-magic-sparkles"></i> Find</button>
+      </form>
+      <div class="ai-room-results" data-ai-room-results aria-live="polite"></div>
+    </section>
   </div>
 </section>
 
@@ -74,7 +86,7 @@
   </div>
 
   <% if (!featuredRooms.length) { %>
-    <div class="empty-state">Rooms will appear here after listings are published.</div>
+    <div class="empty-state">Rooms will appear here soon.</div>
   <% } %>
 
   <div class="home-room-showcase" data-room-carousel aria-label="Rotating room showcase">
@@ -88,21 +100,21 @@
 <section class="home-trust-row" aria-label="Zac Living service points">
   <div class="container max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="home-trust-grid">
-      <div>
-        <i class="fa-solid fa-camera"></i>
-        <h3>Real photos</h3>
-        <p>See the room before you shortlist.</p>
-      </div>
-      <div>
-        <i class="fa-solid fa-circle-play"></i>
-        <h3>Video tours</h3>
-        <p>Understand layout and space faster.</p>
-      </div>
-      <div>
-        <i class="fa-solid fa-shield-heart"></i>
-        <h3>Student focused</h3>
-        <p>Area, food, rent, and availability in one place.</p>
-      </div>
+    <div>
+      <i class="fa-solid fa-camera"></i>
+      <h3>Curated rooms</h3>
+      <p>Selected rooms, PGs, and flats presented with cleaner student-focused details.</p>
+    </div>
+    <div>
+      <i class="fa-solid fa-clipboard-check"></i>
+      <h3>Clear room details</h3>
+      <p>Photos, rent, facilities, rules, and nearby places are organized for easy comparison.</p>
+    </div>
+    <div>
+      <i class="fa-solid fa-shield-heart"></i>
+      <h3>Student-ready discovery</h3>
+      <p>Students see cleaner, safer, and more useful housing information before they visit.</p>
+    </div>
     </div>
   </div>
 </section>

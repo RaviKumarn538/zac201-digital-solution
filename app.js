@@ -2,12 +2,14 @@ require("dotenv").config({ quiet: true });
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const multer = require("multer");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const bcrypt = require("bcryptjs");
 const compression = require("compression");
 const session = require("express-session");
 const { MongoStore } = require("connect-mongo");
+const { v2: cloudinary } = require("cloudinary");
 const User = require("./models/user");
 const Room = require("./models/room");
 const VisitRequest = require("./models/visitRequest");
@@ -21,6 +23,25 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Zac@Admin2026";
 const SESSION_SECRET = process.env.SESSION_SECRET || "zac-living-dev-session-secret";
 const WHATSAPP_NUMBER = (process.env.WHATSAPP_NUMBER || "919301942717").replace(/\D/g, "");
 const isProduction = process.env.NODE_ENV === "production";
+const AI_PROVIDER = (process.env.AI_PROVIDER || (process.env.GEMINI_API_KEY ? "gemini" : "openai")).toLowerCase();
+const AI_API_KEY = process.env.AI_API_KEY || process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY || "";
+const AI_BASE_URL = (process.env.AI_BASE_URL || "https://api.openai.com/v1").replace(/\/$/, "");
+const AI_MODEL = process.env.AI_MODEL || "gpt-4o-mini";
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || (AI_PROVIDER === "gemini" ? AI_API_KEY : "");
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024, files: 8 },
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith("image/")) return cb(new Error("Only image files are allowed."));
+    cb(null, true);
+  },
+});
 const mongoOptions = {
   serverSelectionTimeoutMS: Number(process.env.MONGO_SERVER_SELECTION_TIMEOUT_MS || 15000),
 };
@@ -45,6 +66,7 @@ app.set("view engine", "ejs");
 app.set("trust proxy", 1);
 app.use(compression());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "1mb" }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -68,6 +90,7 @@ const genderOptions = ["Boys", "Girls", "Other"];
 const foodOptions = ["Yes", "No"];
 const availabilityOptions = ["Available", "Few beds left", "Full"];
 const inquiryStatuses = ["Pending", "Contacted", "Visit Scheduled", "Closed"];
+const auditStatuses = ["Admin Added", "Pending Zac Audit", "Zac Verified", "Needs Owner Follow-up", "Rejected"];
 const preferenceSteps = [
   {
     field: "occupation",
@@ -254,11 +277,216 @@ function normalizeList(value) {
   return list.flatMap((item) => String(item).split("\n")).map((item) => item.trim()).filter(Boolean);
 }
 
+function mergeListInputs(...values) {
+  return [...new Set(values.flatMap(normalizeList))];
+}
+
 function normalizeUrls(value) {
   if (!value) return [];
   const source = Array.isArray(value) ? value.join("\n") : String(value);
   const matches = source.match(/https?:\/\/[^\s,]+/g) || [];
   return [...new Set(matches.map((url) => url.trim()).filter(Boolean))];
+}
+
+function isCloudinaryConfigured() {
+  return Boolean(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+}
+
+async function uploadImageToCloudinary(file) {
+  if (!isCloudinaryConfigured()) {
+    throw new Error("Cloudinary is not configured.");
+  }
+
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream({
+      folder: process.env.CLOUDINARY_FOLDER || "zac-living/listings",
+      resource_type: "image",
+    }, (error, result) => {
+      if (error) return reject(error);
+      resolve(result.secure_url);
+    });
+    stream.end(file.buffer);
+  });
+}
+
+async function uploadListingPhotos(files = []) {
+  if (!files.length) return [];
+  return Promise.all(files.map(uploadImageToCloudinary));
+}
+
+function isAiConfigured() {
+  return AI_PROVIDER === "gemini" ? Boolean(GEMINI_API_KEY) : Boolean(AI_API_KEY);
+}
+
+function extractJsonObject(text) {
+  const source = String(text || "").trim();
+  if (!source) return null;
+  try {
+    return JSON.parse(source);
+  } catch (error) {
+    const match = source.match(/\{[\s\S]*\}/);
+    if (!match) return null;
+    try {
+      return JSON.parse(match[0]);
+    } catch (innerError) {
+      return null;
+    }
+  }
+}
+
+async function requestAiJson(messages) {
+  if (!isAiConfigured()) return null;
+  if (AI_PROVIDER === "gemini") return requestGeminiJson(messages);
+
+  const response = await fetch(`${AI_BASE_URL}/chat/completions`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${AI_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: AI_MODEL,
+      messages,
+      temperature: 0.2,
+      response_format: { type: "json_object" },
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`AI request failed: ${response.status} ${errorText.slice(0, 160)}`);
+  }
+
+  const payload = await response.json();
+  return extractJsonObject(payload.choices?.[0]?.message?.content);
+}
+
+async function requestGeminiJson(messages) {
+  const prompt = messages
+    .map((message) => `${message.role.toUpperCase()}:\n${message.content}`)
+    .join("\n\n");
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(GEMINI_MODEL)}:generateContent`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": GEMINI_API_KEY,
+    },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.2,
+        responseMimeType: "application/json",
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Gemini request failed: ${response.status} ${errorText.slice(0, 160)}`);
+  }
+
+  const payload = await response.json();
+  const text = payload.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("\n");
+  return extractJsonObject(text);
+}
+
+function buildSiteHelperFallback(message, rooms = []) {
+  const intent = parseRoomIntent(message);
+  const recommendations = rooms
+    .map((room) => {
+      const ranking = scoreRoomForIntent(room, intent, message);
+      return { room, score: ranking.score, reasons: ranking.reasons };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3);
+
+  const answer = recommendations.length
+    ? `Aapke liye ${recommendations.length} matching room options mil sakte hain. Budget, area, food aur room type ke basis par in rooms ko compare karein.`
+    : "Abhi exact match nahi mila. Area, budget, boys/girls, food aur room type thoda clearly likhen.";
+
+  return {
+    answer,
+    suggestions: ["Budget add karein", "Area ya landmark likhein", "Food required hai ya nahi batayein"],
+    roomIds: recommendations.map(({ room }) => String(room._id)),
+  };
+}
+
+function buildListingDraft(form = {}) {
+  const category = form.category || "Student";
+  const roomType = form.roomType || "room";
+  const foodLabel = form.food === "Yes" ? "with food" : "without food";
+  const area = form.area || "Bhopal";
+  const landmark = form.landmark || "a key landmark";
+  const rent = form.rent ? `Rs. ${Number(form.rent).toLocaleString("en-IN")}` : "budget-friendly rent";
+  return {
+    title: `${category} ${roomType} ${foodLabel} near ${landmark}, ${area}`,
+    description: `${category} ${roomType} stay in ${area}, near ${landmark}. Rent is ${rent} per month. Suitable for students looking for clear room details and local access.`,
+    facilities: normalizeList(form.facilities).join("\n"),
+    nearbyPlaces: normalizeList(form.nearbyPlaces).join("\n"),
+    foodDetails: form.food === "Yes" ? "Food available for students." : "Food is not included.",
+    rules: normalizeList(form.rules).join("\n"),
+    safetyNotes: form.safetyNotes || "Basic owner details are available with Zac.Living.",
+    distanceNotes: form.distanceNotes || `${landmark} is the main nearby reference point.`,
+  };
+}
+
+function parseRoomIntent(query = "") {
+  const text = String(query || "").toLowerCase();
+  const numbers = text.match(/\d+/g) || [];
+  const budget = numbers.length ? Number(numbers[numbers.length - 1]) : 0;
+  return {
+    area: "",
+    budget,
+    category: text.includes("girls") || text.includes("girl") ? "Girls" : text.includes("boys") || text.includes("boy") ? "Boys" : "",
+    food: text.includes("food") || text.includes("meal") || text.includes("tiffin") ? "Yes" : "",
+    roomType: text.includes("single") ? "Single" : text.includes("double") ? "Double" : text.includes("triple") ? "Triple" : "",
+    priorities: text.split(/\W+/).filter((word) => word.length > 3).slice(0, 10),
+  };
+}
+
+function scoreRoomForIntent(room, intent = {}, query = "") {
+  const text = String(query || "").toLowerCase();
+  const haystack = [
+    room.title,
+    room.area,
+    room.landmark,
+    room.roomType,
+    room.category,
+    room.food,
+    room.description,
+    ...(room.facilities || []),
+    ...(room.nearbyPlaces || []),
+    ...(room.rules || []),
+  ].join(" ").toLowerCase();
+  let score = 0;
+  const reasons = [];
+
+  if (intent.budget && room.rent <= intent.budget) {
+    score += 30;
+    reasons.push("budget match");
+  }
+  if (intent.category && room.category === intent.category) {
+    score += 18;
+    reasons.push(`${intent.category.toLowerCase()} option`);
+  }
+  if (intent.food && room.food === intent.food) {
+    score += 15;
+    reasons.push("food available");
+  }
+  if (intent.roomType && room.roomType === intent.roomType) {
+    score += 15;
+    reasons.push(`${intent.roomType.toLowerCase()} room`);
+  }
+  for (const word of intent.priorities || []) {
+    if (haystack.includes(word)) score += 4;
+  }
+  if (text && haystack.includes(text)) score += 12;
+  if (!score) score = Math.max(1, 10 - Math.floor(room.rent / 3000));
+
+  return {
+    score,
+    reasons: reasons.length ? reasons : ["closest available match"],
+  };
 }
 
 function budgetMax(range) {
@@ -383,6 +611,7 @@ app.use(
     res.locals.foodOptions = foodOptions;
     res.locals.availabilityOptions = availabilityOptions;
     res.locals.inquiryStatuses = inquiryStatuses;
+    res.locals.auditStatuses = auditStatuses;
     next();
   })
 );
@@ -413,6 +642,194 @@ app.get("/health", (req, res) => {
 app.get("/about", (req, res) => {
   res.render("about");
 });
+
+app.post(
+  "/api/ai/listing-helper",
+  asyncHandler(async (req, res) => {
+    const form = req.body || {};
+    const fallback = buildListingDraft(form);
+
+    if (!isAiConfigured()) {
+      return res.json({ ok: true, mode: "fallback", draft: fallback });
+    }
+
+    try {
+      const draft = await requestAiJson([
+        {
+          role: "system",
+          content: "You improve Indian student housing listings for Zac.Living. Return valid JSON only with string keys: title, description, facilities, nearbyPlaces, foodDetails, rules, safetyNotes, distanceNotes. Keep every value as a plain string. Keep Hinglish owner data professional, concise, factual, and do not invent exact distances.",
+        },
+        {
+          role: "user",
+          content: JSON.stringify({
+            form,
+            fallback,
+            instruction: "Create a clear student-friendly listing draft. Use newline-separated strings for facilities, nearbyPlaces, and rules.",
+          }),
+        },
+      ]);
+      return res.json({ ok: true, mode: "ai", draft: { ...fallback, ...(draft || {}) } });
+    } catch (error) {
+      console.error("AI listing helper failed:", error.message);
+      return res.json({ ok: true, mode: "fallback", draft: fallback });
+    }
+  })
+);
+
+app.post(
+  "/api/ai/room-search",
+  asyncHandler(async (req, res) => {
+    const query = String(req.body.query || "").trim().slice(0, 240);
+    if (!query) return res.status(400).json({ ok: false, error: "Search query is required." });
+
+    const rooms = await Room.find({ published: true }).sort({ createdAt: -1 }).limit(60);
+    let intent = parseRoomIntent(query);
+    let aiUsed = false;
+
+    if (isAiConfigured()) {
+      try {
+        const aiIntent = await requestAiJson([
+          {
+            role: "system",
+            content: "Extract student room search intent for Bhopal housing. Return only JSON: area string, budget number, category Boys/Girls/empty, food Yes/No/empty, roomType Single/Double/Triple/empty, priorities array of short keywords.",
+          },
+          { role: "user", content: query },
+        ]);
+        intent = { ...intent, ...(aiIntent || {}) };
+        aiUsed = Boolean(aiIntent);
+      } catch (error) {
+        console.error("AI room intent failed:", error.message);
+      }
+    }
+
+    const recommendations = decorateRooms(rooms, req.currentUser)
+      .map((room) => {
+        const ranking = scoreRoomForIntent(room, intent, query);
+        return { ...room, aiScore: ranking.score, aiReasons: ranking.reasons };
+      })
+      .sort((a, b) => b.aiScore - a.aiScore)
+      .slice(0, 6)
+      .map((room) => ({
+        id: room.id,
+        title: room.title,
+        area: room.area,
+        landmark: room.landmark,
+        rent: room.rent,
+        photo: room.photo,
+        href: `/rooms/${room.id}`,
+        reasons: room.aiReasons,
+      }));
+
+    res.json({
+      ok: true,
+      mode: aiUsed ? "ai-assisted" : "fallback",
+      intent,
+      recommendations,
+    });
+  })
+);
+
+app.post(
+  "/api/ai/site-helper",
+  asyncHandler(async (req, res) => {
+    const message = String(req.body.message || "").trim().slice(0, 500);
+    if (!message) return res.status(400).json({ ok: false, error: "Message is required." });
+
+    const rooms = await Room.find({ published: true }).sort({ createdAt: -1 }).limit(40);
+    const roomFacts = rooms.map((room) => ({
+      id: String(room._id),
+      title: room.title,
+      area: room.area,
+      landmark: room.landmark,
+      rent: room.rent,
+      roomType: room.roomType,
+      category: room.category,
+      food: room.food,
+      facilities: room.facilities || [],
+      nearbyPlaces: room.nearbyPlaces || [],
+      availability: room.availability,
+    }));
+    const fallback = buildSiteHelperFallback(message, rooms);
+
+    if (!isAiConfigured()) {
+      return res.json({ ok: true, mode: "fallback", ...fallback });
+    }
+
+    try {
+      const ai = await requestAiJson([
+        {
+          role: "system",
+          content: "You are Zac.Living's helpful Hinglish assistant for Bhopal student housing. Use only the provided room data. Do not show owner phone/address. Return JSON only: answer string, suggestions array of strings, roomIds array. Keep answer short and friendly.",
+        },
+        {
+          role: "user",
+          content: JSON.stringify({ message, rooms: roomFacts }),
+        },
+      ]);
+      res.json({
+        ok: true,
+        mode: "ai",
+        answer: ai?.answer || fallback.answer,
+        suggestions: Array.isArray(ai?.suggestions) ? ai.suggestions.slice(0, 3) : fallback.suggestions,
+        roomIds: Array.isArray(ai?.roomIds) ? ai.roomIds.slice(0, 3) : fallback.roomIds,
+      });
+    } catch (error) {
+      console.error("AI site helper failed:", error.message);
+      res.json({ ok: true, mode: "fallback", ...fallback });
+    }
+  })
+);
+
+app.get("/list-your-property", (req, res) => {
+  res.render("rooms/partner_submit", { form: {}, error: null, success: null });
+});
+
+app.post(
+  "/list-your-property",
+  upload.array("propertyPhotos", 8),
+  asyncHandler(async (req, res) => {
+    const form = req.body.room || {};
+    form.ownerContact = cleanPhone(form.ownerContact);
+
+    if (!form.ownerName || !form.ownerContact || !form.area || !form.landmark || !form.rent || !form.roomType || !form.category || !form.food) {
+      return res.status(400).render("rooms/partner_submit", { form, error: "Please fill the required fields: owner name, mobile, area, landmark, rent, category, room type, and food.", success: null });
+    }
+    if (!isValidMobileNumber(form.ownerContact)) {
+      return res.status(400).render("rooms/partner_submit", { form, error: "Owner mobile number should be exactly 10 digits.", success: null });
+    }
+    if (req.files && req.files.length && !isCloudinaryConfigured()) {
+      return res.status(400).render("rooms/partner_submit", {
+        form,
+        error: "Photo upload is temporarily unavailable. Please paste photo links or submit without photos.",
+        success: null,
+      });
+    }
+
+    const uploadedPhotoUrls = await uploadListingPhotos(req.files || []);
+    form.photos = [...normalizeUrls(form.photos), ...uploadedPhotoUrls].join("\n");
+    form.title = form.title || `${form.category} ${form.roomType} ${form.food === "Yes" ? "PG" : "room"} near ${form.landmark}, ${form.area}`;
+    form.deposit = form.deposit || 0;
+    form.ownerAddress = form.ownerAddress || "Address to be completed by Zac team";
+    form.availability = form.availability || "Available";
+    form.facilities = mergeListInputs(form.facilitiesPreset, form.facilities).join("\n");
+    form.nearbyPlaces = mergeListInputs(form.nearbyPreset, form.nearbyPlaces).join("\n");
+    form.rules = mergeListInputs(form.rulesPreset, form.rules).join("\n");
+    form.description = form.description || `${form.category} ${form.roomType} stay in ${form.area}, near ${form.landmark}. Suitable for students looking for clear room details and local access.`;
+
+    await Room.create({
+      ...roomPayload({
+        ...form,
+        availability: form.availability || "Available",
+        published: undefined,
+      }),
+      published: false,
+      auditStatus: "Pending Zac Audit",
+      submissionSource: "Partner Submission",
+    });
+
+    res.redirect("/");
+  })
+);
 
 app.get(
   "/rooms",
@@ -743,6 +1160,10 @@ app.get(
     if (filters.category) roomFilter.category = filters.category;
     if (filters.published === "published") roomFilter.published = true;
     if (filters.published === "hidden") roomFilter.published = false;
+    if (filters.published === "pending") {
+      roomFilter.published = false;
+      roomFilter.auditStatus = "Pending Zac Audit";
+    }
     if (filters.search) {
       const searchRegex = new RegExp(filters.search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
       roomFilter.$or = [
@@ -755,13 +1176,15 @@ app.get(
       ];
     }
 
-    const [rawRooms, rawStudents, requests] = await Promise.all([
+    const [rawRooms, rawOwnerSubmissions, rawStudents, requests] = await Promise.all([
       Room.find(roomFilter).sort({ createdAt: -1 }),
+      Room.find({ submissionSource: "Partner Submission", published: false }).sort({ createdAt: -1 }),
       User.find({ role: "student" }).sort({ createdAt: -1 }),
       VisitRequest.find({}).populate("room").populate("student").sort({ createdAt: -1 }),
     ]);
     const allRooms = await Room.find({});
     const rooms = decorateRooms(rawRooms, req.currentUser);
+    const ownerSubmissions = decorateRooms(rawOwnerSubmissions, req.currentUser);
     const students = rawStudents.map((student) => {
       const bestMatch = decorateRooms(allRooms.filter((room) => room.published), student)[0];
       return {
@@ -773,6 +1196,7 @@ app.get(
 
     res.render("dashboards/admin", {
       rooms,
+      ownerSubmissions,
       students,
       filters,
       dbStatus: mongoose.connection.readyState === 1 ? "Connected" : "Not connected",
@@ -783,6 +1207,7 @@ app.get(
         availableRooms: allRooms.filter((room) => room.availability === "Available").length,
         studentCount: rawStudents.length,
         pendingRequests: requests.filter((request) => request.status === "Pending").length,
+        pendingAuditRooms: allRooms.filter((room) => room.auditStatus === "Pending Zac Audit").length,
       },
       requests: requests.map((request) => ({
         ...request.toObject(),
@@ -801,6 +1226,9 @@ app.post(
     const update = {};
     if (req.body.availability) update.availability = req.body.availability;
     if (req.body.published !== undefined) update.published = req.body.published === "true";
+    if (req.body.auditStatus) update.auditStatus = req.body.auditStatus;
+    if (update.published === true) update.auditStatus = "Zac Verified";
+    if (update.published === false && !req.body.auditStatus) update.auditStatus = "Needs Owner Follow-up";
     const room = await Room.findByIdAndUpdate(req.params.id, update, { runValidators: true, new: true });
     if (!room) return next();
     res.redirect(req.get("Referrer") || "/admin");
@@ -830,6 +1258,8 @@ function roomPayload(body) {
     ownerName: body.ownerName || "",
     ownerContact: body.ownerContact,
     ownerAddress: body.ownerAddress || "",
+    auditStatus: body.auditStatus || "Admin Added",
+    submissionSource: body.submissionSource || "Admin",
     published: body.published === "on",
     videoUrl: body.videoUrl || "",
     photos: normalizeUrls(body.photos).length
@@ -875,7 +1305,9 @@ app.put(
     if (!room.title || !room.area || !room.landmark || !room.rent || !room.deposit || !room.roomType || !room.category || !room.food || !room.availability || !room.ownerName || !room.ownerContact || !room.ownerAddress) {
       return res.status(400).render("rooms/form", { room, action: `/admin/rooms/${req.params.id}?_method=put`, title: "Edit Listing", error: "Please fill all required admin listing fields." });
     }
-    const updated = await Room.findByIdAndUpdate(req.params.id, roomPayload(room), { runValidators: true });
+    const payload = roomPayload(room);
+    if (payload.published) payload.auditStatus = "Zac Verified";
+    const updated = await Room.findByIdAndUpdate(req.params.id, payload, { runValidators: true });
     if (!updated) return next();
     res.redirect("/admin");
   })
