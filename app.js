@@ -508,7 +508,8 @@ function calculateMatch(room, student = {}) {
 function sanitizeRoomForViewer(room, user) {
   const payload = room.toObject();
   const isAdmin = Boolean(user && user.role === "admin");
-  if (!isAdmin) {
+  const isOwner = Boolean(user && user.role === "owner" && room.owner && String(room.owner) === String(user._id));
+  if (!isAdmin && !isOwner) {
     delete payload.ownerName;
     delete payload.ownerContact;
     delete payload.ownerAddress;
@@ -790,12 +791,16 @@ app.post(
   asyncHandler(async (req, res) => {
     const form = req.body.room || {};
     form.ownerContact = cleanPhone(form.ownerContact);
+    const ownerPassword = String(req.body.ownerPassword || "").trim();
 
     if (!form.ownerName || !form.ownerContact || !form.area || !form.landmark || !form.rent || !form.roomType || !form.category || !form.food) {
       return res.status(400).render("rooms/partner_submit", { form, error: "Please fill the required fields: owner name, mobile, area, landmark, rent, category, room type, and food.", success: null });
     }
     if (!isValidMobileNumber(form.ownerContact)) {
       return res.status(400).render("rooms/partner_submit", { form, error: "Owner mobile number should be exactly 10 digits.", success: null });
+    }
+    if ((!req.currentUser || req.currentUser.role !== "owner") && ownerPassword.length < 6) {
+      return res.status(400).render("rooms/partner_submit", { form, error: "Create a password of at least 6 characters to manage your property later.", success: null });
     }
     if (req.files && req.files.length && !isCloudinaryConfigured()) {
       return res.status(400).render("rooms/partner_submit", {
@@ -816,18 +821,35 @@ app.post(
     form.rules = mergeListInputs(form.rulesPreset, form.rules).join("\n");
     form.description = form.description || `${form.category} ${form.roomType} stay in ${form.area}, near ${form.landmark}. Suitable for students looking for clear room details and local access.`;
 
+    let owner = req.currentUser && req.currentUser.role === "owner" ? req.currentUser : await User.findOne({ phone: form.ownerContact, role: "owner" });
+    if (!owner) {
+      owner = await User.create({
+        role: "owner",
+        name: form.ownerName,
+        phone: form.ownerContact,
+        password: await bcrypt.hash(ownerPassword, 12),
+      });
+    } else if (ownerPassword && isBcryptHash(owner.password)) {
+      const isOwnerPasswordValid = await bcrypt.compare(ownerPassword, owner.password);
+      if (!isOwnerPasswordValid) {
+        return res.status(401).render("rooms/partner_submit", { form, error: "This owner mobile already has an account. Please use the correct password.", success: null });
+      }
+    }
+
     await Room.create({
       ...roomPayload({
         ...form,
         availability: form.availability || "Available",
         published: undefined,
       }),
+      owner: owner._id,
       published: false,
       auditStatus: "Pending Zac Audit",
       submissionSource: "Partner Submission",
     });
 
-    res.redirect("/");
+    req.session.userId = owner._id;
+    res.redirect("/owner/dashboard");
   })
 );
 
@@ -961,7 +983,7 @@ app.post(
         form: { phone },
       });
     }
-    const user = await User.findOne({ phone, role: "student" });
+    const user = await User.findOne({ phone, role: { $in: ["student", "owner"] } }).sort({ role: 1 });
     let isPasswordValid = false;
 
     if (user && isBcryptHash(user.password)) {
@@ -1019,8 +1041,70 @@ app.post("/logout", (req, res) => {
 
 app.get("/dashboard", requireAuth, (req, res) => {
   if (req.currentUser.role === "admin") return res.redirect("/admin");
+  if (req.currentUser.role === "owner") return res.redirect("/owner/dashboard");
   res.redirect("/student/dashboard");
 });
+
+app.get(
+  "/owner/dashboard",
+  requireRole("owner"),
+  asyncHandler(async (req, res) => {
+    const rooms = await Room.find({ owner: req.currentUser._id }).sort({ createdAt: -1 });
+    res.render("dashboards/owner", {
+      rooms: decorateRooms(rooms, req.currentUser),
+      owner: req.currentUser,
+    });
+  })
+);
+
+app.get(
+  "/owner/rooms/:id/edit",
+  requireRole("owner"),
+  asyncHandler(async (req, res, next) => {
+    const room = await Room.findOne({ _id: req.params.id, owner: req.currentUser._id });
+    if (!room) return next();
+    res.render("rooms/owner_edit", { room: room.toObject(), error: null });
+  })
+);
+
+app.put(
+  "/owner/rooms/:id",
+  requireRole("owner"),
+  upload.array("propertyPhotos", 8),
+  asyncHandler(async (req, res, next) => {
+    const existing = await Room.findOne({ _id: req.params.id, owner: req.currentUser._id });
+    if (!existing) return next();
+    const form = req.body.room || {};
+    form.ownerContact = cleanPhone(form.ownerContact || req.currentUser.phone);
+
+    if (!form.title || !form.area || !form.landmark || !form.rent || !form.roomType || !form.category || !form.food || !form.ownerName || !form.ownerContact) {
+      return res.status(400).render("rooms/owner_edit", { room: { ...existing.toObject(), ...form }, error: "Please fill title, area, landmark, rent, room type, category, food, owner name, and mobile." });
+    }
+    if (!isValidMobileNumber(form.ownerContact)) {
+      return res.status(400).render("rooms/owner_edit", { room: { ...existing.toObject(), ...form }, error: "Owner mobile number should be exactly 10 digits." });
+    }
+    if (req.files && req.files.length && !isCloudinaryConfigured()) {
+      return res.status(400).render("rooms/owner_edit", { room: { ...existing.toObject(), ...form }, error: "Photo upload is temporarily unavailable. Please paste photo links or submit without photos." });
+    }
+
+    const uploadedPhotoUrls = await uploadListingPhotos(req.files || []);
+    form.photos = [...normalizeUrls(form.photos), ...uploadedPhotoUrls].join("\n");
+    const payload = roomPayload({
+      ...form,
+      deposit: form.deposit || existing.deposit || 0,
+      availability: form.availability || existing.availability || "Available",
+      published: undefined,
+      auditStatus: "Needs Owner Follow-up",
+      submissionSource: "Partner Submission",
+    });
+    payload.published = false;
+    payload.owner = req.currentUser._id;
+    payload.auditStatus = "Needs Owner Follow-up";
+    payload.submissionSource = "Partner Submission";
+    await Room.findByIdAndUpdate(existing._id, payload, { runValidators: true });
+    res.redirect("/owner/dashboard");
+  })
+);
 
 app.get(
   "/student/dashboard",

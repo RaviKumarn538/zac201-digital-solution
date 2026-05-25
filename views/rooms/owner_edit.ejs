@@ -1,0 +1,109 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="container page-head narrow max-w-4xl px-4 sm:px-6 lg:px-8">
+  <span class="eyebrow">Owner listing manager</span>
+  <h1>Edit your property</h1>
+  <p>Update useful details for students. Zac team will review changes before public listing updates.</p>
+</section>
+
+<section class="container narrow max-w-4xl px-4 sm:px-6 lg:px-8">
+  <form method="post" action="/owner/rooms/<%= room._id || room.id %>?_method=put" class="app-form" enctype="multipart/form-data" novalidate>
+    <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+
+    <label for="title">Listing title</label>
+    <input id="title" name="room[title]" value="<%= room.title || '' %>" required>
+
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div>
+        <label for="area">Area</label>
+        <input id="area" name="room[area]" value="<%= room.area || '' %>" required>
+      </div>
+      <div>
+        <label for="landmark">Landmark</label>
+        <input id="landmark" name="room[landmark]" value="<%= room.landmark || '' %>" required>
+      </div>
+    </div>
+
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div>
+        <label for="rent">Rent</label>
+        <input id="rent" name="room[rent]" type="number" value="<%= room.rent || '' %>" required>
+      </div>
+      <div>
+        <label for="deposit">Deposit</label>
+        <input id="deposit" name="room[deposit]" type="number" value="<%= room.deposit || '' %>">
+      </div>
+    </div>
+
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div>
+        <label for="roomType">Room type</label>
+        <select id="roomType" name="room[roomType]" required>
+          <% roomTypes.forEach((type) => { %>
+            <option value="<%= type %>" <%= room.roomType === type ? "selected" : "" %>><%= type %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div>
+        <label for="category">Boys/Girls category</label>
+        <select id="category" name="room[category]" required>
+          <option value="Boys" <%= room.category === "Boys" ? "selected" : "" %>>Boys</option>
+          <option value="Girls" <%= room.category === "Girls" ? "selected" : "" %>>Girls</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div>
+        <label for="food">Food available</label>
+        <select id="food" name="room[food]" required>
+          <% foodOptions.forEach((option) => { %>
+            <option value="<%= option %>" <%= room.food === option ? "selected" : "" %>><%= option %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div>
+        <label for="availability">Availability</label>
+        <select id="availability" name="room[availability]" required>
+          <% availabilityOptions.forEach((option) => { %>
+            <option value="<%= option %>" <%= room.availability === option ? "selected" : "" %>><%= option %></option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+
+    <label for="propertyPhotos">Upload more photos</label>
+    <input id="propertyPhotos" name="propertyPhotos" type="file" accept="image/*" multiple>
+
+    <label for="photos">Photo links</label>
+    <textarea id="photos" name="room[photos]" rows="4"><%= room.photos ? room.photos.join("\n") : "" %></textarea>
+
+    <label for="facilities">Facilities, one per line</label>
+    <textarea id="facilities" name="room[facilities]" rows="3"><%= room.facilities ? room.facilities.join("\n") : "" %></textarea>
+
+    <label for="nearbyPlaces">Nearby places, one per line</label>
+    <textarea id="nearbyPlaces" name="room[nearbyPlaces]" rows="3"><%= room.nearbyPlaces ? room.nearbyPlaces.join("\n") : "" %></textarea>
+
+    <label for="rules">Rules, one per line</label>
+    <textarea id="rules" name="room[rules]" rows="3"><%= room.rules ? room.rules.join("\n") : "" %></textarea>
+
+    <label for="ownerName">Owner name</label>
+    <input id="ownerName" name="room[ownerName]" value="<%= room.ownerName || '' %>" required>
+
+    <label for="ownerContact">Mobile number</label>
+    <input id="ownerContact" name="room[ownerContact]" inputmode="numeric" maxlength="10" value="<%= room.ownerContact || '' %>" required>
+
+    <label for="ownerAddress">Full address</label>
+    <textarea id="ownerAddress" name="room[ownerAddress]" rows="3"><%= room.ownerAddress || '' %></textarea>
+
+    <label for="description">Short description</label>
+    <textarea id="description" name="room[description]" rows="4"><%= room.description || '' %></textarea>
+
+    <textarea name="room[foodDetails]" class="d-none"><%= room.foodDetails || '' %></textarea>
+    <textarea name="room[utilities]" class="d-none"><%= room.utilities || '' %></textarea>
+    <textarea name="room[safetyNotes]" class="d-none"><%= room.safetyNotes || '' %></textarea>
+    <textarea name="room[distanceNotes]" class="d-none"><%= room.distanceNotes || '' %></textarea>
+
+    <button class="btn btn-primary w-100" type="submit">Save changes</button>
+  </form>
+</section>

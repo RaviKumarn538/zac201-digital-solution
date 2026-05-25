@@ -1,0 +1,56 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="container dashboard-head max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+  <div class="min-w-0">
+    <span class="eyebrow">Owner dashboard</span>
+    <h1>Manage your Zac.Living properties.</h1>
+    <p>Edit room details, photos, rent, facilities, and availability. Zac team keeps final publishing control.</p>
+  </div>
+  <div class="admin-head-actions">
+    <a href="/list-your-property" class="btn btn-primary w-full sm:w-auto">Add property</a>
+  </div>
+</section>
+
+<section class="container section-block max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h2>Your listings</h2>
+      <span class="muted"><%= rooms.length %> properties in your workspace</span>
+    </div>
+  </div>
+
+  <% if (!rooms.length) { %>
+    <div class="empty-state">No properties yet. Add your first PG, room, or flat.</div>
+  <% } %>
+
+  <div class="admin-listing-table">
+    <% rooms.forEach((room) => { %>
+      <article class="admin-listing-row">
+        <div class="admin-listing-photo">
+          <img src="<%= room.photo %>" alt="<%= room.title %>">
+        </div>
+        <div class="admin-listing-main">
+          <div class="admin-listing-title">
+            <div>
+              <h3><%= room.title %></h3>
+              <p class="muted">Rs. <%= room.rent.toLocaleString("en-IN") %>/mo | <%= room.area %> | <%= room.landmark %></p>
+            </div>
+            <div class="admin-badges">
+              <span class="status-badge <%= room.published ? '' : 'full' %>"><%= room.published ? "Live" : "In Zac workspace" %></span>
+              <span class="status-badge <%= room.availability === 'Full' ? 'full' : room.availability === 'Few beds left' ? 'few-beds-left' : '' %>"><%= room.availability %></span>
+            </div>
+          </div>
+          <div class="admin-owner-grid">
+            <p><span>Owner</span><strong><%= room.ownerName || owner.name %></strong></p>
+            <p><span>Contact</span><strong><%= room.ownerContact || owner.phone %></strong></p>
+            <p><span>Type</span><strong><%= room.category %> | <%= room.roomType %> | Food: <%= room.food %></strong></p>
+            <p><span>Status</span><strong><%= room.auditStatus || "In Zac workspace" %></strong></p>
+          </div>
+        </div>
+        <div class="owner-actions admin-row-actions">
+          <a href="/owner/rooms/<%= room.id %>/edit" class="btn btn-outline-primary btn-sm w-full">Edit</a>
+        </div>
+      </article>
+    <% }) %>
+  </div>
+</section>

@@ -23,6 +23,7 @@ const roomSchema = new mongoose.Schema(
     ownerName: { type: String, default: "" },
     ownerContact: { type: String, required: true },
     ownerAddress: { type: String, default: "" },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     auditStatus: {
       type: String,
       enum: ["Admin Added", "Pending Zac Audit", "Zac Verified", "Needs Owner Follow-up", "Rejected"],

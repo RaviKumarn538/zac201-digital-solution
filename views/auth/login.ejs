@@ -2,8 +2,8 @@
 
 <section class="auth-wrap px-4 py-6 sm:px-6">
   <form method="post" action="/login" class="app-form auth-card w-full max-w-md" novalidate>
-    <span class="eyebrow">Student login</span>
-    <h1>Login to find your room</h1>
+    <span class="eyebrow">Login</span>
+    <h1>Login to your Zac.Living account</h1>
     <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
 
     <label for="phone">Mobile/WhatsApp number</label>
@@ -13,7 +13,7 @@
     <input id="password" name="password" type="password" required placeholder="Enter your account password">
 
     <button class="btn btn-primary w-100" type="submit">Login</button>
-    <p class="form-note">Use the WhatsApp number and password you added during signup.</p>
+    <p class="form-note">Students and property owners can login with their WhatsApp number.</p>
     <p class="form-note">New here? <a href="/signup">Create an account</a></p>
   </form>
 </section>

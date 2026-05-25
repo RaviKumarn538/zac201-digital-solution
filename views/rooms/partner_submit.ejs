@@ -33,6 +33,11 @@
       </div>
       <label for="ownerAddress">Full address <span>optional</span></label>
       <textarea id="ownerAddress" name="room[ownerAddress]" rows="2" placeholder="Full property address"><%= form.ownerAddress || '' %></textarea>
+      <% if (!currentUser || currentUser.role !== "owner") { %>
+        <label for="ownerPassword">Create owner password</label>
+        <input id="ownerPassword" name="ownerPassword" type="password" minlength="6" required placeholder="Minimum 6 characters">
+        <p class="form-note">Submit ke baad owner dashboard open hoga jahan aap apni property manage kar sakte hain.</p>
+      <% } %>
     </div>
 
     <div class="owner-section">
