@@ -1,0 +1,23 @@
+<% layout('/layouts/boilerplate') -%>
+
+<section class="auth-wrap px-4 py-6 sm:px-6">
+  <form method="post" action="/owner/signup" class="app-form auth-card w-full max-w-md" novalidate>
+    <span class="eyebrow">Property owner signup</span>
+    <h1>Create owner account</h1>
+    <p class="auth-subtext">Signup ke baad aap property list aur manage kar sakte hain.</p>
+
+    <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+
+    <label for="name">Owner name</label>
+    <input id="name" name="name" value="<%= form.name || '' %>" required pattern="[A-Za-z ]{2,60}" title="Use letters and spaces only" placeholder="Example: Ravi Kumar">
+
+    <label for="phone">Mobile/WhatsApp number</label>
+    <input id="phone" name="phone" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" value="<%= form.phone || '' %>" required title="Enter exactly 10 digits" placeholder="Example: 9301942717">
+
+    <label for="password">Create password</label>
+    <input id="password" name="password" type="password" minlength="6" required placeholder="Minimum 6 characters">
+
+    <button class="btn btn-primary w-100" type="submit">Continue to list property</button>
+    <p class="form-note">Already have an owner account? <a href="/login">Login</a></p>
+  </form>
+</section>
