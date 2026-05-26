@@ -8,3 +8,5 @@ yarn-error.log*
 output/
 .DS_Store
 Thumbs.db
+
+.next/

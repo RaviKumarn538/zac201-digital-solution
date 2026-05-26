@@ -7295,6 +7295,709 @@ body::before {
   }
 }
 
+/* Swiper hero images and compact mobile UX */
+.hero-media-shell {
+  gap: 12px;
+}
+
+.hero-image-swiper {
+  border: 1px solid var(--white-line);
+  border-radius: 22px;
+  box-shadow: 0 24px 72px rgba(15, 23, 42, 0.14);
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero-image-slide {
+  background: #e2e8f0;
+}
+
+.hero-image-slide img {
+  aspect-ratio: 16 / 12;
+  display: block;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+}
+
+.hero-image-pagination {
+  bottom: 12px !important;
+}
+
+.hero-image-pagination .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.72);
+  opacity: 1;
+}
+
+.hero-image-pagination .swiper-pagination-bullet-active {
+  background: #2563eb;
+  width: 18px;
+  border-radius: 999px;
+}
+
+.hero-media-card {
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--white-line);
+  border-radius: 18px;
+  box-shadow: 0 16px 44px rgba(15, 23, 42, 0.10);
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+}
+
+.hero-media-card i {
+  align-items: center;
+  background: var(--white-gradient);
+  border-radius: 13px;
+  color: #ffffff;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 42px;
+  justify-content: center;
+  width: 42px;
+}
+
+.hero-media-card strong,
+.hero-media-card span {
+  display: block;
+}
+
+.hero-media-card strong {
+  color: var(--white-ink);
+  font-family: "Space Grotesk", "Plus Jakarta Sans", Arial, sans-serif;
+  font-weight: 800;
+}
+
+.hero-media-card span {
+  color: var(--white-muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin-top: 2px;
+}
+
+@media (max-width: 720px) {
+  .lux-nav {
+    position: sticky;
+    top: 0;
+  }
+
+  .lux-hero {
+    padding-bottom: 28px;
+  }
+
+  .lux-trust-pill {
+    font-size: 0.66rem;
+    max-width: 100%;
+  }
+
+  .lux-microproof {
+    margin-top: 24px;
+    padding-top: 16px;
+  }
+
+  .hero-image-slide img {
+    aspect-ratio: 16 / 10;
+  }
+
+  .hero-media-card {
+    padding: 13px;
+  }
+
+  .lux-live-showcase {
+    padding-top: 18px;
+  }
+
+  .live-site-card {
+    gap: 14px;
+  }
+
+  .live-site-preview img {
+    aspect-ratio: 16 / 8.6;
+  }
+
+  .lux-trust-band {
+    padding: 22px 0;
+  }
+
+  .lux-logo-row {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    margin-left: -14px;
+    margin-right: -14px;
+    overflow-x: auto;
+    padding: 0 14px 6px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .lux-logo-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lux-logo-row span {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    white-space: nowrap;
+  }
+
+  .lux-service-grid,
+  .lux-work-grid,
+  .lux-pricing-grid {
+    display: grid !important;
+    grid-auto-columns: minmax(270px, 82vw);
+    grid-auto-flow: column;
+    grid-template-columns: none !important;
+    margin-left: -14px;
+    margin-right: -14px;
+    overflow-x: auto;
+    padding: 2px 14px 14px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .lux-service-grid::-webkit-scrollbar,
+  .lux-work-grid::-webkit-scrollbar,
+  .lux-pricing-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lux-service-card,
+  .lux-work-card,
+  .lux-price-card {
+    scroll-snap-align: start;
+  }
+
+  .lux-process-grid,
+  .lux-counter-grid {
+    gap: 10px !important;
+  }
+
+  .lux-process-card span {
+    margin-bottom: 18px !important;
+  }
+
+  .lux-industry-grid {
+    gap: 8px !important;
+  }
+
+  .lux-industry-grid span {
+    font-size: 0.86rem;
+    padding: 11px 8px !important;
+  }
+
+  .lux-testimonials,
+  .lux-proof {
+    border-top: 1px solid var(--white-line);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-image-slide img {
+    aspect-ratio: 16 / 13;
+  }
+}
+
+/* Requested stack polish: Tailwind + Flexbox + Grid + MQ + clamp + variables */
+:root {
+  --ui-radius-sm: 12px;
+  --ui-radius-md: 18px;
+  --ui-radius-lg: 24px;
+  --ui-space-section: clamp(3.25rem, 8vw, 6.5rem);
+  --ui-space-card: clamp(1rem, 3vw, 1.75rem);
+  --ui-h1: clamp(2.05rem, 9.8vw, 5.35rem);
+  --ui-h2: clamp(1.85rem, 7.5vw, 4rem);
+  --ui-body: clamp(0.96rem, 2.8vw, 1.08rem);
+  --ui-shadow-soft: 0 16px 42px rgba(15, 23, 42, 0.08);
+  --ui-shadow-premium: 0 24px 70px rgba(37, 99, 235, 0.14);
+  --ui-gradient-blue: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  --ui-gradient-soft: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.lux-hero,
+.lux-section,
+.lux-final-cta {
+  padding-bottom: var(--ui-space-section);
+  padding-top: var(--ui-space-section);
+}
+
+.lux-hero h1 {
+  font-size: var(--ui-h1) !important;
+}
+
+.lux-section-head h2,
+.lux-proof h2,
+.lux-final-panel h2,
+.lux-testimonial-grid h2,
+.live-site-copy h2 {
+  font-size: var(--ui-h2) !important;
+}
+
+.lux-hero-lede,
+.lux-section-head p,
+.lux-proof p,
+.live-site-copy p,
+.lux-final-panel p {
+  font-size: var(--ui-body);
+}
+
+.lux-hero-actions,
+.live-site-actions,
+.lux-final-actions,
+.agency-nav-links,
+.lux-logo-row,
+.hero-media-card,
+.lux-proof-stack div,
+.lux-price-card li {
+  align-items: center;
+  display: flex;
+}
+
+.lux-hero-actions,
+.live-site-actions,
+.lux-final-actions {
+  flex-wrap: wrap;
+}
+
+.lux-counter-grid,
+.lux-service-grid,
+.lux-process-grid,
+.lux-industry-grid,
+.lux-work-grid,
+.lux-pricing-grid,
+.lux-proof-grid,
+.lux-testimonial-grid,
+.lux-final-panel,
+.live-site-card {
+  display: grid;
+}
+
+.lux-service-card,
+.lux-process-card,
+.lux-work-card,
+.lux-price-card,
+.lux-faq-item,
+.live-site-card,
+.mockup-browser,
+.hero-image-swiper {
+  border-radius: var(--ui-radius-md) !important;
+  box-shadow: var(--ui-shadow-soft) !important;
+  transition:
+    transform 0.24s ease,
+    box-shadow 0.24s ease,
+    border-color 0.24s ease,
+    background 0.24s ease;
+}
+
+.lux-service-card:hover,
+.lux-work-card:hover,
+.lux-price-card:hover,
+.live-site-card:hover {
+  box-shadow: var(--ui-shadow-premium) !important;
+  transform: translateY(-4px);
+}
+
+.lux-btn,
+.lux-price-card a,
+.lux-work-link {
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    color 0.22s ease,
+    background 0.22s ease;
+}
+
+.lux-btn-primary,
+.lux-price-card.is-featured a,
+.lux-price-card a {
+  background: var(--ui-gradient-blue) !important;
+}
+
+.lux-hero,
+.lux-final-panel,
+.live-site-card {
+  background: var(--ui-gradient-soft) !important;
+}
+
+@media (max-width: 480px) {
+  :root {
+    --ui-space-section: 2.75rem;
+    --ui-space-card: 0.95rem;
+  }
+
+  .lux-hero {
+    padding-top: 2rem;
+  }
+
+  .lux-btn,
+  .lux-price-card a {
+    min-height: 50px;
+    width: 100%;
+  }
+
+  .lux-counter-grid,
+  .lux-process-grid,
+  .lux-industry-grid,
+  .lux-proof-grid,
+  .lux-testimonial-grid,
+  .lux-final-panel,
+  .live-site-card {
+    gap: 0.85rem !important;
+  }
+
+  .lux-service-card,
+  .lux-process-card,
+  .lux-price-card,
+  .lux-faq-item {
+    padding: var(--ui-space-card) !important;
+  }
+
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  main,
+  .lux-hero,
+  .lux-live-showcase,
+  .lux-trust-band,
+  .lux-section,
+  .lux-final-cta {
+    overflow-x: hidden;
+  }
+
+  .lux-logo-row,
+  .lux-service-grid,
+  .lux-work-grid,
+  .lux-pricing-grid {
+    max-width: calc(100vw + 28px);
+  }
+}
+
+@media (min-width: 768px) {
+  .lux-hero-actions,
+  .live-site-actions,
+  .lux-final-actions {
+    justify-content: flex-start;
+  }
+}
+
+/* Premium typography system: Sora headings + Inter body */
+:root {
+  --font-heading: "Sora", "Inter", Arial, sans-serif;
+  --font-body: "Inter", Arial, sans-serif;
+  --type-tight: 1.02;
+  --type-normal: 1.62;
+  --type-loose: 1.75;
+  --tracking-premium: 0;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-body) !important;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.agency-brand span,
+.agency-footer-logo,
+.lux-hero h1,
+.lux-section-head h2,
+.lux-proof h2,
+.lux-final-panel h2,
+.lux-testimonial-grid h2,
+.live-site-copy h2,
+.lux-service-card h3,
+.lux-process-card h3,
+.lux-work-card h3,
+.lux-price-card h3,
+.mockup-dashboard strong,
+.hero-media-card strong {
+  font-family: var(--font-heading) !important;
+  font-weight: 800 !important;
+  letter-spacing: var(--tracking-premium) !important;
+}
+
+.lux-hero h1 {
+  line-height: 0.98 !important;
+  max-width: 11.2ch;
+  text-wrap: balance;
+}
+
+.lux-section-head h2,
+.lux-proof h2,
+.lux-final-panel h2,
+.lux-testimonial-grid h2,
+.live-site-copy h2 {
+  line-height: 1.06 !important;
+  max-width: 13.5ch;
+  text-wrap: balance;
+}
+
+.lux-hero-lede,
+.lux-section-head p,
+.lux-proof p,
+.live-site-copy p,
+.lux-final-panel p,
+.lux-service-card p,
+.lux-process-card p,
+.lux-work-card p,
+.lux-price-card p,
+.lux-faq-item p {
+  font-family: var(--font-body) !important;
+  font-weight: 450;
+  letter-spacing: 0 !important;
+  line-height: var(--type-loose) !important;
+}
+
+.lux-kicker,
+.lux-trust-pill,
+.lux-plan-label,
+.lux-logo-row span,
+.lux-industry-grid span {
+  font-family: var(--font-body) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.lux-btn,
+.agency-nav-links a,
+.lux-price-card a,
+.lux-work-link {
+  font-family: var(--font-body) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0 !important;
+}
+
+@media (max-width: 480px) {
+  .lux-hero h1 {
+    max-width: 10.6ch;
+  }
+
+  .lux-section-head h2,
+  .lux-proof h2,
+  .lux-final-panel h2,
+  .lux-testimonial-grid h2,
+  .live-site-copy h2 {
+    max-width: 12.5ch;
+  }
+}
+
+/* Complete premium color token system: Radix/Tailwind/shadcn inspired */
+:root {
+  --color-background: #0b0f19;
+  --color-foreground: #ffffff;
+  --color-card: #111827;
+  --color-card-elevated: #1e293b;
+  --color-popover: #0f172a;
+  --color-muted: #111827;
+  --color-muted-foreground: #94a3b8;
+  --color-accent: #3b82f6;
+  --color-accent-foreground: #ffffff;
+  --color-secondary-accent: #06b6d4;
+  --color-border: #334155;
+  --color-input: #334155;
+  --color-ring: rgba(59, 130, 246, 0.42);
+  --color-hover: rgba(59, 130, 246, 0.10);
+  --color-hover-strong: rgba(59, 130, 246, 0.25);
+  --color-shadow: rgba(0, 0, 0, 0.35);
+  --color-shadow-soft: rgba(15, 23, 42, 0.18);
+  --gradient-primary: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  --gradient-hero: radial-gradient(circle at 18% 4%, rgba(59, 130, 246, 0.28), transparent 34%),
+    radial-gradient(circle at 82% 12%, rgba(6, 182, 212, 0.20), transparent 28%),
+    linear-gradient(180deg, #0b0f19 0%, #111827 100%);
+  --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
+  --gradient-soft: linear-gradient(180deg, #111827 0%, #0b0f19 100%);
+  --semantic-success: #22c55e;
+  --semantic-warning: #f59e0b;
+  --semantic-danger: #ef4444;
+}
+
+html,
+body {
+  background: var(--color-background) !important;
+  color: var(--color-foreground) !important;
+}
+
+body::before {
+  background: var(--gradient-hero) !important;
+}
+
+.lux-nav {
+  background: rgba(11, 15, 25, 0.82) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 74%, transparent) !important;
+  box-shadow: 0 18px 48px var(--color-shadow-soft);
+}
+
+.agency-brand span,
+.agency-footer-logo,
+.lux-hero h1,
+.lux-section-head h2,
+.lux-proof h2,
+.lux-final-panel h2,
+.lux-testimonial-grid h2,
+.live-site-copy h2,
+.lux-service-card h3,
+.lux-process-card h3,
+.lux-work-card h3,
+.lux-price-card h3,
+.hero-media-card strong,
+.mockup-dashboard strong,
+.lux-counter-grid strong,
+.lux-faq-item summary,
+.lux-testimonial-grid blockquote {
+  color: var(--color-foreground) !important;
+}
+
+.agency-brand small,
+.agency-nav-links a,
+.lux-hero-lede,
+.lux-section-head p,
+.lux-proof p,
+.live-site-copy p,
+.lux-final-panel p,
+.lux-service-card p,
+.lux-process-card p,
+.lux-work-card p,
+.lux-price-card p,
+.lux-faq-item p,
+.hero-media-card span,
+.mockup-dashboard span,
+.lux-counter-grid span,
+.lux-footer p,
+.lux-footer a,
+.lux-footer span {
+  color: var(--color-muted-foreground) !important;
+}
+
+.agency-nav-links,
+.lux-counter-grid div,
+.lux-service-card,
+.lux-process-card,
+.lux-work-card,
+.lux-price-card,
+.lux-faq-item,
+.lux-proof-stack div,
+.lux-testimonial-grid blockquote,
+.hero-media-card,
+.mockup-browser,
+.live-site-card,
+.lux-final-panel {
+  background: var(--gradient-card), var(--color-card) !important;
+  border-color: var(--color-border) !important;
+  box-shadow: 0 24px 72px var(--color-shadow) !important;
+}
+
+.lux-hero,
+.lux-trust-band,
+.lux-proof,
+.lux-packages,
+.lux-testimonials,
+.lux-live-showcase,
+.lux-section,
+.lux-final-cta {
+  background: transparent !important;
+  border-color: var(--color-border) !important;
+}
+
+.lux-btn-primary,
+.lux-nav-cta,
+.lux-price-card a,
+.lux-price-card.is-featured a {
+  background: var(--gradient-primary) !important;
+  color: var(--color-accent-foreground) !important;
+  box-shadow: 0 18px 52px var(--color-hover-strong) !important;
+}
+
+.lux-btn-ghost {
+  background: rgba(255, 255, 255, 0.035) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-foreground) !important;
+}
+
+.lux-btn:hover,
+.lux-price-card a:hover,
+.lux-work-link:hover {
+  box-shadow: 0 22px 70px var(--color-hover-strong) !important;
+}
+
+.lux-kicker,
+.lux-plan-label,
+.lux-work-link {
+  color: #7dd3fc !important;
+}
+
+.lux-trust-pill,
+.lux-logo-row span,
+.lux-industry-grid span,
+.lux-work-visual span {
+  background: rgba(59, 130, 246, 0.10) !important;
+  border-color: color-mix(in srgb, var(--color-accent) 36%, var(--color-border)) !important;
+  color: #bfdbfe !important;
+}
+
+.lux-service-card i,
+.hero-media-card i,
+.mockup-sidebar b:first-child {
+  background: var(--gradient-primary) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+}
+
+.mockup-content,
+.lux-work-visual {
+  background:
+    radial-gradient(circle at 80% 8%, rgba(6, 182, 212, 0.18), transparent 32%),
+    var(--color-popover) !important;
+  border-color: var(--color-border) !important;
+}
+
+.mockup-dashboard div,
+.mockup-card-row span,
+.mockup-image,
+.live-site-preview,
+.lux-final-image {
+  background: var(--color-card-elevated) !important;
+  border-color: var(--color-border) !important;
+}
+
+.mockup-hero-line {
+  background: linear-gradient(90deg, var(--color-foreground), var(--color-muted-foreground)) !important;
+}
+
+.lux-work-visual div {
+  background: rgba(148, 163, 184, 0.35) !important;
+}
+
+.lux-footer {
+  background: #080b12 !important;
+  border-color: var(--color-border) !important;
+}
+
+@supports not (color: color-mix(in srgb, white, black)) {
+  .lux-nav {
+    border-bottom-color: var(--color-border) !important;
+  }
+
+  .lux-trust-pill,
+  .lux-logo-row span,
+  .lux-industry-grid span,
+  .lux-work-visual span {
+    border-color: var(--color-border) !important;
+  }
+}
+
 /* Mobile-first live website showcase and optimization */
 .lux-live-showcase {
   background: #ffffff;

@@ -125,6 +125,32 @@
 
     setupHomeHeroRotator()
 
+    const setupHeroImageSwiper = () => {
+        const swiperNode = document.querySelector('[data-hero-image-swiper]')
+        if (!swiperNode || typeof window.Swiper === 'undefined') return
+
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        if (swiperNode.dataset.ready === 'true') return
+        swiperNode.dataset.ready = 'true'
+
+        new window.Swiper(swiperNode, {
+            loop: true,
+            speed: 700,
+            effect: 'fade',
+            fadeEffect: { crossFade: true },
+            autoplay: prefersReduced ? false : {
+                delay: 2600,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: swiperNode.querySelector('.swiper-pagination'),
+                clickable: true,
+            },
+        })
+    }
+
+    setupHeroImageSwiper()
+
     const setupFilterSheet = () => {
         const sheet = document.querySelector('#mobileFilterSheet')
         const openButtons = document.querySelectorAll('[data-filter-open]')

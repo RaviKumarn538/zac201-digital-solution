@@ -24,38 +24,27 @@
       </div>
     </div>
 
-    <div class="lux-web-mockup reveal-up grid" aria-label="Premium website mockup preview">
-      <div class="mockup-browser">
-        <div class="mockup-bar">
-          <span></span><span></span><span></span>
-          <small>zac201.digital/launch</small>
-        </div>
-        <div class="mockup-screen">
-          <div class="mockup-sidebar">
-            <b></b><b></b><b></b><b></b>
-          </div>
-          <div class="mockup-content">
-            <div class="mockup-hero-line"></div>
-            <div class="mockup-hero-line short"></div>
-            <div class="mockup-dashboard">
-              <div><strong>+48%</strong><span>Lead clarity</span></div>
-              <div><strong>92</strong><span>Speed score</span></div>
-              <div><strong>3.2x</strong><span>CTA visibility</span></div>
+    <div class="lux-web-mockup hero-media-shell reveal-up grid" aria-label="Premium website image carousel">
+      <div class="swiper hero-image-swiper" data-hero-image-swiper>
+        <div class="swiper-wrapper">
+          <% [
+            ["https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1100&q=82", "Premium analytics dashboard on a laptop"],
+            ["https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1100&q=82", "Modern digital agency workspace"],
+            ["https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1100&q=82", "Website performance dashboard screen"],
+            ["/images/zac-living-preview.png", "Zac.Living live website preview"]
+          ].forEach((slide) => { %>
+            <div class="swiper-slide hero-image-slide">
+              <img src="<%= slide[0] %>" alt="<%= slide[1] %>">
             </div>
-            <figure class="mockup-image">
-              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1100&q=82" alt="Premium analytics dashboard on a laptop">
-            </figure>
-            <div class="mockup-card-row">
-              <span></span><span></span><span></span>
-            </div>
-          </div>
+          <% }) %>
         </div>
+        <div class="swiper-pagination hero-image-pagination"></div>
       </div>
-      <div class="mockup-floating-card">
+      <div class="hero-media-card">
         <i class="fa-solid fa-bolt"></i>
         <div>
           <strong>Conversion-first build</strong>
-          <span>WhatsApp, calls, maps, forms, analytics, and trust sections planned before design.</span>
+          <span>Hero, proof, WhatsApp, maps, forms, and mobile journey planned before design.</span>
         </div>
       </div>
     </div>
