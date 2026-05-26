@@ -1,2 +1,17 @@
-# zac-living
-Zac.Living is a Bhopal-based student room matching startup that helps students find suitable PGs, rooms, and flats by budget, area, food, facilities, safety needs, and distance from college/coaching, using real details, photos, and video tours.
+# ZAc201 Digital Solutions
+
+Premium website development agency website for Bhopal-based MSMEs, startups, shops, coaching institutes, hotels, clinics, restaurants, and service businesses.
+
+## Brand
+
+**ZAc201 Digital Solutions**  
+**Tagline:** Build. Launch. Grow.
+
+## Local Development
+
+```bash
+npm install
+npm start
+```
+
+The app runs on `http://localhost:8080` by default.

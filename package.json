@@ -1,7 +1,7 @@
 {
-  "name": "zac201_living",
+  "name": "zac201-digital-solution",
   "version": "1.0.0",
-  "description": "",
+  "description": "Premium website development agency website for ZAc201 Digital Solutions.",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",

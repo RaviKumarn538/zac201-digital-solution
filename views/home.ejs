@@ -1,120 +1,267 @@
 <% layout('/layouts/boilerplate') -%>
 
-<%
-  const heroRooms = (featuredRooms || []).slice(0, 3);
-  const heroSlides = (featuredRooms || []).map((room) => ({
-    href: `/rooms/${room.id}`,
-    photo: room.photo,
-    title: room.title,
-  }));
-  const categoryRooms = (featuredRooms || []).slice(0, 4);
-  const fallbackPhoto = heroRooms[0] ? heroRooms[0].photo : "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1600&q=80";
-%>
-
-<section class="home-announcement-strip" aria-label="Zac Living highlights">
-  <div class="home-announcement-track">
-    <span>Curated student rooms</span>
-    <span>Curated student housing marketplace</span>
-    <span>Real photos and video tours</span>
-    <span>Clear room details</span>
-    <span>Bhopal housing made simple</span>
-  </div>
-</section>
-
-<section class="home-image-hero" data-hero-rotator aria-label="Featured room photography">
-  <% if (heroRooms.length) { %>
-    <% heroRooms.forEach((room, index) => { %>
-      <a href="/rooms/<%= room.id %>" class="home-hero-frame <%= index === 0 ? 'is-primary' : 'is-secondary' %>">
-        <img src="<%= room.photo %>" alt="<%= room.title %>">
-      </a>
-    <% }) %>
-  <% } else { %>
-    <div class="home-hero-frame is-primary">
-      <img src="<%= fallbackPhoto %>" alt="Student room interior">
-    </div>
-  <% } %>
-</section>
-
-<script type="application/json" id="homeHeroSlides"><%- JSON.stringify(heroSlides).replace(/</g, "\\u003c") %></script>
-
-<section class="home-marketing-intro">
-  <div class="container max-w-7xl px-4 sm:px-6 lg:px-8">
-    <span class="eyebrow">Zac.Living rooms</span>
-    <h1>Find student rooms, PGs, and flats in Bhopal with Zac.Living.</h1>
-    <p>Compare photos, rent, food, room type, area, availability, and video tours in a clean student-first experience.</p>
-    <section class="ai-room-search home-ai-search" aria-label="AI room search">
-      <div>
-        <span class="eyebrow">AI room search</span>
-        <h2>Tell Zac what you need</h2>
+<section class="lux-hero" id="top">
+  <div class="lux-bg-grid" aria-hidden="true"></div>
+  <div class="agency-container lux-hero-inner">
+    <div class="lux-hero-copy reveal-up">
+      <div class="lux-trust-pill">
+        <span></span>
+        Premium websites for Bhopal businesses
       </div>
-      <form data-ai-room-search class="ai-room-search-form">
-        <input name="query" placeholder="Example: Girls PG near AIIMS under 8000 with food" autocomplete="off">
-        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-wand-magic-sparkles"></i> Find</button>
-      </form>
-      <div class="ai-room-results" data-ai-room-results aria-live="polite"></div>
-    </section>
+      <h1>Websites that make your business look trusted, modern, and ready to buy from.</h1>
+      <p class="lux-hero-lede">ZAc201 Digital Solutions designs and builds high-conversion websites for MSMEs, startups, clinics, coaching institutes, hotels, restaurants, shops, and service brands that want a sharper digital presence.</p>
+      <div class="lux-hero-actions">
+        <a class="lux-btn lux-btn-primary" href="https://wa.me/919301942717?text=Hi%20ZAc201%20Digital%20Solutions%2C%20I%20want%20a%20premium%20website%20for%20my%20business." target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i>
+          Get a Premium Website
+        </a>
+        <a class="lux-btn lux-btn-ghost" href="#packages">See Packages</a>
+      </div>
+      <div class="lux-microproof">
+        <span><strong>7-21 days</strong> launch window</span>
+        <span><strong>Mobile-first</strong> customer journey</span>
+        <span><strong>SEO-ready</strong> page structure</span>
+      </div>
+    </div>
+
+    <div class="lux-web-mockup reveal-up" aria-label="Premium website mockup preview">
+      <div class="mockup-browser">
+        <div class="mockup-bar">
+          <span></span><span></span><span></span>
+          <small>zac201.digital/launch</small>
+        </div>
+        <div class="mockup-screen">
+          <div class="mockup-sidebar">
+            <b></b><b></b><b></b><b></b>
+          </div>
+          <div class="mockup-content">
+            <div class="mockup-hero-line"></div>
+            <div class="mockup-hero-line short"></div>
+            <div class="mockup-dashboard">
+              <div><strong>+48%</strong><span>Lead clarity</span></div>
+              <div><strong>92</strong><span>Speed score</span></div>
+              <div><strong>3.2x</strong><span>CTA visibility</span></div>
+            </div>
+            <div class="mockup-card-row">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-floating-card">
+        <i class="fa-solid fa-bolt"></i>
+        <div>
+          <strong>Conversion-first build</strong>
+          <span>WhatsApp, calls, maps, forms, analytics, and trust sections planned before design.</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="container home-category-section max-w-7xl px-4 sm:px-6 lg:px-8">
-  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-    <div>
-      <span class="eyebrow">What's new</span>
-      <h2>Explore by room mood</h2>
+<section class="lux-trust-band">
+  <div class="agency-container">
+    <div class="lux-counter-grid">
+      <div><strong>30+</strong><span>business categories supported</span></div>
+      <div><strong>5</strong><span>conversion touchpoints per page</span></div>
+      <div><strong>100%</strong><span>responsive delivery focus</span></div>
+      <div><strong>Bhopal</strong><span>local market understanding</span></div>
     </div>
-    <a href="/rooms" class="text-link">View rooms</a>
+    <div class="lux-logo-row" aria-label="Client logo placeholders">
+      <span>Clinic Brands</span>
+      <span>Coaching Institutes</span>
+      <span>Restaurants</span>
+      <span>Local Shops</span>
+      <span>Service Firms</span>
+    </div>
   </div>
+</section>
 
-  <div class="home-category-grid">
-    <% const categoryLabels = ["New rooms", "Video tour stays", "Food options", "Budget friendly"]; %>
-    <% categoryLabels.forEach((label, index) => { const room = categoryRooms[index] || categoryRooms[0]; %>
-      <a href="/rooms" class="home-category-card">
-        <img src="<%= room ? room.photo : fallbackPhoto %>" alt="<%= label %>">
-        <span><%= label %></span>
+<section class="lux-section lux-services" id="services">
+  <div class="agency-container">
+    <div class="lux-section-head">
+      <span class="lux-kicker">Services</span>
+      <h2>Not just a website. A premium sales surface for your business.</h2>
+      <p>Every section is designed to reduce doubt, create trust, and move visitors toward calling, messaging, booking, enquiring, or buying.</p>
+    </div>
+    <div class="lux-service-grid">
+      <% [
+        ["fa-display", "Premium Business Websites", "High-end landing pages and multi-page websites built for credibility, speed, and customer action."],
+        ["fa-chart-line", "Conversion Strategy", "Hero messaging, CTA hierarchy, proof placement, pricing flow, and enquiry paths designed around buyer psychology."],
+        ["fa-store", "E-commerce & Catalogues", "Product showcases, order flows, WhatsApp commerce, payment-ready layouts, and premium product presentation."],
+        ["fa-location-dot", "Local SEO Foundation", "Clean headings, metadata, service pages, location intent, maps, and Google-friendly structure."],
+        ["fa-pen-ruler", "Brand & Content Direction", "Sharper positioning, premium copywriting, visual hierarchy, and trust-building section architecture."],
+        ["fa-shield-halved", "Care, Updates & Growth", "Ongoing improvements, content changes, landing page iteration, analytics review, and technical maintenance."]
+      ].forEach((service) => { %>
+        <article class="lux-service-card reveal-up">
+          <i class="fa-solid <%= service[0] %>"></i>
+          <h3><%= service[1] %></h3>
+          <p><%= service[2] %></p>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="lux-section lux-proof" id="why">
+  <div class="agency-container lux-proof-grid">
+    <div>
+      <span class="lux-kicker">Why ZAc201</span>
+      <h2>Designed for the way local customers actually decide.</h2>
+      <p>Most visitors do not read everything. They scan the first screen, look for proof, compare effort, and choose the easiest trustworthy option. The site is built around that attention flow.</p>
+    </div>
+    <div class="lux-proof-stack">
+      <div><i class="fa-solid fa-check"></i><span>Clear positioning within the first 5 seconds</span></div>
+      <div><i class="fa-solid fa-check"></i><span>Premium visual depth without slow, heavy clutter</span></div>
+      <div><i class="fa-solid fa-check"></i><span>CTA paths for WhatsApp, calls, enquiries, bookings, and directions</span></div>
+      <div><i class="fa-solid fa-check"></i><span>Trust sections for reviews, credentials, industries, FAQs, and sample work</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="lux-section" id="process">
+  <div class="agency-container">
+    <div class="lux-section-head">
+      <span class="lux-kicker">Process</span>
+      <h2>A focused launch process with premium creative control.</h2>
+    </div>
+    <div class="lux-process-grid">
+      <% [
+        ["01", "Position", "Clarify audience, offer, city intent, trust gaps, and the main conversion goal."],
+        ["02", "Design", "Create a high-end visual system, hero, sections, CTAs, cards, and mobile journey."],
+        ["03", "Build", "Develop a responsive, clean, fast website with SEO basics and contact integrations."],
+        ["04", "Grow", "Improve copy, proof, packages, and landing pages after real visitors start engaging."]
+      ].forEach((step) => { %>
+        <article class="lux-process-card reveal-up">
+          <span><%= step[0] %></span>
+          <h3><%= step[1] %></h3>
+          <p><%= step[2] %></p>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="lux-section lux-industries" id="industries">
+  <div class="agency-container">
+    <div class="lux-section-head">
+      <span class="lux-kicker">Industries</span>
+      <h2>Built for Bhopal's growth-minded local businesses.</h2>
+      <p>Each industry needs different proof: outcomes for coaching, trust for clinics, ambience for restaurants, speed for services, and credibility for MSMEs.</p>
+    </div>
+    <div class="lux-industry-grid">
+      <% ["MSMEs", "Startups", "Retail Shops", "Coaching Institutes", "Hotels", "Clinics", "Restaurants", "Salons", "Consultants", "Real Estate", "Repair Services", "Local Brands"].forEach((industry) => { %>
+        <span><%= industry %></span>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="lux-section" id="work">
+  <div class="agency-container">
+    <div class="lux-section-head">
+      <span class="lux-kicker">Portfolio directions</span>
+      <h2>Premium website systems for different business models.</h2>
+    </div>
+    <div class="lux-work-grid">
+      <% [
+        ["Clinic Growth Site", "Doctor profiles, treatment pages, appointment CTA, patient FAQs, and trust-first layout.", "Healthcare"],
+        ["Coaching Admission Site", "Course structure, results highlights, batch enquiry, parent trust, and lead capture.", "Education"],
+        ["Restaurant Brand Site", "Menu, ambience, location, booking, delivery links, and event promotion.", "Hospitality"]
+      ].forEach((work) => { %>
+        <article class="lux-work-card reveal-up">
+          <div class="lux-work-visual">
+            <span><%= work[2] %></span>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <h3><%= work[0] %></h3>
+          <p><%= work[1] %></p>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="lux-section lux-packages" id="packages">
+  <div class="agency-container">
+    <div class="lux-section-head">
+      <span class="lux-kicker">Packages</span>
+      <h2>Choose the level of digital presence your business needs.</h2>
+      <p>Pricing is finalized after scope, but these packages give a clear starting point for decision-making.</p>
+    </div>
+    <div class="lux-pricing-grid">
+      <% [
+        ["Launch", "For a new business that needs credibility fast", "Single-page premium website", "WhatsApp + call CTA", "Basic SEO structure"],
+        ["Growth", "For businesses with multiple services or locations", "5-7 strategic pages", "Lead form + analytics", "Local SEO page flow"],
+        ["Authority", "For brands that need a stronger market position", "Custom premium page system", "Advanced proof + portfolio flow", "Conversion optimization"]
+      ].forEach((plan, index) => { %>
+        <article class="lux-price-card <%= index === 1 ? 'is-featured' : '' %> reveal-up">
+          <span class="lux-plan-label"><%= index === 1 ? "Best for most businesses" : "Package" %></span>
+          <h3><%= plan[0] %></h3>
+          <p><%= plan[1] %></p>
+          <ul>
+            <li><i class="fa-solid fa-check"></i><%= plan[2] %></li>
+            <li><i class="fa-solid fa-check"></i><%= plan[3] %></li>
+            <li><i class="fa-solid fa-check"></i><%= plan[4] %></li>
+          </ul>
+          <a href="https://wa.me/919301942717?text=Hi%20ZAc201%2C%20I%20want%20to%20discuss%20the%20<%= encodeURIComponent(plan[0]) %>%20website%20package." target="_blank" rel="noopener">Request quote</a>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="lux-section lux-testimonials" id="testimonials">
+  <div class="agency-container lux-testimonial-grid">
+    <div>
+      <span class="lux-kicker">Social proof</span>
+      <h2>Proof placeholders ready for real client wins.</h2>
+    </div>
+    <blockquote>
+      "ZAc201 made our business look more professional online and made customer enquiries easier to handle."
+      <span>Placeholder testimonial, Bhopal business owner</span>
+    </blockquote>
+  </div>
+</section>
+
+<section class="lux-section" id="faq">
+  <div class="agency-container">
+    <div class="lux-section-head">
+      <span class="lux-kicker">FAQ</span>
+      <h2>Reduce doubt before the first conversation.</h2>
+    </div>
+    <div class="lux-faq-list">
+      <% [
+        ["How fast can my website launch?", "Most small business websites can launch in 7 to 21 days depending on pages, content, approvals, and integrations."],
+        ["Can you make my business look premium even if I do not have content?", "Yes. We help shape your service copy, section flow, CTA wording, FAQs, and visual presentation."],
+        ["Will it work well on mobile?", "Yes. The layout is designed mobile-first because most local discovery and WhatsApp enquiries begin on phones."],
+        ["Can you add WhatsApp, Google Maps, and enquiry forms?", "Yes. WhatsApp, call buttons, maps, forms, analytics, and social links can be included."],
+        ["Do you provide SEO?", "We build SEO-friendly structure, headings, metadata, performance basics, and local intent sections. Ongoing SEO can be planned separately."]
+      ].forEach((faq) => { %>
+        <details class="lux-faq-item">
+          <summary><%= faq[0] %></summary>
+          <p><%= faq[1] %></p>
+        </details>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="lux-final-cta" id="contact">
+  <div class="agency-container lux-final-panel">
+    <div>
+      <span class="lux-kicker">Start now</span>
+      <h2>Your website should make customers feel confident before they ever call.</h2>
+      <p>Send your business name, industry, location, and goal. We will help shape the best website direction for your budget and growth stage.</p>
+    </div>
+    <div class="lux-final-actions">
+      <a class="lux-btn lux-btn-primary" href="https://wa.me/919301942717?text=Hi%20ZAc201%20Digital%20Solutions%2C%20I%20want%20a%20premium%20website%20for%20my%20business." target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i>
+        Start on WhatsApp
       </a>
-    <% }) %>
-  </div>
-</section>
-
-<section class="container home-room-section max-w-7xl px-4 sm:px-6 lg:px-8">
-  <div class="section-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-    <div>
-      <span class="eyebrow"><%= isPersonalized ? "Picked for you" : "Fresh stays" %></span>
-      <h2><%= isPersonalized ? "Rooms changing for your needs" : "Rooms that keep changing" %></h2>
-    </div>
-    <a href="/rooms" class="text-link">Browse all rooms</a>
-  </div>
-
-  <% if (!featuredRooms.length) { %>
-    <div class="empty-state">Rooms will appear here soon.</div>
-  <% } %>
-
-  <div class="home-room-showcase" data-room-carousel aria-label="Rotating room showcase">
-    <% featuredRooms.forEach((room) => { %>
-      <%- include("partials_room_card", { room }) %>
-    <% }) %>
-    <%- include("partials_see_all_card") %>
-  </div>
-</section>
-
-<section class="home-trust-row" aria-label="Zac Living service points">
-  <div class="container max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="home-trust-grid">
-    <div>
-      <i class="fa-solid fa-camera"></i>
-      <h3>Curated rooms</h3>
-      <p>Selected rooms, PGs, and flats presented with cleaner student-focused details.</p>
-    </div>
-    <div>
-      <i class="fa-solid fa-clipboard-check"></i>
-      <h3>Clear room details</h3>
-      <p>Photos, rent, facilities, rules, and nearby places are organized for easy comparison.</p>
-    </div>
-    <div>
-      <i class="fa-solid fa-shield-heart"></i>
-      <h3>Student-ready discovery</h3>
-      <p>Students see cleaner, safer, and more useful housing information before they visit.</p>
-    </div>
+      <a class="lux-btn lux-btn-ghost" href="mailto:contact.zac201@gmail.com">Email ZAc201</a>
     </div>
   </div>
 </section>

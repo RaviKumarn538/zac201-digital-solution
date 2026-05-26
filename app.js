@@ -671,22 +671,14 @@ app.use(
 app.get(
   "/",
   asyncHandler(async (req, res) => {
-    const rawRooms = await getPublishedRooms();
-    const rooms = decorateRooms(rawRooms, req.currentUser);
-    const featuredRooms = rooms.slice(0, 8);
-
-    res.render("home", {
-      query: {},
-      featuredRooms,
-      isPersonalized: Boolean(req.currentUser && req.currentUser.role === "student"),
-    });
+    res.render("home");
   })
 );
 
 app.get("/health", (req, res) => {
   res.status(200).json({
     ok: true,
-    app: "Zac.Living",
+    app: "ZAc201 Digital Solutions",
     db: mongoose.connection.readyState === 1 ? "connected" : "not-connected",
   });
 });
@@ -1523,16 +1515,16 @@ async function connectDatabase() {
   await mongoose.connect(MONGO_URL, mongoOptions);
   await Promise.all([User.createIndexes(), Room.createIndexes(), VisitRequest.createIndexes()]);
   await seedDatabase();
-  console.log("MongoDB connected and Zac.Living seed data is ready.");
+  console.log("MongoDB connected and ZAc201 Digital Solutions data is ready.");
 }
 
 function startServer() {
   app.listen(PORT, () => {
-    console.log(`Zac.Living is running on http://localhost:${PORT}`);
+    console.log(`ZAc201 Digital Solutions is running on http://localhost:${PORT}`);
   });
 
   connectDatabase().catch((error) => {
-    console.error("Failed to connect Zac.Living database:", error);
+    console.error("Failed to connect ZAc201 Digital Solutions database:", error);
   });
 }
 
