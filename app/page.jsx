@@ -64,7 +64,7 @@ export default function Home() {
         <section className="live-section section-shell" id="live-work">
           <article className="live-card">
             <a className="live-preview" href="https://zac-living.onrender.com" target="_blank" rel="noreferrer">
-              <Image src="/images/zac-living-preview.png" alt="Screenshot preview of Zac.Living live website" width={1280} height={720} />
+              <Image src="/images/zac-living-preview.png" alt="Screenshot preview of Zac.Living live website" width={1280} height={720} priority />
             </a>
             <div className="live-copy">
               <span className="kicker">Live website built</span>
@@ -123,7 +123,7 @@ export default function Home() {
             {work.map(([title, text, tag, src, href]) => (
               <article className="work-card" key={title}>
                 <a className="work-visual" href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
-                  <Image src={src} alt={`${title} preview`} fill sizes="(max-width: 768px) 82vw, 25vw" />
+                  <Image src={src} alt={`${title} preview`} fill sizes="(max-width: 768px) 82vw, 25vw" loading="eager" />
                   <span>{tag}</span>
                 </a>
                 <h3>{title}</h3>
