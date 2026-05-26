@@ -5,16 +5,16 @@ import { useEffect, useState } from "react";
 
 const slides = [
   {
-    src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=82",
-    alt: "Premium analytics dashboard on a laptop",
+    src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=2400&q=95",
+    alt: "Ultra sharp premium website dashboard on a laptop",
   },
   {
-    src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=82",
-    alt: "Modern digital agency workspace",
+    src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2400&q=95",
+    alt: "Premium analytics and digital growth dashboard",
   },
   {
-    src: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=82",
-    alt: "Website performance dashboard screen",
+    src: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=2400&q=95",
+    alt: "Premium web design mockup on a screen",
   },
   {
     src: "/images/zac-living-preview.png",
@@ -28,7 +28,7 @@ export default function HeroCarousel() {
   useEffect(() => {
     const timer = window.setInterval(() => {
       setActive((current) => (current + 1) % slides.length);
-    }, 2800);
+    }, 2400);
 
     return () => window.clearInterval(timer);
   }, []);
@@ -43,7 +43,8 @@ export default function HeroCarousel() {
             alt={slide.alt}
             fill
             priority={index === 0}
-            sizes="(max-width: 768px) 100vw, 50vw"
+            quality={95}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 52vw, 720px"
             className={`hero-slide-image ${index === active ? "is-active" : ""}`}
           />
         ))}
@@ -62,8 +63,8 @@ export default function HeroCarousel() {
       <div className="hero-media-card">
         <span className="hero-media-icon">↗</span>
         <div>
-          <strong>Conversion-first build</strong>
-          <span>Hero, proof, WhatsApp, maps, forms, and mobile journey planned before design.</span>
+          <strong>Premium web presence</strong>
+          <span>Designed for trust, speed, and action.</span>
         </div>
       </div>
     </div>

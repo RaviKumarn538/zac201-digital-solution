@@ -5,19 +5,19 @@ import MotionReveal from "./components/MotionReveal";
 import PricingSection from "./components/PricingSection";
 
 const services = [
-  ["Premium Business Websites", "High-end landing pages and multi-page websites built for credibility, speed, and customer action."],
-  ["Conversion Strategy", "Hero messaging, CTA hierarchy, proof placement, pricing flow, and enquiry paths designed around buyer psychology."],
-  ["E-commerce & Catalogues", "Product showcases, order flows, WhatsApp commerce, payment-ready layouts, and premium product presentation."],
-  ["Local SEO Foundation", "Clean headings, metadata, service pages, location intent, maps, and Google-friendly structure."],
-  ["Brand & Content Direction", "Sharper positioning, premium copywriting, visual hierarchy, and trust-building section architecture."],
-  ["Care, Updates & Growth", "Ongoing improvements, content changes, landing page iteration, analytics review, and technical maintenance."],
+  ["Premium Websites", "Fast, polished, conversion-ready business websites."],
+  ["Strategy", "Sharp messaging, CTAs, proof, and enquiry flow."],
+  ["E-commerce", "Catalogues, checkout-ready pages, and premium product UI."],
+  ["Local SEO", "Clean structure for maps, search, and local discovery."],
+  ["Brand Direction", "Modern positioning, content, and visual hierarchy."],
+  ["Growth Care", "Updates, improvements, and ongoing support."],
 ];
 
 const work = [
-  ["Clinic Growth Site", "Doctor profiles, treatment pages, appointment CTA, patient FAQs, and trust-first layout.", "Healthcare", "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=82", "#contact"],
-  ["Coaching Admission Site", "Course structure, results highlights, batch enquiry, parent trust, and lead capture.", "Education", "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=82", "#contact"],
-  ["Restaurant Brand Site", "Menu, ambience, location, booking, delivery links, and event promotion.", "Hospitality", "https://images.pexels.com/photos/11090935/pexels-photo-11090935.jpeg?auto=compress&cs=tinysrgb&w=1200", "#contact"],
-  ["Zac.Living Live Website", "A real deployed website with listing discovery, search experience, detailed pages, and Bhopal-focused user flow.", "Live Project", "/images/zac-living-preview.png", "https://zac-living.onrender.com"],
+  ["Clinic Website", "Trust-first patient enquiry flow.", "Healthcare", "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=82", "#contact"],
+  ["Coaching Website", "Admissions, batches, results, and leads.", "Education", "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=82", "#contact"],
+  ["Restaurant Website", "Menu, booking, location, and delivery links.", "Hospitality", "https://images.pexels.com/photos/11090935/pexels-photo-11090935.jpeg?auto=compress&cs=tinysrgb&w=1200", "#contact"],
+  ["Live Website Case Study", "A deployed product-style local business site.", "Live Project", "/images/zac-living-preview.png", "https://zac-living.onrender.com"],
 ];
 
 export default function Home() {
@@ -29,16 +29,16 @@ export default function Home() {
         <section className="hero section-shell">
           <MotionReveal className="hero-copy">
             <div className="trust-pill"><span /> Premium websites for Bhopal businesses</div>
-            <h1>Websites that make your business look trusted, modern, and ready to buy from.</h1>
-            <p>ZAc201 Digital Solutions designs and builds high-conversion websites for MSMEs, startups, clinics, coaching institutes, hotels, restaurants, shops, and service brands.</p>
+            <h1>Premium websites. Built to convert.</h1>
+            <p>Modern web design and development for ambitious local businesses.</p>
             <div className="hero-actions">
               <a className="btn primary" href="https://wa.me/919301942717?text=Hi%20ZAc201%20Digital%20Solutions%2C%20I%20want%20a%20premium%20website%20for%20my%20business.">Get a Premium Website</a>
               <a className="btn secondary" href="#packages">See Packages</a>
             </div>
             <div className="microproof">
-              <span><strong>7-21 days</strong> launch window</span>
-              <span><strong>Mobile-first</strong> customer journey</span>
-              <span><strong>SEO-ready</strong> page structure</span>
+              <span><strong>7-21 days</strong> launch</span>
+              <span><strong>Mobile-first</strong> UX</span>
+              <span><strong>SEO-ready</strong> build</span>
             </div>
           </MotionReveal>
           <MotionReveal className="hero-media-motion" delay={0.12}>
@@ -52,12 +52,12 @@ export default function Home() {
               <Image src="/images/zac-living-preview.png" alt="Screenshot preview of Zac.Living live website" width={1280} height={720} priority />
             </a>
             <div className="live-copy">
-              <span className="kicker">Live website built</span>
-              <h2>Zac.Living live website is now part of our portfolio.</h2>
-              <p>A deployed website with listing discovery, search experience, detailed pages, and Bhopal-focused user flow.</p>
+              <span className="kicker">Live case study</span>
+              <h2>Real project. Premium execution.</h2>
+              <p>Clean UI, search flow, listings, and responsive product pages.</p>
               <div className="split-actions">
                 <a className="btn primary" href="https://zac-living.onrender.com" target="_blank" rel="noreferrer">View Live Website</a>
-                <a className="btn secondary" href="#contact">Build Similar Website</a>
+                <a className="btn secondary" href="#contact">Build Mine</a>
               </div>
             </div>
           </article>
@@ -72,8 +72,7 @@ export default function Home() {
         <section className="content-section" id="services">
           <div className="section-head">
             <span className="kicker">Services</span>
-            <h2>Not just a website. A premium sales surface for your business.</h2>
-            <p>Every section is designed to reduce doubt, create trust, and move visitors toward calling, messaging, booking, enquiring, or buying.</p>
+            <h2>Premium digital presence, built with intent.</h2>
           </div>
           <div className="card-grid service-grid">
             {services.map(([title, text]) => (
@@ -89,20 +88,19 @@ export default function Home() {
         <section className="content-section proof-section">
           <div>
             <span className="kicker">Why ZAc201</span>
-            <h2>Designed for the way local customers actually decide.</h2>
-            <p>Most visitors scan the first screen, look for proof, compare effort, and choose the easiest trustworthy option.</p>
+            <h2>Built for quick trust.</h2>
           </div>
           <div className="proof-stack">
-            {["Clear positioning within the first 5 seconds", "Premium visual depth without clutter", "WhatsApp, calls, enquiries, bookings, and directions", "Trust sections for reviews, credentials, FAQs, and sample work"].map((item) => (
-              <div key={item}>✓ <span>{item}</span></div>
+            {["Instant clarity", "Premium visual depth", "WhatsApp-ready CTAs", "Proof-led sections"].map((item) => (
+              <div key={item}>{"\u2713"} <span>{item}</span></div>
             ))}
           </div>
         </section>
 
         <section className="content-section" id="work">
           <div className="section-head">
-            <span className="kicker">Portfolio directions</span>
-            <h2>Premium website systems for different business models.</h2>
+            <span className="kicker">Work</span>
+            <h2>Premium website directions.</h2>
           </div>
           <div className="work-grid">
             {work.map(([title, text, tag, src, href]) => (
@@ -114,7 +112,7 @@ export default function Home() {
                 <h3>{title}</h3>
                 <p>{text}</p>
                 <a className="text-link" href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
-                  {href.startsWith("http") ? "View live website" : "Discuss similar project"} →
+                  {href.startsWith("http") ? "View live website" : "Discuss similar project"} {"\u2192"}
                 </a>
               </article>
             ))}
@@ -126,13 +124,13 @@ export default function Home() {
         <section className="content-section faq-section" id="faq">
           <div className="section-head">
             <span className="kicker">FAQ</span>
-            <h2>Reduce doubt before the first conversation.</h2>
+            <h2>Quick answers.</h2>
           </div>
           <div className="faq-list">
             {[
-              ["How fast can my website launch?", "Most small business websites can launch in 7 to 21 days depending on pages, content, approvals, and integrations."],
-              ["Can you make my business look premium if I do not have content?", "Yes. We help shape service copy, section flow, CTA wording, FAQs, and visual presentation."],
-              ["Will it work well on mobile?", "Yes. The layout is designed mobile-first because most local discovery and WhatsApp enquiries begin on phones."],
+              ["How fast can we launch?", "Most business sites launch in 7 to 21 days."],
+              ["What if I have no content?", "We shape the copy, sections, and presentation."],
+              ["Is it mobile-first?", "Yes. Mobile experience is designed first."],
             ].map(([question, answer]) => (
               <details className="faq-item" key={question}>
                 <summary>{question}</summary>
@@ -145,8 +143,8 @@ export default function Home() {
         <section className="final-cta section-shell" id="contact">
           <div>
             <span className="kicker">Start now</span>
-            <h2>Your website should make customers feel confident before they ever call.</h2>
-            <p>Send your business name, industry, location, and goal. We will help shape the best website direction.</p>
+            <h2>Launch a sharper website.</h2>
+            <p>Send your business name and goal.</p>
           </div>
           <a className="btn primary" href="https://wa.me/919301942717?text=Hi%20ZAc201%20Digital%20Solutions%2C%20I%20want%20a%20premium%20website%20for%20my%20business.">Start on WhatsApp</a>
         </section>
@@ -157,7 +155,7 @@ export default function Home() {
           <div className="footer-brand">
             <a className="footer-logo" href="#top">ZAc201 Digital Solutions</a>
             <p className="footer-tagline">Build. Launch. Grow.</p>
-            <p>Premium website development for Bhopal-based MSMEs, startups, shops, institutes, hotels, clinics, restaurants, and service businesses.</p>
+            <p>Premium websites for Bhopal businesses.</p>
           </div>
           <div>
             <h3>Explore</h3>
@@ -174,8 +172,8 @@ export default function Home() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 ZAc201 Digital Solutions. All rights reserved.</span>
-          <span>Professional websites for local business growth.</span>
+          <span>{"\u00a9"} 2026 ZAc201 Digital Solutions.</span>
+          <span>Build. Launch. Grow.</span>
         </div>
       </footer>
     </>

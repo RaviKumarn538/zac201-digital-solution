@@ -112,8 +112,7 @@ export default function PricingSection() {
     <section className="pricing-experience content-section" id="packages" data-pricing-section>
       <div className="section-head pricing-head">
         <span className="kicker">Pricing</span>
-        <h2>Choose a launch model that matches your growth stage.</h2>
-        <p>Switch between classic one-time setup and monthly Website-as-a-Service pricing.</p>
+        <h2>Simple plans. Premium delivery.</h2>
       </div>
 
       <div className="billing-toggle" role="group" aria-label="Pricing billing mode">
@@ -162,7 +161,7 @@ export default function PricingSection() {
       <form className="pricing-contact-form" id="contact-form">
         <div>
           <span className="kicker">Quick enquiry</span>
-          <h3>Tell us which plan you want to discuss.</h3>
+          <h3>Selected plan</h3>
         </div>
         <label>
           Selected Plan
