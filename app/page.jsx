@@ -1,5 +1,6 @@
 import Image from "next/image";
 import HeroCarousel from "./components/HeroCarousel";
+import PricingSection from "./components/PricingSection";
 
 const services = [
   ["Premium Business Websites", "High-end landing pages and multi-page websites built for credibility, speed, and customer action."],
@@ -15,12 +16,6 @@ const work = [
   ["Coaching Admission Site", "Course structure, results highlights, batch enquiry, parent trust, and lead capture.", "Education", "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=82", "#contact"],
   ["Restaurant Brand Site", "Menu, ambience, location, booking, delivery links, and event promotion.", "Hospitality", "https://images.pexels.com/photos/11090935/pexels-photo-11090935.jpeg?auto=compress&cs=tinysrgb&w=1200", "#contact"],
   ["Zac.Living Live Website", "A real deployed website with listing discovery, search experience, detailed pages, and Bhopal-focused user flow.", "Live Project", "/images/zac-living-preview.png", "https://zac-living.onrender.com"],
-];
-
-const packages = [
-  ["Launch", "For a new business that needs credibility fast", ["Single-page premium website", "WhatsApp + call CTA", "Basic SEO structure"]],
-  ["Growth", "For businesses with multiple services or locations", ["5-7 strategic pages", "Lead form + analytics", "Local SEO page flow"]],
-  ["Authority", "For brands that need a stronger market position", ["Custom premium page system", "Advanced proof + portfolio flow", "Conversion optimization"]],
 ];
 
 export default function Home() {
@@ -136,25 +131,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="content-section packages-section" id="packages">
-          <div className="section-head">
-            <span className="kicker">Packages</span>
-            <h2>Choose the level of digital presence your business needs.</h2>
-          </div>
-          <div className="pricing-grid">
-            {packages.map(([name, text, items], index) => (
-              <article className={`price-card ${index === 1 ? "featured" : ""}`} key={name}>
-                <span className="plan-label">{index === 1 ? "Best for most businesses" : "Package"}</span>
-                <h3>{name}</h3>
-                <p>{text}</p>
-                <ul>
-                  {items.map((item) => <li key={item}>✓ {item}</li>)}
-                </ul>
-                <a className="btn primary" href={`https://wa.me/919301942717?text=Hi%20ZAc201%2C%20I%20want%20to%20discuss%20the%20${name}%20website%20package.`}>Request quote</a>
-              </article>
-            ))}
-          </div>
-        </section>
+        <PricingSection />
 
         <section className="content-section faq-section" id="faq">
           <div className="section-head">
