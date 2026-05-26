@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b0f19;
-  --foreground: #ffffff;
-  --card: #111827;
-  --card-elevated: #1e293b;
-  --muted: #94a3b8;
-  --border: #334155;
+  --background: #ffffff;
+  --foreground: #0b1220;
+  --card: #ffffff;
+  --card-elevated: #f8fafc;
+  --muted: #64748b;
+  --border: #e2e8f0;
   --accent: #3b82f6;
   --cyan: #06b6d4;
   --gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
-  --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
-  --soft-shadow: 0 16px 42px rgba(15, 23, 42, 0.18);
+  --shadow: 0 24px 70px rgba(15, 23, 42, 0.13);
+  --soft-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
   --radius: 20px;
   --container: min(100% - clamp(1.25rem, 5vw, 5rem), 1240px);
   --section: clamp(3.5rem, 8vw, 7.5rem);
@@ -32,9 +32,9 @@ html {
 
 body {
   background:
-    radial-gradient(circle at 18% 4%, rgba(59, 130, 246, 0.28), transparent 34%),
-    radial-gradient(circle at 82% 12%, rgba(6, 182, 212, 0.2), transparent 28%),
-    linear-gradient(180deg, var(--background), #111827);
+    radial-gradient(circle at 18% 4%, rgba(59, 130, 246, 0.10), transparent 32%),
+    radial-gradient(circle at 82% 10%, rgba(6, 182, 212, 0.08), transparent 26%),
+    #ffffff;
   color: var(--foreground);
   font-family: var(--font-body);
   margin: 0;
@@ -70,10 +70,10 @@ img {
 .site-nav {
   align-items: center;
   backdrop-filter: blur(22px);
-  background: rgba(11, 15, 25, 0.74);
-  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(148, 163, 184, 0.28);
   border-radius: 999px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
   display: flex;
   gap: clamp(0.75rem, 2vw, 1.25rem);
   justify-content: space-between;
@@ -112,7 +112,7 @@ h3 {
 }
 
 .nav-links {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(248, 250, 252, 0.86);
   border: 1px solid var(--border);
   border-radius: 999px;
   display: none;
@@ -129,7 +129,7 @@ h3 {
 }
 
 .nav-links a:hover {
-  background: rgba(59, 130, 246, 0.14);
+  background: rgba(59, 130, 246, 0.10);
   border-radius: 999px;
   color: var(--foreground);
 }
@@ -150,8 +150,8 @@ h3 {
 
 .menu-toggle {
   align-items: center;
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.34);
   border-radius: 999px;
   cursor: pointer;
   display: inline-grid;
@@ -163,7 +163,7 @@ h3 {
 }
 
 .menu-toggle span {
-  background: #ffffff;
+  background: #0b1220;
   border-radius: 999px;
   display: block;
   height: 2px;
@@ -173,10 +173,10 @@ h3 {
 
 .mobile-drawer {
   backdrop-filter: blur(22px);
-  background: rgba(15, 23, 42, 0.92);
-  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.24);
   border-radius: 24px;
-  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.38);
+  box-shadow: 0 28px 90px rgba(15, 23, 42, 0.16);
   display: grid;
   gap: 8px;
   left: clamp(0.75rem, 3vw, 1.5rem);
@@ -317,7 +317,7 @@ p {
 }
 
 .secondary {
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(248, 250, 252, 0.92);
   border: 1px solid var(--border);
 }
 
@@ -406,7 +406,7 @@ p {
 .faq-item,
 .final-cta,
 .proof-stack div {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025)), var(--card);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.92)), var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--soft-shadow);
@@ -450,8 +450,32 @@ p {
 }
 
 @media (max-width: 767px) {
+  :root {
+    --container: min(100% - 24px, 1240px);
+    --section: clamp(2.4rem, 8vw, 3.4rem);
+  }
+
+  .nav-wrap {
+    padding: 10px 12px 6px;
+  }
+
+  .site-nav {
+    min-height: 56px;
+  }
+
+  .hero.section-shell {
+    width: 100%;
+  }
+
+  .hero {
+    gap: 14px;
+    padding-bottom: 34px;
+    padding-top: 6px;
+  }
+
   .hero-copy {
     order: 2;
+    padding: 0 12px;
   }
 
   .hero-copy p,
@@ -462,16 +486,28 @@ p {
   }
 
   .hero-copy h1 {
-    font-size: clamp(2rem, 10vw, 3.15rem);
-    max-width: 10.5ch;
+    font-size: clamp(1.85rem, 8.5vw, 2.5rem);
+    line-height: 1.12;
+    margin: 0;
+    max-width: 11ch;
   }
 
   .hero-actions {
-    margin-top: 18px;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .hero-actions .btn {
+    min-height: 48px;
+    width: 100%;
   }
 
   .hero-image-frame {
-    min-height: min(74vh, 620px);
+    border-radius: 0 0 26px 26px;
+    border-left: 0;
+    border-right: 0;
+    min-height: min(58vh, 520px);
+    width: 100%;
   }
 
   .section-head p,
@@ -479,6 +515,30 @@ p {
   .work-card p,
   .footer-brand p:not(.footer-tagline) {
     display: none;
+  }
+
+  .service-grid {
+    display: grid;
+    gap: 14px;
+    grid-auto-columns: minmax(220px, 72vw);
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    margin-left: calc((100vw - 100%) / -2);
+    margin-right: calc((100vw - 100%) / -2);
+    overflow-x: auto;
+    padding: 2px calc((100vw - 100%) / 2) 16px;
+    scroll-padding-inline: calc((100vw - 100%) / 2);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .service-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .service-grid .premium-card {
+    min-height: 152px;
+    scroll-snap-align: start;
   }
 }
 
@@ -647,10 +707,10 @@ p {
 }
 
 .billing-toggle {
-  background: rgba(13, 20, 38, 0.55);
-  border: 1px solid rgba(125, 211, 252, 0.18);
+  background: rgba(248, 250, 252, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.22);
   border-radius: 999px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 20px 60px rgba(0, 0, 0, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 20px 60px rgba(15, 23, 42, 0.08);
   display: grid;
   gap: 6px;
   grid-template-columns: 1fr;
@@ -698,11 +758,11 @@ p {
 
 .glass-price-card {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
-    rgba(13, 20, 38, 0.55);
-  border: 1px solid rgba(125, 211, 252, 0.18);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.9)),
+    #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.24);
   border-radius: 24px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.10);
   overflow: hidden;
   display: grid;
   padding: clamp(1.25rem, 3vw, 1.6rem);
@@ -800,7 +860,7 @@ p {
 
 .price-amount {
   animation: priceSwap 0.32s ease both;
-  color: #ffffff;
+  color: var(--foreground);
   font-family: var(--font-heading);
   font-size: clamp(2.1rem, 8vw, 3.3rem);
   line-height: 1;
@@ -859,11 +919,11 @@ p {
 
 .pricing-contact-form {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
-    rgba(13, 20, 38, 0.55);
-  border: 1px solid rgba(125, 211, 252, 0.18);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.92)),
+    #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.24);
   border-radius: 24px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.30);
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.10);
   display: grid;
   gap: 16px;
   margin-top: 22px;
@@ -882,7 +942,7 @@ p {
 }
 
 .pricing-contact-form input {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(248, 250, 252, 0.86);
   border: 1px solid var(--border);
   border-radius: 14px;
   color: var(--foreground);
@@ -1033,8 +1093,7 @@ p {
     grid-column: 1 / -1;
   }
 
-  .trust-band,
-  .service-grid {
+  .trust-band {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1076,6 +1135,10 @@ p {
 
   .hero-media-motion {
     order: initial;
+  }
+
+  .hero-copy {
+    order: -1;
   }
 
   .hero-image-frame {

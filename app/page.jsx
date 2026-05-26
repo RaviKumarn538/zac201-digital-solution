@@ -27,6 +27,9 @@ export default function Home() {
 
       <main id="top">
         <section className="hero section-shell">
+          <MotionReveal className="hero-media-motion" delay={0.08}>
+            <HeroCarousel />
+          </MotionReveal>
           <MotionReveal className="hero-copy">
             <div className="trust-pill"><span /> Premium websites for Bhopal businesses</div>
             <h1>Premium websites. Built to convert.</h1>
@@ -40,9 +43,6 @@ export default function Home() {
               <span><strong>Mobile-first</strong> UX</span>
               <span><strong>SEO-ready</strong> build</span>
             </div>
-          </MotionReveal>
-          <MotionReveal className="hero-media-motion" delay={0.12}>
-            <HeroCarousel />
           </MotionReveal>
         </section>
 
