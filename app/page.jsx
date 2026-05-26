@@ -184,6 +184,33 @@ export default function Home() {
           <a className="btn primary" href="https://wa.me/919301942717?text=Hi%20ZAc201%20Digital%20Solutions%2C%20I%20want%20a%20premium%20website%20for%20my%20business.">Start on WhatsApp</a>
         </section>
       </main>
+
+      <footer className="site-footer">
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <a className="footer-logo" href="#top">ZAc201 Digital Solutions</a>
+            <p className="footer-tagline">Build. Launch. Grow.</p>
+            <p>Premium website development for Bhopal-based MSMEs, startups, shops, institutes, hotels, clinics, restaurants, and service businesses.</p>
+          </div>
+          <div>
+            <h3>Explore</h3>
+            <a href="#services">Services</a>
+            <a href="#live-work">Live Work</a>
+            <a href="#work">Portfolio</a>
+            <a href="#packages">Packages</a>
+          </div>
+          <div>
+            <h3>Contact</h3>
+            <a href="mailto:contact.zac201@gmail.com">contact.zac201@gmail.com</a>
+            <a href="https://wa.me/919301942717" target="_blank" rel="noreferrer">+91 9301942717</a>
+            <span>Bhopal, Madhya Pradesh</span>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <span>© 2026 ZAc201 Digital Solutions. All rights reserved.</span>
+          <span>Professional websites for local business growth.</span>
+        </div>
+      </footer>
     </>
   );
 }
