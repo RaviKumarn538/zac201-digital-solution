@@ -17,6 +17,7 @@
     "node": ">=20 <25"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
     "bcryptjs": "^3.0.3",
     "bootstrap": "^5.3.8",
     "cloudinary": "^2.10.0",
@@ -27,6 +28,7 @@
     "ejs-mate": "^4.0.0",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
+    "framer-motion": "^12.40.0",
     "joi": "^18.1.2",
     "method-override": "^3.0.0",
     "mongoose": "^9.3.3",
@@ -34,6 +36,7 @@
     "next": "^16.2.6",
     "nodemon": "^3.1.14",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "tailwindcss": "^4.3.0"
   }
 }

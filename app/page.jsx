@@ -1,5 +1,7 @@
 import Image from "next/image";
+import Header from "./components/Header";
 import HeroCarousel from "./components/HeroCarousel";
+import MotionReveal from "./components/MotionReveal";
 import PricingSection from "./components/PricingSection";
 
 const services = [
@@ -21,25 +23,11 @@ const work = [
 export default function Home() {
   return (
     <>
-      <nav className="site-nav">
-        <a className="brand" href="#top">
-          <span>ZAc201</span>
-          <small>Digital Solutions</small>
-        </a>
-        <div className="nav-links">
-          <a href="#services">Services</a>
-          <a href="#work">Work</a>
-          <a href="#packages">Packages</a>
-          <a href="#faq">FAQ</a>
-        </div>
-        <a className="nav-cta" href="https://wa.me/919301942717?text=Hi%20ZAc201%20Digital%20Solutions%2C%20I%20need%20a%20premium%20website%20for%20my%20business.">
-          Book Call
-        </a>
-      </nav>
+      <Header />
 
       <main id="top">
         <section className="hero section-shell">
-          <div className="hero-copy">
+          <MotionReveal className="hero-copy">
             <div className="trust-pill"><span /> Premium websites for Bhopal businesses</div>
             <h1>Websites that make your business look trusted, modern, and ready to buy from.</h1>
             <p>ZAc201 Digital Solutions designs and builds high-conversion websites for MSMEs, startups, clinics, coaching institutes, hotels, restaurants, shops, and service brands.</p>
@@ -52,8 +40,10 @@ export default function Home() {
               <span><strong>Mobile-first</strong> customer journey</span>
               <span><strong>SEO-ready</strong> page structure</span>
             </div>
-          </div>
-          <HeroCarousel />
+          </MotionReveal>
+          <MotionReveal className="hero-media-motion" delay={0.12}>
+            <HeroCarousel />
+          </MotionReveal>
         </section>
 
         <section className="live-section section-shell" id="live-work">
