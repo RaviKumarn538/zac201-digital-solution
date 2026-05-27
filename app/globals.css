@@ -362,15 +362,34 @@ p {
 }
 
 .hero-slide-image {
+  animation: heroFade 9.6s infinite;
   object-fit: cover;
   opacity: 0;
   transform: scale(1.02);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.hero-slide-image.is-active {
-  opacity: 1;
-  transform: scale(1);
+.hero-slide-2 {
+  animation-delay: 2.4s;
+}
+
+.hero-slide-3 {
+  animation-delay: 4.8s;
+}
+
+.hero-slide-4 {
+  animation-delay: 7.2s;
+}
+
+@keyframes heroFade {
+  0%, 21% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  26%, 100% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
 }
 
 .hero-dots {
@@ -392,9 +411,54 @@ p {
   width: 8px;
 }
 
-.hero-dots button.is-active {
-  background: var(--accent);
-  width: 18px;
+.hero-dot-1,
+.hero-dot-2,
+.hero-dot-3,
+.hero-dot-4 {
+  animation: heroDot 9.6s infinite;
+}
+
+.hero-dot-2 {
+  animation-delay: 2.4s;
+}
+
+.hero-dot-3 {
+  animation-delay: 4.8s;
+}
+
+.hero-dot-4 {
+  animation-delay: 7.2s;
+}
+
+@keyframes heroDot {
+  0%, 21% {
+    background: var(--accent);
+    width: 18px;
+  }
+  26%, 100% {
+    background: rgba(255, 255, 255, 0.7);
+    width: 8px;
+  }
+}
+
+.reveal-fast,
+.reveal-soft {
+  animation: revealUp 0.48s ease both;
+}
+
+.reveal-soft {
+  animation-delay: 0.08s;
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-media-card,

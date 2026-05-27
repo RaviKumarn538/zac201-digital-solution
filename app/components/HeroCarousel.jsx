@@ -1,7 +1,4 @@
-"use client";
-
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 const slides = [
   {
@@ -23,16 +20,6 @@ const slides = [
 ];
 
 export default function HeroCarousel() {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setActive((current) => (current + 1) % slides.length);
-    }, 2400);
-
-    return () => window.clearInterval(timer);
-  }, []);
-
   return (
     <div className="hero-media-shell">
       <div className="hero-image-frame">
@@ -43,9 +30,10 @@ export default function HeroCarousel() {
             alt={slide.alt}
             fill
             priority={index === 0}
-            quality={95}
+            loading={index === 0 ? "eager" : "lazy"}
+            quality={index === 0 ? 95 : 88}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 52vw, 720px"
-            className={`hero-slide-image ${index === active ? "is-active" : ""}`}
+            className={`hero-slide-image hero-slide-${index + 1}`}
           />
         ))}
         <div className="hero-dots" aria-label="Hero image carousel">
@@ -54,8 +42,8 @@ export default function HeroCarousel() {
               key={slide.alt}
               type="button"
               aria-label={`Show slide ${index + 1}`}
-              className={index === active ? "is-active" : ""}
-              onClick={() => setActive(index)}
+              className={`hero-dot-${index + 1}`}
+              tabIndex={-1}
             />
           ))}
         </div>

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Header from "./components/Header";
 import HeroCarousel from "./components/HeroCarousel";
-import MotionReveal from "./components/MotionReveal";
 import PricingSection from "./components/PricingSection";
 
 const services = [
@@ -27,10 +26,10 @@ export default function Home() {
 
       <main id="top">
         <section className="hero section-shell">
-          <MotionReveal className="hero-media-motion" delay={0.08}>
+          <div className="hero-media-motion reveal-fast">
             <HeroCarousel />
-          </MotionReveal>
-          <MotionReveal className="hero-copy">
+          </div>
+          <div className="hero-copy reveal-soft">
             <div className="trust-pill"><span /> Premium websites for Bhopal businesses</div>
             <h1>Premium websites. Built to convert.</h1>
             <p>Modern web design and development for ambitious local businesses.</p>
@@ -43,7 +42,7 @@ export default function Home() {
               <span><strong>Mobile-first</strong> UX</span>
               <span><strong>SEO-ready</strong> build</span>
             </div>
-          </MotionReveal>
+          </div>
         </section>
 
         <section className="live-section section-shell" id="live-work">
